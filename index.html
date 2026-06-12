@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>직장인을 위한 바이브코딩 실전 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2B4ACF;
+  --primary-dark: #1e3ab0;
+  --primary-light: #e8ecfa;
+  --accent-orange: #F47B20;
+  --accent-yellow: #FFF3CD;
+  --accent-red: #FFE8E8;
+  --bg: #F5F7FB;
+  --card-bg: #FFFFFF;
+  --text: #1a1a2e;
+  --text-sub: #6b7280;
+  --border: #E2E8F0;
+  --shadow: 0 2px 12px rgba(43, 74, 207, 0.08);
+  --shadow-lg: 0 8px 32px rgba(43, 74, 207, 0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== HEADER NAV ===== */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+.top-nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.top-nav .logo {
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.top-nav .logo span { font-size: 20px; }
+.nav-links { display: flex; gap: 4px; }
+.nav-links a {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-sub);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, #2B4ACF 0%, #1a35a8 40%, #3355dd 100%);
+  color: #fff;
+  text-align: center;
+  padding: 72px 24px 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+.hero p {
+  font-size: clamp(15px, 2.5vw, 18px);
+  opacity: 0.85;
+  font-weight: 400;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== SECTION ===== */
+.section {
+  padding: 60px 0;
+  display: none;
+}
+.section.active { display: block; }
+
+.part-badge {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+.section-title {
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 36px;
+  color: var(--text);
+}
+.section-subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+/* ===== CARDS ===== */
+.card-grid {
+  display: grid;
+  gap: 20px;
+}
+.card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.card-grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  border: 1.5px solid var(--border);
+  transition: all 0.25s ease;
+  position: relative;
+}
+.card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+.card.highlighted {
+  border-color: var(--accent-orange);
+  border-width: 2px;
+  box-shadow: 0 4px 20px rgba(244, 123, 32, 0.15);
+}
+.card .gen-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+}
+.card.highlighted .gen-badge { background: var(--accent-orange); }
+.card .icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  display: block;
+}
+.card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.card p {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+.card .year {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+/* ===== QUOTE ===== */
+.quote-banner {
+  background: linear-gradient(135deg, #2B4ACF 0%, #3b5de7 100%);
+  border-radius: var(--radius);
+  padding: 32px 36px;
+  color: #fff;
+  margin: 32px 0;
+  text-align: center;
+}
+.quote-banner .quote-text {
+  font-size: 20px;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.quote-banner .quote-author {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ===== FLOW ===== */
+.flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 28px 0;
+}
+.flow-item {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 28px;
+  text-align: center;
+  min-width: 140px;
+}
+.flow-item .icon { font-size: 32px; margin-bottom: 6px; }
+.flow-item .label { font-size: 14px; font-weight: 600; }
+.flow-arrow { font-size: 24px; color: var(--accent-orange); font-weight: 700; }
+
+/* ===== INFO BOXES ===== */
+.info-box {
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  margin: 20px 0;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.info-box.tip {
+  background: linear-gradient(135deg, #FFF8F0, #FFF3E8);
+  border-left: 4px solid var(--accent-orange);
+}
+.info-box.warning {
+  background: var(--accent-yellow);
+  border-left: 4px solid #F0AD4E;
+}
+.info-box.highlight {
+  background: var(--primary-light);
+  border-left: 4px solid var(--primary);
+}
+.info-box strong { color: var(--text); }
+.info-box .title { font-weight: 700; margin-bottom: 4px; display: block; }
+
+/* ===== STEP SECTION ===== */
+.step-block {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.step-block h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+.step-block .desc {
+  font-size: 14px;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+}
+.step-block .accent {
+  color: var(--accent-orange);
+  font-weight: 600;
+}
+
+/* ===== TABS ===== */
+.prompt-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 0;
+}
+.prompt-tab {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-sub);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: inherit;
+}
+.prompt-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.prompt-content {
+  background: #FAFBFE;
+  border: 1.5px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 24px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  font-family: 'Noto Sans KR', monospace;
+  position: relative;
+  max-height: 400px;
+  overflow-y: auto;
+  display: none;
+}
+.prompt-content.active { display: block; }
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.copy-btn:hover { background: var(--primary-dark); transform: scale(1.02); }
+.copy-btn.copied { background: #22c55e; }
+
+/* ===== ACCORDION (FAQ) ===== */
+.faq-item {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.faq-item:hover { border-color: var(--primary); }
+.faq-q {
+  padding: 16px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  color: var(--primary-dark);
+}
+.faq-q::before {
+  content: '✓';
+  margin-right: 10px;
+  font-size: 14px;
+  color: var(--primary);
+}
+.faq-q .arrow {
+  transition: transform 0.3s;
+  font-size: 18px;
+  color: var(--text-sub);
+}
+.faq-item.open .faq-q .arrow { transform: rotate(90deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 24px;
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.8;
+}
+.faq-item.open .faq-a {
+  max-height: 500px;
+  padding: 0 24px 20px;
+}
+
+/* ===== PROMPT EXPLAIN TOGGLE ===== */
+.explain-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 6px 0;
+  margin: 8px 0;
+  user-select: none;
+}
+.explain-toggle .arrow { transition: transform 0.3s; }
+.explain-toggle.open .arrow { transform: rotate(90deg); }
+.explain-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.explain-content.open { max-height: 800px; }
+
+/* ===== DATA CHOICE ===== */
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 24px 0;
+}
+.choice-card {
+  background: var(--card-bg);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 36px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.choice-card:hover {
+  border-color: var(--primary);
+  border-style: solid;
+  box-shadow: var(--shadow);
+}
+.choice-card .icon { font-size: 48px; margin-bottom: 12px; }
+.choice-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.choice-card p { font-size: 13px; color: var(--text-sub); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .top-nav-inner { justify-content: center; }
+  .hero { padding: 48px 20px 40px; }
+  .section { padding: 40px 0; }
+  .step-block { padding: 24px 20px; }
+  .choice-grid { grid-template-columns: 1fr; }
+  .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+  .flow-row { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+}
+
+/* ===== MOBILE NAV ===== */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  padding: 6px 8px;
+}
+@media (max-width: 768px) {
+  .mobile-nav { display: flex; justify-content: space-around; }
+  body { padding-bottom: 64px; }
+}
+.mobile-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-sub);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.mobile-nav a.active { color: var(--primary); background: var(--primary-light); }
+.mobile-nav a .num { font-size: 16px; font-weight: 700; line-height: 1; }
+
+/* ===== SCROLL ANIMATION ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeInUp 0.5s forwards;
+}
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in:nth-child(2) { animation-delay: 0.1s; }
+.fade-in:nth-child(3) { animation-delay: 0.2s; }
+.fade-in:nth-child(4) { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="passwordGate" style="position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#2B4ACF 0%,#1a35a8 40%,#3355dd 100%);display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif;">
+  <div style="background:#fff;border-radius:20px;padding:48px 40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+    <h2 style="font-size:22px;font-weight:800;color:#1a1a2e;margin-bottom:8px;">바이브코딩 실전 가이드</h2>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:28px;">접속 비밀번호를 입력해주세요</p>
+    <input type="password" id="pwInput" placeholder="비밀번호 입력" autocomplete="off"
+      style="width:100%;padding:14px 18px;border:2px solid #E2E8F0;border-radius:12px;font-size:16px;font-family:inherit;outline:none;transition:border 0.2s;text-align:center;letter-spacing:4px;"
+      onfocus="this.style.borderColor='#2B4ACF'" onblur="this.style.borderColor='#E2E8F0'"
+      onkeydown="if(event.key==='Enter')checkPassword()">
+    <div id="pwError" style="color:#ef4444;font-size:13px;margin-top:10px;min-height:20px;"></div>
+    <button onclick="checkPassword()"
+      style="width:100%;padding:14px;background:#2B4ACF;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px;transition:background 0.2s;"
+      onmouseover="this.style.background='#1e3ab0'" onmouseout="this.style.background='#2B4ACF'">입장하기</button>
+  </div>
+</div>
+
+<script>
+function checkPassword() {
+  const input = document.getElementById('pwInput').value;
+  if (input === '2026') {
+    document.getElementById('passwordGate').style.opacity = '0';
+    document.getElementById('passwordGate').style.transition = 'opacity 0.4s ease';
+    setTimeout(() => { document.getElementById('passwordGate').style.display = 'none'; }, 400);
+    sessionStorage.setItem('vibe_auth', '1');
+  } else {
+    document.getElementById('pwError').textContent = '비밀번호가 올바르지 않습니다';
+    document.getElementById('pwInput').style.borderColor = '#ef4444';
+    document.getElementById('pwInput').value = '';
+    setTimeout(() => { document.getElementById('pwError').textContent = ''; }, 2000);
+  }
+}
+// Auto-pass if already authenticated in this session
+if (sessionStorage.getItem('vibe_auth') === '1') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('passwordGate').style.display = 'none';
+  });
+}
+</script>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <div class="logo"><span>🔥</span> 바이브코딩</div>
+    <div class="nav-links">
+      <a href="#" onclick="showSection(0)" class="active" data-nav="0">Part 0</a>
+      <a href="#" onclick="showSection(1)" data-nav="1">Part 1</a>
+      <a href="#" onclick="showSection(2)" data-nav="2">Part 2</a>
+      <a href="#" onclick="showSection(3)" data-nav="3">Part 3</a>
+      <a href="#" onclick="showSection(4)" data-nav="4">Part 4</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>직장인을 위한<br>바이브코딩 실전 가이드</h1>
+  <p>자연어로 말하면 AI가 대시보드를 만들어준다</p>
+</section>
+
+<div class="container">
+
+  <!-- ===== PART 0: 바이브코딩이 뭔데? ===== -->
+  <section class="section active" id="part0">
+    <span class="part-badge">PART 0</span>
+    <h2 class="section-title">바이브코딩이 뭔데?</h2>
+
+    <div class="card-grid card-grid-3 fade-in">
+      <div class="card">
+        <span class="gen-badge">1세대</span>
+        <span class="icon">💻</span>
+        <h3>직접 코딩</h3>
+        <p>개발자가 프로그래밍 언어로<br>직접 작성하는 전통 방식</p>
+        <div class="year">1990 ~ 2010s</div>
+      </div>
+      <div class="card">
+        <span class="gen-badge">2세대</span>
+        <span class="icon">🏗️</span>
+        <h3>노코드 / 로우코드</h3>
+        <p>드래그앤드롭 빌더로<br>비개발자도 간단한 앱 제작</p>
+        <div class="year">2015 ~ 2023</div>
+      </div>
+      <div class="card highlighted">
+        <span class="gen-badge">3세대</span>
+        <span class="icon">💬</span>
+        <h3>바이브코딩</h3>
+        <p>자연어(말)로 AI에게 지시하면<br>소프트웨어가 만들어지는 시대</p>
+        <div class="year">2024 ~ 현재</div>
+      </div>
+    </div>
+
+    <div class="quote-banner fade-in">
+      <div class="quote-text">"I just vibe and the code comes out"</div>
+      <div class="quote-author">— Andrej Karpathy, 전 Tesla AI 총괄 · OpenAI 공동창업 멤버</div>
+    </div>
+
+    <div class="flow-row fade-in">
+      <div class="flow-item">
+        <div class="icon">💬</div>
+        <div class="label">자연어(말)</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">
+        <div class="icon">🤖</div>
+        <div class="label">AI 코딩 에이전트</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">
+        <div class="icon">✅</div>
+        <div class="label">완성된 앱</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PART 1: 사전 준비 ===== -->
+  <section class="section" id="part1">
+    <span class="part-badge">PART 1</span>
+    <h2 class="section-title">사전 준비</h2>
+
+    <h3 class="section-subtitle">프로세스</h3>
+    <div class="card-grid card-grid-4 fade-in">
+      <div class="card">
+        <span class="icon">🔑</span>
+        <h3>1. AI Studio 접속</h3>
+        <p><a href="https://aistudio.google.com" target="_blank" style="color:var(--primary)">aistudio.google.com</a> 접속<br>구글 계정 로그인</p>
+      </div>
+      <div class="card">
+        <span class="icon">⚡</span>
+        <h3>2. Build → 앱 생성</h3>
+        <p>좌측 메뉴 Build 클릭<br>→ Create new app</p>
+      </div>
+      <div class="card">
+        <span class="icon">📋</span>
+        <h3>3. 프롬프트 입력</h3>
+        <p>아래 STEP별 프롬프트를<br>순서대로 복사 → 붙여넣기</p>
+      </div>
+      <div class="card">
+        <span class="icon">▶️</span>
+        <h3>4. Preview에서 테스트</h3>
+        <p>Preview 탭에서 실행<br>여기서 엑셀을 업로드합니다</p>
+      </div>
+    </div>
+
+    <div class="info-box tip fade-in" style="margin-top:28px;">
+      <span class="title">⭐ Preview에서 실행 = Gemini API 자동 연결</span>
+      AI Studio의 Preview 화면에서 앱을 실행하면 <strong>별도 API 키 없이</strong> Gemini API가 자동으로 연결됩니다.<br>
+      이 덕분에 데이터를 업로드하면 <strong>AI가 직접 분석하고 인사이트를 작성</strong>하는 기능이 동작합니다.
+    </div>
+
+    <div class="info-box warning fade-in">
+      <span class="title">⚠️ 누적 방식</span>
+      STEP 1에서 만든 앱 위에 STEP 2, 3, 4를 순서대로 추가합니다.<br>
+      <strong>같은 대화창</strong>에서 이어서 프롬프트를 입력하세요. 새 대화를 열면 이전 결과가 사라집니다.
+    </div>
+  </section>
+
+  <!-- ===== PART 2: 프롬프트 선택 ===== -->
+  <section class="section" id="part2">
+    <span class="part-badge">PART 2</span>
+    <h2 class="section-title">프롬프트 선택</h2>
+
+    <!-- Data choice -->
+    <div class="step-block fade-in" id="dataChoiceBlock">
+      <!-- State 1: Choice screen -->
+      <div id="choiceScreen">
+        <h3 style="text-align:center; color:var(--text); margin-bottom:24px;">어떤 데이터로 실습하시겠습니까?</h3>
+        <div class="choice-grid">
+          <div class="choice-card" onclick="selectDataChoice('sample')">
+            <div class="icon">📊</div>
+            <h3>샘플 데이터로 실습하기</h3>
+            <p>가상 판매 데이터 31,729건으로<br>바로 시작합니다</p>
+          </div>
+          <div class="choice-card" onclick="selectDataChoice('custom')">
+            <div class="icon">📁</div>
+            <h3>내 데이터 사용하기</h3>
+            <p>기업 맞춤 AI 교육으로<br>우리 회사 데이터에 딱 맞게</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- State 2: Sample data instructions -->
+      <div id="sampleScreen" style="display:none;">
+        <h3 style="margin-bottom:20px;">✓ 샘플 데이터로 실습하기</h3>
+
+        <div style="background:#FFF8F0; border:1.5px solid var(--accent-orange); border-radius:var(--radius-sm); padding:20px 24px; margin-bottom:16px;">
+          <div style="font-weight:700; font-size:15px; margin-bottom:8px;">🏠 1단계: 샘플 데이터 다운로드</div>
+          <p style="font-size:14px; color:var(--text-sub); margin-bottom:10px;">아래 링크를 열고 <strong>파일 → 다운로드 → Microsoft Excel(.xlsx)</strong>로 저장하세요.</p>
+          <a href="https://docs.google.com/spreadsheets/d/1vw65D-Dda7yGMTMS6nMlHtdeftDCRHHwpdk96Zv8ZUQ/edit?usp=sharing" target="_blank" style="display:inline-flex; align-items:center; gap:6px; color:var(--primary); font-weight:600; font-size:14px; text-decoration:none; border-bottom:1.5px solid var(--primary); padding-bottom:2px;">📊 가상 판매 데이터 (Google Sheets)</a>
+        </div>
+
+        <div style="background:var(--primary-light); border:1.5px solid var(--primary); border-radius:var(--radius-sm); padding:20px 24px;">
+          <div style="font-weight:700; font-size:15px; margin-bottom:8px;">📋 2단계: 프롬프트 순서대로 사용</div>
+          <p style="font-size:14px; color:var(--text-sub);">아래 STEP 1 → 2 → 3 → 4 프롬프트를 순서대로 복사하여<br>AI Studio 같은 대화창에 붙여넣기하세요. (STEP 1에서 다운받은 엑셀을 첨부)</p>
+        </div>
+
+        <button onclick="resetDataChoice()" style="margin-top:20px; background:none; border:1.5px solid var(--border); border-radius:8px; padding:8px 20px; font-size:13px; font-weight:600; color:var(--text-sub); cursor:pointer; font-family:inherit; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-sub)'">← 다시 선택하기</button>
+      </div>
+
+      <!-- State 3: Custom data instructions -->
+      <div id="customScreen" style="display:none;">
+        <h3 style="margin-bottom:20px;">✓ 내 데이터 사용하기</h3>
+
+        <div style="background:var(--primary-light); border:1.5px solid var(--primary); border-radius:var(--radius-sm); padding:20px 24px; margin-bottom:16px;">
+          <div style="font-weight:700; font-size:15px; margin-bottom:8px;">📋 프롬프트 수정 안내</div>
+          <p style="font-size:14px; color:var(--text-sub); line-height:1.8;">아래 프롬프트의 <strong>{데이터 컬럼 구조}</strong> 부분을<br>여러분의 엑셀 컬럼명에 맞게 수정하세요.<br>AI가 자동으로 인식하여 대시보드를 만들어줍니다.</p>
+        </div>
+
+        <div class="info-box warning" style="margin:0;">
+          <span class="title">💡 팁</span>
+          엑셀 첫 행(헤더)의 컬럼명을 그대로 프롬프트에 넣으면 됩니다.<br>
+          예: 날짜, 거래처, 품목, 수량, 금액, 할인, 지역 ...
+        </div>
+
+        <button onclick="resetDataChoice()" style="margin-top:20px; background:none; border:1.5px solid var(--border); border-radius:8px; padding:8px 20px; font-size:13px; font-weight:600; color:var(--text-sub); cursor:pointer; font-family:inherit; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-sub)'">← 다시 선택하기</button>
+      </div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step-block fade-in">
+      <h3>STEP 1: 기본 대시보드 + AI 인사이트</h3>
+      <p class="desc">🖥️ 이 단계에서 만드는 것:</p>
+      <p class="desc">엑셀을 업로드하면 핵심 지표 카드 + 차트가 나타나고,<br><span class="accent">AI가 데이터의 핵심 특징 3가지를 자동으로 분석</span>합니다.</p>
+
+      <div class="explain-toggle" onclick="toggleExplain(this)">
+        <span class="arrow">▶</span> 🔍 프롬프트 해설 (왜 이렇게 쓰나?)
+      </div>
+      <div class="explain-content">
+        <div class="info-box highlight">
+          프롬프트에 날짜 처리 로직을 넣는 이유: 영업일자 컬럼이 Excel 시리얼 넘버일 수 있습니다. <code>new Date((serial - 25569) * 86400000)</code>으로 변환 후 차트에 사용합니다. Chart.js와 SheetJS CDN을 지정하여 단일 HTML 파일로 구성합니다.
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="prompt-tabs">
+        <button class="prompt-tab active" onclick="switchTab(this, 'step1')">간단 버전</button>
+        <button class="prompt-tab" onclick="switchTab(this, 'step1')">실전 버전</button>
+      </div>
+      <div class="prompt-content active" data-group="step1">이 엑셀 데이터로 매출 분석 대시보드를 만들어줘.
+
+엑셀을 드래그앤드롭으로 업로드하면:
+1. 핵심 지표 카드 (총매출, 순매출, 할인액, 거래건수)
+2. 차트 (일별 매출 라인, 채널별 도넛, 카테고리별 도넛)
+3. AI 인사이트 – 데이터 업로드 후 핵심 특징 3가지를 Gemini API로 자동 분석하여 차트 아래에 표시
+
+[날짜 처리] 영업일자 컬럼이 Excel 시리얼 넘버일 수 있음. new Date((serial - 25569) * 86400000)으로 변환 후 차트에 사용.
+Chart.js와 SheetJS CDN 사용. 단일 HTML 파일.</div>
+      <div class="prompt-content" data-group="step1">제품 판매 데이터 분석 대시보드 앱을 만들어줘.
+
+{목표}
+엑셀(xlsx) 파일을 업로드하면 시각화 + AI 분석이 동시에 되는 인터랙티브 대시보드.
+
+{파일 업로드}
+- 드래그앤드롭 + 파일 선택 버튼
+- 업로드 후 "총 X건의 거래 데이터가 로드되었습니다" 표시
+
+{데이터 컬럼 구조}
+성별, 연령대, 지역, 회원구분, 고객ID, 주문번호, 주문일자, 상품코드, 상품명, 영업일자, 통합매장코드, 통합매장명, 채널, 프리미엄, 카테고리, 시리즈, 단가, 수량, 총매출액, 할인액, 실매출액, 부가세, 순매출액, 거주지역
+
+- 날짜 컬럼 (영업일자): Excel 시리얼 넘버 → new Date((serial - 25569) * 86400000)
+- 금액 컬럼: Number()로 변환, 빈 값은 0
+
+{핵심 지표 카드 – 상단}
+총매출액, 순매출액, 총 할인액, 거래건수, 평균할인율
+- 금액은 천단위 콤마 + 억/만 단위 표기
+
+{차트 – Chart.js CDN}
+1. 일별 매출 추이 라인차트 (x: 영업일자, y: 실매출액 합계)
+2. 채널별 매출 비중 도넛차트 (상위 7개 + 기타)
+3. 카테고리별 매출 비중 도넛차트
+
+{⭐ AI 인사이트 영역 – 차트 아래}
+데이터 업로드가 완료되면 자동으로 Gemini API를 호출하여:
+- 이 데이터의 핵심 특징 3가지
+- 주목할 만한 수치나 패턴
+- 한줄 요약
+을 분석하여 "AI 인사이트" 카드에 표시.
+"AI 분석 중..." 로딩 표시 포함.
+
+{디자인}
+한국 비즈니스 보고서 스타일. 맑은 고딕. 헤더: #1e3a8a → #3b82f6 그라데이션.
+
+{기술 스택}
+- SheetJS (https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js)
+- Chart.js (https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js)
+- CSS 색상: hex/rgb만 (oklch, hsl 금지)</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 복사</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-block fade-in">
+      <h3>STEP 2: 필터 + AI 비교 분석</h3>
+      <p class="desc">🖥️ 이 단계에서 추가되는 것:</p>
+      <p class="desc">조건별로 데이터를 걸러보고,<br><span class="accent">"AI 분석" 버튼으로 해당 조건의 인사이트</span>를 받습니다.</p>
+
+      <div class="explain-toggle" onclick="toggleExplain(this)">
+        <span class="arrow">▶</span> 🔍 프롬프트 해설
+      </div>
+      <div class="explain-content">
+        <div class="info-box highlight">
+          필터 변경 시 차트+지표가 즉시 업데이트 되어야 합니다. 필터 이벤트에 debounce 150ms를 걸고 차트 인스턴스를 재사용합니다.
+        </div>
+      </div>
+
+      <div class="prompt-tabs">
+        <button class="prompt-tab active" onclick="switchTab(this, 'step2')">간단 버전</button>
+        <button class="prompt-tab" onclick="switchTab(this, 'step2')">실전 버전</button>
+      </div>
+      <div class="prompt-content active" data-group="step2">필터 기능을 추가해줘.
+
+성별, 연령대, 채널, 카테고리, 거주지역, 프리미엄 6개 필터.
+다중 선택 가능. 필터 변경 시 차트+지표 즉시 업데이트.
+날짜 범위 필터도 추가.
+
+"AI 분석" 버튼을 추가해줘 – 현재 필터 조건에서의 데이터를 Gemini API로 분석하여 인사이트 1~2줄을 표시.</div>
+      <div class="prompt-content" data-group="step2">이전에 만든 대시보드에 필터 기능을 추가해줘.
+
+{필터 – 6개}
+성별, 연령대, 채널, 카테고리, 거주지역, 프리미엄 여부
+- 각 필터: 드롭다운, 다중 선택 (체크박스)
+- "전체 선택" / "전체 해제" 버튼
+- 필터 변경 → 모든 차트 + 지표 즉시 업데이트
+
+{📅 날짜 범위 필터}
+- 영업일자의 최소~최대 자동 계산
+- 시작일/종료일 input[type=date]
+
+{⭐ AI 비교 분석 버튼}
+필터 영역 옆에 "AI 분석" 버튼 추가.
+클릭 시:
+- 현재 필터 조건 요약 (예: "채널=온라인, 성별=여성")
+- 필터링된 데이터의 핵심 수치를 Gemini API에 전송
+- AI가 "이 조건에서 주목할 점" 1~2문장 분석
+- 인사이트 영역에 결과 표시 + "AI 분석 중..." 로딩
+
+{성능}
+- 필터 이벤트에 debounce 150ms
+- 차트 인스턴스 재사용</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 복사</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-block fade-in">
+      <h3>STEP 3: 탭 구조 + AI 항목별 해석</h3>
+      <p class="desc">🖥️ 이 단계에서 추가되는 것:</p>
+      <p class="desc">화면을 탭으로 나누어 항목별 심화 분석.<br><span class="accent">각 탭에 AI 코멘트가 자동 표시</span>됩니다.</p>
+
+      <div class="explain-toggle" onclick="toggleExplain(this)">
+        <span class="arrow">▶</span> 🔍 프롬프트 해설
+      </div>
+      <div class="explain-content">
+        <div class="info-box highlight">
+          각 탭 전환 시 해당 탭의 데이터를 Gemini API로 분석하여 AI 코멘트 1~2문장을 수신하여 표시합니다. 탭 전환 시 해당 탭의 차트만 렌더링하여 성능을 최적화합니다.
+        </div>
+      </div>
+
+      <div class="prompt-tabs">
+        <button class="prompt-tab active" onclick="switchTab(this, 'step3')">간단 버전</button>
+        <button class="prompt-tab" onclick="switchTab(this, 'step3')">실전 버전</button>
+      </div>
+      <div class="prompt-content active" data-group="step3">화면을 탭으로 나눠줘:
+1. Overview: 지표 카드 + 일별 매출 차트 + AI 인사이트
+2. 채널분석: 채널별 차트 + AI 코멘트
+3. 고객분석: 성별/연령대/지역별 차트 + AI 코멘트
+4. 상품분석: 카테고리/프리미엄 차트 + AI 코멘트
+5. 데이터상세: 전체 데이터 테이블 (페이지네이션, 정렬, 검색)
+6. 보고서: 다음 단계에서 추가
+
+각 탭 전환 시 해당 데이터를 Gemini API로 분석하여 AI 코멘트 표시.
+데이터상세는 3만건도 버벅이지 않게 페이지네이션 넣어줘.</div>
+      <div class="prompt-content" data-group="step3">현재 대시보드를 탭 구조로 변경해줘.
+
+{탭 1: Overview}
+- 핵심 지표 카드 5개 + 일별 매출 추이 라인차트
+- 기존 AI 인사이트 영역 유지
+
+{탭 2: 채널분석}
+- 채널별 매출 도넛차트 (50%) + 매장별 Top20 막대차트 (50%)
+- ⭐ AI 코멘트: "채널별 매출 데이터를 분석해줘" → 1~2문장 표시
+
+{탭 3: 고객분석}
+- 성별 매출 도넛 + 연령대 막대 + 거주지역 막대 (3열 그리드)
+- ⭐ AI 코멘트: "고객 세그먼트별 특징 분석"
+
+{탭 4: 상품분석}
+- 카테고리별 도넛 + 프리미엄 등급별 차트
+- ⭐ AI 코멘트: "상품별 성과 분석"
+
+{탭 5: 데이터상세}
+- 필터 적용된 거래내역 테이블
+- 페이지네이션 (50/100행), 컬럼별 정렬, 검색
+- "총 31,729건 중 50건 표시" 건수 표시
+
+{탭 6: 보고서} — 비워둬 (STEP 4에서 추가)
+
+{AI 코멘트 동작}
+- 각 탭 전환 시 "AI 분석 중..." 로딩 → Gemini API 호출
+- 해당 탭의 데이터 요약을 전송 → AI 코멘트 1~2문장 수신 → 표시
+
+{성능} 탭 전환 시 해당 탭의 차트만 렌더링. 차트 인스턴스 재사용.</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 복사</button>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-block fade-in">
+      <h3>STEP 4: AI 종합 보고서</h3>
+      <p class="desc">🖥️ 이 단계에서 추가되는 것:</p>
+      <p class="desc"><span class="accent">AI가 전체 데이터를 종합해서 보고서를 작성</span>합니다.<br>인쇄하면 바로 보고용으로 사용 가능합니다.</p>
+
+      <div class="explain-toggle" onclick="toggleExplain(this)">
+        <span class="arrow">▶</span> 🔍 프롬프트 해설
+      </div>
+      <div class="explain-content">
+        <div class="info-box highlight">
+          Gemini API 응답에 마크다운 표(| --- |)가 포함됩니다. 반드시 HTML &lt;table&gt;로 변환하여 렌더링해야 합니다. Preview는 iframe이므로 window.print()가 동작하지 않습니다. 새 탭을 열어서 인쇄하는 방식이 유일한 방법입니다.
+        </div>
+      </div>
+
+      <div class="prompt-tabs">
+        <button class="prompt-tab active" onclick="switchTab(this, 'step4')">간단 버전</button>
+        <button class="prompt-tab" onclick="switchTab(this, 'step4')">실전 버전</button>
+      </div>
+      <div class="prompt-content active" data-group="step4">보고서 탭을 완성해줘.
+
+"📊 AI 보고서 생성" 버튼을 누르면 Gemini API로 전체 데이터를 분석하여:
+- 핵심 지표 요약 (HTML 표로 렌더링)
+- 채널별/카테고리별 Top 분석 (HTML 표로 렌더링)
+- 트렌드 해석
+- 개선 제안 2~3개
+- 종합 소견
+
+을 A4 보고서 형태로 자동 작성.
+
+{중요 – 표 렌더링}
+AI 응답에 마크다운 표(|---|)가 포함됨. 반드시 HTML &lt;table&gt;로 변환 렌더링 필수.
+
+{출력 버튼}
+1. "📋 텍스트 복사" – execCommand('copy') fallback 필수
+2. "🖨️ 인쇄/PDF" – 새 탭 방식 사용:
+   보고서 HTML을 Blob으로 만들어 window.open(URL.createObjectURL(blob))으로 새 탭에 열기.
+
+필터 조건이 바뀌면 보고서도 새로 생성되지.</div>
+      <div class="prompt-content" data-group="step4">보고서 탭을 완성해줘.
+
+{⭐ AI 보고서 생성 버튼}
+클릭 시 전체 데이터(현재 필터 적용)의 요약을 Gemini API에 전송.
+AI가 아래 구조의 보고서를 완성하여 렌더링:
+
+{보고서 레이아웃 – A4 비율}
+상단: "데이터 분석 보고서" / 분석 기간 (자동) / 파일명
+섹션 1: 핵심 지표 요약 – HTML &lt;table&gt;로 4열 그리드 렌더링
+섹션 2: 카테고리별 매출 분석 – 상위 3개 + 금액 + 비중 + AI 인사이트, HTML &lt;table&gt; 사용
+섹션 3: 일별 매출 트렌드 – 최고/최저일 + 월평균 + AI 해석
+섹션 4: 카테고리별 성과 Top 5 – HTML &lt;table&gt;로 표 렌더링 (순위/항목/매출/비율)
+섹션 5: 고객 세그먼트 분석 (연령대/성별/지역 상위)
+섹션 6: AI 개선 제안 2~3개 (데이터 기반)
+섹션 7: 종합 소견 (AI가 2~3줄 작성)
+
+{⚠ 마크다운 → HTML 변환 필수}
+Gemini API 응답에 마크다운 표(| --- |)가 포함됩니다.
+React를 사용한다면 remark-gfm 플러그인 설치 → ReactMarkdown에 remarkPlugins={[remarkGfm]} 적용.
+순수 JS 사용 시: 마크다운 표를 HTML &lt;table&gt;로 변환하는 함수 직접 작성할 것.
+표에 CSS 적용: border-collapse, 셀 padding, 헤더 배경색 등으로 가독성 확보.
+마크다운 헤더(파이프 문자) 을 그대로 화면에 표시하면 안 됨.
+
+{출력 버튼 – iframe sandbox 포함 (실전 테스트 완료)}
+1. "📋 텍스트 복사" – execCommand fallback (iframe에서 먼저 클립보드):
+   먼저 navigator.clipboard.writeText(text) 시도.
+   실패 시 보이지 않는 textarea를 생성 → select() → document.execCommand('copy') → textarea 제거.
+
+2. "🖨️ 인쇄/PDF" – 새 탭에서 열기 (iframe에서 print 불가이므로):
+   보고서 HTML을 Blob(text/html)으로 만들어 새 윈도우 열기.
+   새 탭은 iframe 제약이 없으므로 window.print() 정상 작동.
+   보고서 상단에 "🖨 인쇄하기" 버튼도 포함시킬 것.
+
+{AI 호출 시}
+- "보고서 생성 중..." 로딩 애니메이션
+- Gemini API 응답을 마크다운 → HTML로 변환하여 렌더링
+
+CSS 색상: hex/rgb만 (oklch/hsl 금지)</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 복사</button>
+    </div>
+  </section>
+
+  <!-- ===== PART 3: 자주 묻는 질문 ===== -->
+  <section class="section" id="part3">
+    <span class="part-badge">PART 3</span>
+    <h2 class="section-title">자주 묻는 질문</h2>
+
+    <div class="fade-in">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">생성된 앱은 어떻게 사용하나요? <span class="arrow">▸</span></div>
+        <div class="faq-a">AI Studio의 Preview 탭에서 바로 실행할 수 있습니다. 별도 설치나 배포 없이 브라우저에서 동작합니다. 생성된 코드를 복사하여 로컬 HTML 파일로 저장해도 됩니다 (단, Gemini API 기능은 Preview에서만 작동).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Google AI Studio는 무료인가요? <span class="arrow">▸</span></div>
+        <div class="faq-a">네, Google AI Studio는 무료로 사용할 수 있습니다. Gemini API도 무료 등급(Free tier)이 제공되어 실습에 충분합니다. 대량 사용 시에는 유료 전환이 필요할 수 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">엑셀 데이터는 안전한가요? <span class="arrow">▸</span></div>
+        <div class="faq-a">업로드된 엑셀 데이터는 브라우저 내에서만 처리됩니다. 서버에 저장되지 않으며, AI 분석 시에는 요약된 수치만 Gemini API로 전송됩니다. 원본 데이터 전체가 전송되지는 않습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">내 회사 엑셀도 사용할 수 있나요? <span class="arrow">▸</span></div>
+        <div class="faq-a">네! 프롬프트의 데이터 컬럼 구조 부분만 여러분의 엑셀 컬럼명에 맞게 수정하면 됩니다. AI가 자동으로 인식하여 대시보드를 만들어줍니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Gemini가 오류 코드를 생성하면? <span class="arrow">▸</span></div>
+        <div class="faq-a">에러 메시지를 그대로 복사하여 같은 대화창에 붙여넣고 "이 에러를 수정해줘"라고 요청하면 됩니다. 바이브코딩의 핵심은 이 반복적인 대화를 통한 개선입니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">차트가 안 보이거나 깨지는 경우? <span class="arrow">▸</span></div>
+        <div class="faq-a">Chart.js CDN이 로드되지 않는 경우일 수 있습니다. 프롬프트의 기술 스택 부분에 명시된 CDN URL이 정확한지 확인하세요. 브라우저 콘솔(F12)에서 오류 메시지를 확인하면 원인을 파악할 수 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">폰트가 이상해요 <span class="arrow">▸</span></div>
+        <div class="faq-a">CSS에서 한글 폰트를 명시적으로 지정하지 않으면 기본 폰트가 사용됩니다. 프롬프트에 "맑은 고딕" 또는 "Noto Sans KR" 등 원하는 폰트를 지정해 주세요.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">모바일에서도 되나요? <span class="arrow">▸</span></div>
+        <div class="faq-a">기본적으로 반응형으로 생성되지만, 복잡한 대시보드는 PC 환경에서 사용하는 것을 권장합니다. 모바일 최적화가 필요하면 "모바일 반응형으로 만들어줘"라고 추가 요청하세요.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">PDF로 내보내려면? <span class="arrow">▸</span></div>
+        <div class="faq-a">STEP 4의 보고서 탭에서 "🖨️ 인쇄/PDF" 버튼을 클릭하면 새 탭에서 보고서가 열립니다. Ctrl+P (또는 Cmd+P)로 인쇄 대화상자를 열고, "PDF로 저장"을 선택하면 됩니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PART 4: 마무리 ===== -->
+  <section class="section" id="part4">
+    <span class="part-badge">PART 4</span>
+    <h2 class="section-title">다음 단계</h2>
+
+    <div class="step-block fade-in">
+      <h3 style="text-align:center; margin-bottom:24px;">🎉 축하합니다!</h3>
+      <p style="text-align:center; font-size:16px; color:var(--text-sub); line-height:2;">
+        4단계의 프롬프트만으로<br>
+        <strong style="color:var(--primary); font-size:18px;">엑셀 데이터를 자동 분석하는 AI 대시보드</strong>를<br>
+        직접 만들어 보셨습니다.
+      </p>
+
+      <div class="flow-row" style="margin:36px 0;">
+        <div class="flow-item">
+          <div class="icon">📊</div>
+          <div class="label">STEP 1<br><small>기본 대시보드</small></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">
+          <div class="icon">🔍</div>
+          <div class="label">STEP 2<br><small>필터 + AI</small></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">
+          <div class="icon">📑</div>
+          <div class="label">STEP 3<br><small>탭 구조</small></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">
+          <div class="icon">📝</div>
+          <div class="label">STEP 4<br><small>AI 보고서</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box tip fade-in">
+      <span class="title">💡 바이브코딩의 핵심 팁</span>
+      1. <strong>같은 대화창</strong>에서 프롬프트를 이어서 입력하세요<br>
+      2. 에러가 나면 <strong>에러 메시지를 그대로 붙여넣고</strong> 수정 요청하세요<br>
+      3. 원하는 기능을 <strong>구체적으로 설명</strong>할수록 좋은 결과가 나옵니다<br>
+      4. <strong>한 번에 완벽하게</strong> 하려 하지 말고, <strong>점진적으로 개선</strong>하세요
+    </div>
+
+    <div class="card-grid card-grid-3 fade-in" style="margin-top:28px;">
+      <div class="card" style="text-align:center;">
+        <span class="icon">🎯</span>
+        <h3>기업 맞춤 교육</h3>
+        <p>우리 회사 데이터로<br>실전 대시보드 제작 워크숍</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <span class="icon">📚</span>
+        <h3>심화 커리큘럼</h3>
+        <p>CRM, 재고관리, HR분석 등<br>다양한 업무 앱 만들기</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <span class="icon">🤝</span>
+        <h3>문의하기</h3>
+        <p>교육 프로그램 상담 및<br>커스텀 요청</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <a href="#" onclick="showSection(0)" class="active" data-mnav="0"><span class="num">0</span>개념</a>
+  <a href="#" onclick="showSection(1)" data-mnav="1"><span class="num">1</span>준비</a>
+  <a href="#" onclick="showSection(2)" data-mnav="2"><span class="num">2</span>프롬프트</a>
+  <a href="#" onclick="showSection(3)" data-mnav="3"><span class="num">3</span>FAQ</a>
+  <a href="#" onclick="showSection(4)" data-mnav="4"><span class="num">4</span>마무리</a>
+</nav>
+
+<script>
+// Data choice interaction
+function selectDataChoice(type) {
+  document.getElementById('choiceScreen').style.display = 'none';
+  if (type === 'sample') {
+    document.getElementById('sampleScreen').style.display = 'block';
+    document.getElementById('customScreen').style.display = 'none';
+  } else {
+    document.getElementById('sampleScreen').style.display = 'none';
+    document.getElementById('customScreen').style.display = 'block';
+  }
+}
+function resetDataChoice() {
+  document.getElementById('choiceScreen').style.display = 'block';
+  document.getElementById('sampleScreen').style.display = 'none';
+  document.getElementById('customScreen').style.display = 'none';
+}
+
+// Section Navigation
+function showSection(idx) {
+  document.querySelectorAll('.section').forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', parseInt(a.dataset.nav) === idx);
+  });
+  document.querySelectorAll('.mobile-nav a').forEach(a => {
+    a.classList.toggle('active', parseInt(a.dataset.mnav) === idx);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  return false;
+}
+
+// Tab switching for prompts
+function switchTab(btn, group) {
+  const parent = btn.closest('.step-block');
+  const tabs = parent.querySelectorAll('.prompt-tab');
+  const contents = parent.querySelectorAll('.prompt-content');
+  
+  tabs.forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const idx = Array.from(tabs).indexOf(btn);
+  contents.forEach((c, i) => c.classList.toggle('active', i === idx));
+}
+
+// Copy prompt
+function copyPrompt(btn) {
+  const parent = btn.closest('.step-block');
+  const activeContent = parent.querySelector('.prompt-content.active');
+  const text = activeContent.textContent.trim();
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => showCopied(btn));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopied(btn);
+  }
+}
+
+function showCopied(btn) {
+  btn.classList.add('copied');
+  btn.textContent = '✅ 복사됨!';
+  setTimeout(() => {
+    btn.classList.remove('copied');
+    btn.textContent = '📋 복사';
+  }, 2000);
+}
+
+// FAQ accordion
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// Explain toggle
+function toggleExplain(el) {
+  el.classList.toggle('open');
+  const content = el.nextElementSibling;
+  content.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
