@@ -25,6 +25,7 @@
   .badge.approved { background:#dcfce7; color:#15803d; }
   .badge.rejected { background:#fee2e2; color:#b91c1c; }
   .badge.pending_review { background:#f3f4f6; color:#6b7280; }
+  .badge.published { background:#e0e7ff; color:#3730a3; }
   .card .title { font-size:14px; font-weight:700; margin:4px 0; }
   .card .meta { font-size:12px; color:var(--text-sub); }
   .detail h2 { margin-top:0; }
@@ -35,7 +36,9 @@
   .review-actions button { padding:10px 18px; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
   .btn-approve { background:#22c55e; color:#fff; }
   .btn-reject { background:#ef4444; color:#fff; }
+  .btn-publish { background:var(--primary); color:#fff; }
   .empty { color:var(--text-sub); text-align:center; padding:60px 0; }
+  .published-link { display:block; margin-top:10px; font-size:13px; }
 </style>
 </head>
 <body>
@@ -44,6 +47,7 @@
   <div class="actions">
     <button onclick="triggerCrawl()">🔄 크롤링 실행</button>
     <button onclick="triggerGenerate()">✨ 초안 생성</button>
+    <button onclick="triggerPublish()">🚀 승인글 발행</button>
   </div>
 </header>
 <div class="layout">
@@ -52,6 +56,7 @@
       <button class="active" data-status="pending_review" onclick="setFilter('pending_review', this)">검수 대기</button>
       <button data-status="approved" onclick="setFilter('approved', this)">승인됨</button>
       <button data-status="rejected" onclick="setFilter('rejected', this)">반려됨</button>
+      <button data-status="published" onclick="setFilter('published', this)">발행됨</button>
       <button data-status="" onclick="setFilter('', this)">전체</button>
     </div>
     <div id="list"></div>
@@ -96,7 +101,7 @@ async function loadList() {
 }
 
 function statusLabel(s) {
-  return { pending_review: '검수 대기', approved: '승인', rejected: '반려' }[s] || s;
+  return { pending_review: '검수 대기', approved: '승인', rejected: '반려', published: '발행됨' }[s] || s;
 }
 
 function escapeHtml(s) {
@@ -110,16 +115,25 @@ async function loadDetail(id) {
   const res = await fetch('/api/drafts/' + id);
   const d = await res.json();
   const detail = document.getElementById('detail');
+  const actions = [];
+  if (d.status === 'pending_review') {
+    actions.push('<button class="btn-approve" onclick="review(' + d.id + ", 'approve')\">✅ 승인</button>");
+    actions.push('<button class="btn-reject" onclick="review(' + d.id + ", 'reject')\">❌ 반려</button>");
+  } else if (d.status === 'approved') {
+    actions.push('<button class="btn-publish" onclick="publish(' + d.id + ')">🚀 edu-focus.com에 발행</button>');
+    actions.push('<button class="btn-reject" onclick="review(' + d.id + ", 'reject')\">❌ 반려</button>");
+  }
+  const publishedInfo = d.published_url
+    ? `<a class="published-link" href="${escapeHtml(d.published_url)}" target="_blank">🔗 게시글 보기: ${escapeHtml(d.published_url)}</a>`
+    : (d.status === 'published' ? '<div class="published-link">발행 완료 (URL 없음 - dry run 또는 API 응답에 URL 없음)</div>' : '');
   detail.innerHTML = `
     <span class="badge ${d.draft_type}">${d.draft_type === 'news' ? '기사' : '칼럼'}</span>
     <span class="badge ${d.status}">${statusLabel(d.status)}</span>
     <h2>${escapeHtml(d.title)}</h2>
     <div class="disclosure">🤖 ${escapeHtml(d.ai_disclosure)}</div>
     <div class="body">${escapeHtml(d.body_markdown)}</div>
-    <div class="review-actions">
-      <button class="btn-approve" onclick="review(${d.id}, 'approve')">✅ 승인</button>
-      <button class="btn-reject" onclick="review(${d.id}, 'reject')">❌ 반려</button>
-    </div>
+    ${publishedInfo}
+    <div class="review-actions">${actions.join('')}</div>
   `;
   await loadList();
 }
@@ -132,6 +146,23 @@ async function review(id, action) {
     body: JSON.stringify({ reviewNotes: notes }),
   });
   await loadDetail(id);
+}
+
+async function publish(id) {
+  const res = await fetch(`/api/drafts/${id}/publish`, { method: 'POST' });
+  const r = await res.json();
+  if (r.error) {
+    alert('발행 실패: ' + r.error);
+    return;
+  }
+  await loadDetail(id);
+}
+
+async function triggerPublish() {
+  const res = await fetch('/api/publish', { method: 'POST' });
+  const r = await res.json();
+  alert(`발행 완료: ${r.processed ?? 0}건 처리, ${r.published ?? 0}건 발행`);
+  await loadList();
 }
 
 async function triggerCrawl() {

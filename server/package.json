@@ -11,6 +11,7 @@
     "start": "node dist/server/app.js",
     "crawl": "ts-node src/pipeline/runCrawl.ts",
     "generate": "ts-node src/pipeline/runGenerate.ts",
+    "publish": "ts-node src/pipeline/runPublish.ts",
     "pipeline": "ts-node src/pipeline/runAll.ts",
     "scheduler": "ts-node src/pipeline/scheduler.ts",
     "test": "ts-node-dev --transpile-only test/pipeline.test.ts"

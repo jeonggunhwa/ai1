@@ -26,10 +26,12 @@ CREATE TABLE IF NOT EXISTS drafts (
   ai_model TEXT NOT NULL,
   ai_disclosure TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'pending_review'
-    CHECK (status IN ('pending_review', 'approved', 'rejected')),
+    CHECK (status IN ('pending_review', 'approved', 'rejected', 'published')),
   review_notes TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  reviewed_at TEXT
+  reviewed_at TEXT,
+  published_at TEXT,
+  published_url TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON drafts(status);

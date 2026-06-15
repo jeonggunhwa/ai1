@@ -33,10 +33,12 @@ export interface DraftRow {
   source_citation: string;
   ai_model: string;
   ai_disclosure: string;
-  status: 'pending_review' | 'approved' | 'rejected';
+  status: 'pending_review' | 'approved' | 'rejected' | 'published';
   review_notes: string | null;
   created_at: string;
   reviewed_at: string | null;
+  published_at: string | null;
+  published_url: string | null;
 }
 
 export function insertRawItem(item: {
@@ -134,6 +136,18 @@ export function updateDraftStatus(
   db.prepare(
     `UPDATE drafts SET status = ?, review_notes = ?, reviewed_at = datetime('now') WHERE id = ?`
   ).run(status, reviewNotes ?? null, id);
+}
+
+export function listApprovedUnpublished(limit = 10): DraftRow[] {
+  return db
+    .prepare(`SELECT * FROM drafts WHERE status = 'approved' ORDER BY id ASC LIMIT ?`)
+    .all(limit) as DraftRow[];
+}
+
+export function markDraftPublished(id: number, publishedUrl?: string | null): void {
+  db.prepare(
+    `UPDATE drafts SET status = 'published', published_at = datetime('now'), published_url = ? WHERE id = ?`
+  ).run(publishedUrl ?? null, id);
 }
 
 export function listRawItems(limit = 50): RawItemRow[] {
