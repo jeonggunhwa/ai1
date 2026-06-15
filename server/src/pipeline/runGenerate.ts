@@ -16,7 +16,7 @@ export async function runGenerate(limit = 10): Promise<{ processed: number; draf
       const citation = buildSourceCitation(raw);
       const label = sourceLabel(raw);
 
-      const article = await writeNewsArticle(facts, label);
+      const article = await writeNewsArticle(facts, label, raw.title);
       insertDraft({
         rawItemId: raw.id,
         draftType: 'news',
@@ -29,7 +29,7 @@ export async function runGenerate(limit = 10): Promise<{ processed: number; draf
       });
       drafts += 1;
 
-      const column = await writeColumn(facts, label);
+      const column = await writeColumn(facts, label, raw.title);
       insertDraft({
         rawItemId: raw.id,
         draftType: 'column',

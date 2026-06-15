@@ -36,5 +36,5 @@
 
 ```bash
 ENABLE_MOCK_SOURCE=1 npm run crawl
-ENABLE_MOCK_SOURCE=1 npm run generate   # GEMINI_API_KEY 필요
+ENABLE_MOCK_SOURCE=1 MOCK_AI=1 npm run generate   # GEMINI_API_KEY 불필요
 ```

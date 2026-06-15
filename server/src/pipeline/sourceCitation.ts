@@ -1,7 +1,7 @@
 import { config } from '../config';
 import { RawItemRow } from '../db';
 
-export const AI_DISCLOSURE = `이 글은 ${config.mediaName}이(가) AI(${config.geminiModel})를 활용해 작성한 초안이며, 편집부 검수 후 게재됩니다.`;
+export const AI_DISCLOSURE = `이 글은 ${config.mediaName}에서 AI(${config.geminiModel})를 활용해 작성한 초안이며, 편집부 검수 후 게재됩니다.`;
 
 export function buildSourceCitation(raw: RawItemRow): string {
   const dateLabel = raw.published_at ? `, ${raw.published_at}` : '';

@@ -82,9 +82,13 @@ npm run scheduler
 
 ```bash
 ENABLE_MOCK_SOURCE=1 npm run crawl
-ENABLE_MOCK_SOURCE=1 npm run generate
+ENABLE_MOCK_SOURCE=1 MOCK_AI=1 npm run generate   # Gemini 호출 없이 샘플 기사/칼럼 생성
 npm test   # AI 호출 없이 동작하는 스모크 테스트
 ```
+
+`MOCK_AI=1`을 설정하면 `GEMINI_API_KEY` 없이도 `fixtures/sample-drafts.json`에 미리
+작성된 사실추출·기사·칼럼 결과를 사용해 전체 파이프라인(수집 → 생성 → 검수대기)을
+끝까지 확인할 수 있습니다. 실제 운영에서는 설정하지 마세요.
 
 ## 크롤링 대상 (1차)
 
