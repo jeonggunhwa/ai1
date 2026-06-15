@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교육포커스 - AI 초안 검수</title>
+<style>
+  :root { --primary:#2B4ACF; --bg:#F5F7FB; --border:#E2E8F0; --text-sub:#6b7280; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; margin:0; background:var(--bg); color:#1a1a2e; }
+  header { background:var(--primary); color:#fff; padding:16px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  header h1 { font-size:18px; margin:0; }
+  header .actions button { background:#fff; color:var(--primary); border:none; border-radius:8px; padding:8px 14px; font-weight:700; cursor:pointer; margin-left:8px; }
+  .layout { display:flex; gap:16px; padding:16px; max-width:1200px; margin:0 auto; }
+  .list { flex: 0 0 360px; display:flex; flex-direction:column; gap:10px; max-height:85vh; overflow-y:auto; }
+  .detail { flex:1; background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:24px; min-height:300px; }
+  .filters { display:flex; gap:6px; margin-bottom:8px; }
+  .filters button { flex:1; padding:8px; border:1.5px solid var(--border); background:#fff; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; }
+  .filters button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+  .card { background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:14px; cursor:pointer; }
+  .card.selected { border-color:var(--primary); box-shadow:0 0 0 2px rgba(43,74,207,0.15); }
+  .card .badge { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; margin-bottom:6px; }
+  .badge.news { background:#e8ecfa; color:var(--primary); }
+  .badge.column { background:#FFF3CD; color:#92600a; }
+  .badge.approved { background:#dcfce7; color:#15803d; }
+  .badge.rejected { background:#fee2e2; color:#b91c1c; }
+  .badge.pending_review { background:#f3f4f6; color:#6b7280; }
+  .card .title { font-size:14px; font-weight:700; margin:4px 0; }
+  .card .meta { font-size:12px; color:var(--text-sub); }
+  .detail h2 { margin-top:0; }
+  .detail .body { white-space:pre-wrap; line-height:1.8; font-size:15px; margin:16px 0; }
+  .detail .citation { font-size:12px; color:var(--text-sub); border-top:1px solid var(--border); padding-top:10px; }
+  .detail .disclosure { font-size:12px; color:#92600a; background:#FFF8F0; padding:8px 12px; border-radius:8px; margin-bottom:12px; }
+  .review-actions { display:flex; gap:8px; margin-top:16px; }
+  .review-actions button { padding:10px 18px; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
+  .btn-approve { background:#22c55e; color:#fff; }
+  .btn-reject { background:#ef4444; color:#fff; }
+  .empty { color:var(--text-sub); text-align:center; padding:60px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📰 교육포커스 - AI 기사/칼럼 초안 검수</h1>
+  <div class="actions">
+    <button onclick="triggerCrawl()">🔄 크롤링 실행</button>
+    <button onclick="triggerGenerate()">✨ 초안 생성</button>
+  </div>
+</header>
+<div class="layout">
+  <div class="list">
+    <div class="filters">
+      <button class="active" data-status="pending_review" onclick="setFilter('pending_review', this)">검수 대기</button>
+      <button data-status="approved" onclick="setFilter('approved', this)">승인됨</button>
+      <button data-status="rejected" onclick="setFilter('rejected', this)">반려됨</button>
+      <button data-status="" onclick="setFilter('', this)">전체</button>
+    </div>
+    <div id="list"></div>
+  </div>
+  <div class="detail" id="detail">
+    <div class="empty">왼쪽에서 초안을 선택하세요</div>
+  </div>
+</div>
+<script>
+let currentStatus = 'pending_review';
+let currentId = null;
+
+async function setFilter(status, btn) {
+  currentStatus = status;
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  await loadList();
+}
+
+async function loadList() {
+  const qs = currentStatus ? '?status=' + encodeURIComponent(currentStatus) : '';
+  const res = await fetch('/api/drafts' + qs);
+  const drafts = await res.json();
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  if (drafts.length === 0) {
+    list.innerHTML = '<div class="empty">표시할 초안이 없습니다</div>';
+    return;
+  }
+  for (const d of drafts) {
+    const card = document.createElement('div');
+    card.className = 'card' + (d.id === currentId ? ' selected' : '');
+    card.innerHTML = `
+      <span class="badge ${d.draft_type}">${d.draft_type === 'news' ? '기사' : '칼럼'}</span>
+      <span class="badge ${d.status}">${statusLabel(d.status)}</span>
+      <div class="title">${escapeHtml(d.title)}</div>
+      <div class="meta">#${d.id} · ${d.created_at}</div>
+    `;
+    card.onclick = () => loadDetail(d.id);
+    list.appendChild(card);
+  }
+}
+
+function statusLabel(s) {
+  return { pending_review: '검수 대기', approved: '승인', rejected: '반려' }[s] || s;
+}
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+async function loadDetail(id) {
+  currentId = id;
+  const res = await fetch('/api/drafts/' + id);
+  const d = await res.json();
+  const detail = document.getElementById('detail');
+  detail.innerHTML = `
+    <span class="badge ${d.draft_type}">${d.draft_type === 'news' ? '기사' : '칼럼'}</span>
+    <span class="badge ${d.status}">${statusLabel(d.status)}</span>
+    <h2>${escapeHtml(d.title)}</h2>
+    <div class="disclosure">🤖 ${escapeHtml(d.ai_disclosure)}</div>
+    <div class="body">${escapeHtml(d.body_markdown)}</div>
+    <div class="review-actions">
+      <button class="btn-approve" onclick="review(${d.id}, 'approve')">✅ 승인</button>
+      <button class="btn-reject" onclick="review(${d.id}, 'reject')">❌ 반려</button>
+    </div>
+  `;
+  await loadList();
+}
+
+async function review(id, action) {
+  const notes = prompt('검수 의견 (선택)') || '';
+  await fetch(`/api/drafts/${id}/${action}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reviewNotes: notes }),
+  });
+  await loadDetail(id);
+}
+
+async function triggerCrawl() {
+  const res = await fetch('/api/crawl', { method: 'POST' });
+  const r = await res.json();
+  alert(`크롤링 완료: ${r.found ?? 0}건 조회, ${r.inserted ?? 0}건 신규`);
+}
+
+async function triggerGenerate() {
+  const res = await fetch('/api/generate', { method: 'POST' });
+  const r = await res.json();
+  alert(`초안 생성 완료: ${r.processed ?? 0}건 처리, ${r.drafts ?? 0}건 생성`);
+  await loadList();
+}
+
+loadList();
+</script>
+</body>
+</html>
