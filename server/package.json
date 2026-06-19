@@ -1,0 +1,37 @@
+{
+  "name": "edufocus-news-bot",
+  "version": "0.1.0",
+  "description": "교육포커스 - 교육부/교육청 보도자료 및 무료강좌 정보를 크롤링하여 사실기반 기사 초안과 칼럼 초안을 자동 생성하는 백엔드",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "ts-node-dev --respawn --transpile-only src/server/app.ts",
+    "start": "node dist/server/app.js",
+    "crawl": "ts-node src/pipeline/runCrawl.ts",
+    "generate": "ts-node src/pipeline/runGenerate.ts",
+    "publish": "ts-node src/pipeline/runPublish.ts",
+    "pipeline": "ts-node src/pipeline/runAll.ts",
+    "scheduler": "ts-node src/pipeline/scheduler.ts",
+    "test": "ts-node-dev --transpile-only test/pipeline.test.ts"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.7.9",
+    "better-sqlite3": "^11.8.1",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.5",
+    "@types/node-cron": "^3.0.11",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
+  }
+}
