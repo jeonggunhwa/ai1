@@ -10,4 +10,6 @@ export const config = {
   port: Number(process.env.PORT || 4000),
   crawlCron: process.env.CRAWL_CRON || '0 6,12,18 * * *',
   mediaName: process.env.MEDIA_NAME || '교육포커스',
+  adminUser: process.env.ADMIN_USER || '',
+  adminPassword: process.env.ADMIN_PASSWORD || '',
 };

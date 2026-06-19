@@ -143,6 +143,13 @@ npm test   # AI 호출 없이 동작하는 스모크 테스트
 | POST | `/api/drafts/:id/publish` | 승인된 초안 1건을 edu-focus.com에 발행 |
 | POST | `/api/publish` | 승인된 초안 전체(최대 limit건)를 발행 |
 
+## 외부 서버 배포
+
+검수 화면을 팀이나 편집자가 외부에서 접속할 수 있게 하려면 영구 디스크 +
+상시 실행 서버가 필요한 플랫폼(Render, Railway 등)에 배포해야 합니다.
+구체적인 단계는 [`DEPLOY.md`](./DEPLOY.md)를 참고하세요. 배포 시 검수
+화면은 `ADMIN_USER`/`ADMIN_PASSWORD`(Basic Auth)로 보호하세요.
+
 ## 다음 단계 (미구현)
 
 - edu-focus.com 글 작성 API 스펙 확정 후 `.env`의 `PUBLISH_*` 값 설정 (현재는 dry-run)

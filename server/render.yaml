@@ -1,0 +1,35 @@
+# Render Blueprint - https://render.com/docs/blueprint-spec
+# 사용법: Render 대시보드 → New → Blueprint → 이 저장소 선택
+# (server 디렉터리가 리포지토리 루트가 아니라면 Root Directory를 "server"로 지정)
+#
+# 웹 서버와 크롤링/생성 스케줄러를 하나의 서비스에서 함께 실행한다.
+# (Render의 persistent disk는 서비스 간에 공유되지 않으므로, 별도의 worker 서비스를
+#  두면 SQLite 파일이 두 개로 갈라져 데이터가 어긋난다. ENABLE_SCHEDULER=1로
+#  같은 프로세스 안에서 cron 스케줄러를 함께 띄운다.)
+services:
+  - type: web
+    name: edufocus-web
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    disk:
+      name: edufocus-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: DB_PATH
+        value: /app/data/edufocus.db
+      - key: ENABLE_SCHEDULER
+        value: '1'
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: PUBLISH_API_URL
+        sync: false
+      - key: PUBLISH_AUTH_VALUE
+        sync: false
