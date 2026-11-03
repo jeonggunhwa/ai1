@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 해커톤 퀘스트 대시보드 - Aside & Claude 스프린트</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti for Level Up -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Pretendard', sans-serif; }
+    .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+
+  <!-- Top Navbar -->
+  <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-indigo-500/30">
+          ⚡
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white leading-tight">AI 기업문제 해결 해커톤</h1>
+          <p class="text-xs text-indigo-400 font-medium">Aside & Claude 6시간 실전 스프린트</p>
+        </div>
+      </div>
+
+      <!-- Team Badge & Timer -->
+      <div class="flex items-center gap-3">
+        <div id="teamBadge" class="hidden px-3 py-1.5 rounded-lg bg-indigo-950/80 border border-indigo-500/40 text-xs font-semibold text-indigo-300">
+          <span id="displayTeamName">팀명</span>
+        </div>
+        <div class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="timerDisplay">06:00:00</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-6 space-y-6">
+
+    <!-- Screen 1: Team Entry (Login) -->
+    <div id="loginScreen" class="py-12 flex flex-col items-center justify-center">
+      <div class="w-full max-w-md bg-slate-800/90 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-12 -top-12 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="text-center mb-6">
+          <div class="inline-block p-3 bg-indigo-500/10 rounded-2xl text-3xl mb-3">🚀</div>
+          <h2 class="text-2xl font-bold text-white">해커톤 퀘스트 입장</h2>
+          <p class="text-sm text-slate-400 mt-1">우리 팀의 정보를 입력하고 1단계 퀘스트를 시작하세요.</p>
+        </div>
+
+        <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">팀 이름 (또는 번호)</label>
+            <input type="text" id="inputTeamName" required placeholder="예: 3조 AI 혁신TF" 
+              class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">팀 비밀번호 (자유 4자리)</label>
+            <input type="password" id="inputTeamPin" required maxlength="4" placeholder="숫자 4자리 (새로고침 복구용)" 
+              class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+          </div>
+          <button type="submit" 
+            class="w-full py-3.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold rounded-xl text-sm shadow-lg shadow-indigo-600/30 transition transform active:scale-95">
+            퀘스트 시작하기 ⚔️
+          </button>
+        </form>
+        <p class="text-xs text-center text-slate-500 mt-4">별도 가입 없이 입력한 정보로 자동 저장됩니다.</p>
+      </div>
+    </div>
+
+    <!-- Screen 2: Quest Dashboard -->
+    <div id="questScreen" class="hidden space-y-6">
+
+      <!-- Progress Card -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" id="currentLevelBadge">Quest 1 진행 중</span>
+              <h3 class="font-bold text-white text-base" id="progressTitle">기업 문제 정의 & 리서치</h3>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">단계별 미션을 클리어하면 다음 퀘스트가 순차적으로 열립니다.</p>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-black text-indigo-400" id="progressPercent">25%</span>
+            <span class="text-xs text-slate-400 block">달성률</span>
+          </div>
+        </div>
+        <!-- Bar -->
+        <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-700">
+          <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500" style="width: 25%"></div>
+        </div>
+      </div>
+
+      <!-- Quest List Accordions -->
+      <div class="space-y-4">
+
+        <!-- ================= QUEST 1 ================= -->
+        <div id="quest1Card" class="bg-slate-800 border-2 border-indigo-500/80 rounded-2xl p-5 transition shadow-lg">
+          <div class="flex items-center justify-between cursor-pointer" onclick="toggleQuest('quest1Body')">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow">Q1</div>
+              <div>
+                <h4 class="font-bold text-white text-base">Quest 1. 대상 기업 발굴 및 치명적 약점 리서치</h4>
+                <p class="text-xs text-slate-400">Aside 브라우저로 뉴스·재무 데이터 5분 만에 스크랩</p>
+              </div>
+            </div>
+            <span id="quest1Status" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300">진행 중</span>
+          </div>
+
+          <div id="quest1Body" class="mt-5 pt-4 border-t border-slate-700 space-y-4">
+            <!-- Weapon Guide Callout -->
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs space-y-2">
+              <div class="flex items-center gap-1.5 font-bold text-amber-400">
+                <span>💡 Aside 무기 사용 팁</span>
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                Aside 브라우저 좌측 창에 기업 홈페이지/뉴스 기사를 띄우고, 우측 Claude 사이드바에 아래 프롬프트를 붙여넣으세요!
+              </p>
+              <div class="bg-slate-950 p-2.5 rounded-lg text-slate-400 font-mono text-[11px] flex justify-between items-center">
+                <span class="truncate">"이 기업의 최근 1년간 가장 치명적인 고객 불만 및 경영 리스크 3가지를 데이터 근거와 함께 정리해 줘."</span>
+                <button type="button" onclick="copyPrompt(1)" class="ml-2 text-indigo-400 hover:text-indigo-300 font-sans font-semibold shrink-0">복사</button>
+              </div>
+            </div>
+
+            <!-- Form -->
+            <form onsubmit="submitQuest1(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">분석 대상 기업명 및 주요 업종</label>
+                <input type="text" id="q1_company" required placeholder="예: (주)에이아이물류 - 지역 B2B 물류 운송업" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">발견한 핵심 문제점 3가지 (원인과 팩트)</label>
+                <textarea id="q1_problems" required rows="3" placeholder="1. 수기 배차로 인한 배송 지연율 18% 증가&#10;2. 유가 변동에 따른 마진율 급감&#10;3. 화물 차주와의 실시간 소통 부재" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500"></textarea>
+              </div>
+              <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow transition">
+                Quest 1 클리어 및 Level 2 잠금해제 🔓
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ================= QUEST 2 ================= -->
+        <div id="quest2Card" class="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5 transition opacity-60">
+          <div class="flex items-center justify-between cursor-pointer" onclick="toggleQuest('quest2Body')">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-slate-700 text-slate-400 font-bold flex items-center justify-center text-sm">Q2</div>
+              <div>
+                <h4 class="font-bold text-white text-base">Quest 2. 킬러 솔루션 도출 & 비즈니스 모델(BM) 기획</h4>
+                <p class="text-xs text-slate-400">Claude와 10분 아이디어 핑퐁으로 역전 전략 수립</p>
+              </div>
+            </div>
+            <span id="quest2Status" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-700 text-slate-400">🔒 잠김</span>
+          </div>
+
+          <div id="quest2Body" class="mt-5 pt-4 border-t border-slate-700 space-y-4 hidden">
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs space-y-2">
+              <div class="flex items-center gap-1.5 font-bold text-amber-400">
+                <span>💡 Aside 무기 사용 팁</span>
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                도출된 문제를 해결할 획기적인 AI 기반 신사업/업무개선 BM을 Claude에게 요청해 보세요.
+              </p>
+              <div class="bg-slate-950 p-2.5 rounded-lg text-slate-400 font-mono text-[11px] flex justify-between items-center">
+                <span class="truncate">"우리가 찾은 문제점을 해결할 AI 자동화 솔루션 3가지 아이디어와 타깃 고객, 수익 모델을 비교해 줘."</span>
+                <button type="button" onclick="copyPrompt(2)" class="ml-2 text-indigo-400 hover:text-indigo-300 font-sans font-semibold shrink-0">복사</button>
+              </div>
+            </div>
+
+            <form onsubmit="submitQuest2(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">우리 팀의 솔루션 명칭 & 1줄 정의</label>
+                <input type="text" id="q2_title" required placeholder="예: '루트AI' - 중소 화물사를 위한 스마트 배차 자동화 SaaS" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">핵심 가치 제안 및 수익 모델 (BM)</label>
+                <textarea id="q2_bm" required rows="3" placeholder="- 가치: 배차 시간 90% 단축, 공차율 25% 절감&#10;- BM: 월 구독료 99,000원 + 절감 유류비 기반 인센티브" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500"></textarea>
+              </div>
+              <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow transition">
+                Quest 2 클리어 및 Level 3 잠금해제 🔓
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ================= QUEST 3 ================= -->
+        <div id="quest3Card" class="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5 transition opacity-60">
+          <div class="flex items-center justify-between cursor-pointer" onclick="toggleQuest('quest3Body')">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-slate-700 text-slate-400 font-bold flex items-center justify-center text-sm">Q3</div>
+              <div>
+                <h4 class="font-bold text-white text-base">Quest 3. Claude Artifacts로 인터랙티브 시제품 소환</h4>
+                <p class="text-xs text-slate-400">코딩 없이 15분 만에 클릭 가능한 목업(Mockup) 완성</p>
+              </div>
+            </div>
+            <span id="quest3Status" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-700 text-slate-400">🔒 잠김</span>
+          </div>
+
+          <div id="quest3Body" class="mt-5 pt-4 border-t border-slate-700 space-y-4 hidden">
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs space-y-2">
+              <div class="flex items-center gap-1.5 font-bold text-amber-400">
+                <span>💡 Aside 무기 사용 팁</span>
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                Claude 3.5 Sonnet 대화창에 화면 구성 명세를 넣고 "실제 클릭할 수 있는 단일 HTML/React UI 코드로 만들어 줘"라고 요청하세요!
+              </p>
+              <div class="bg-slate-950 p-2.5 rounded-lg text-slate-400 font-mono text-[11px] flex justify-between items-center">
+                <span class="truncate">"이 솔루션의 핵심 관리자 대시보드 화면을 실제 동작하는 세련된 HTML 단일 웹페이지로 코딩해 줘."</span>
+                <button type="button" onclick="copyPrompt(3)" class="ml-2 text-indigo-400 hover:text-indigo-300 font-sans font-semibold shrink-0">복사</button>
+              </div>
+            </div>
+
+            <form onsubmit="submitQuest3(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">시제품의 핵심 기능 및 화면 구성 설명</label>
+                <textarea id="q3_feature" required rows="3" placeholder="- 실시간 화물 위치 트래킹 맵&#10;- AI 추천 최적 배차 경로 1클릭 승인 버튼&#10;- 일간 유류비 절감액 통계 카드" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500"></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">시제품 공유 링크 또는 클로드 아티팩트 링크</label>
+                <input type="text" id="q3_link" required placeholder="예: 클로드 아티팩트 공유 링크 또는 깃허브 페이지 링크" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500">
+              </div>
+              <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow transition">
+                Quest 3 클리어 및 최종 데모데이 진입 🔓
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ================= QUEST 4 ================= -->
+        <div id="quest4Card" class="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5 transition opacity-60">
+          <div class="flex items-center justify-between cursor-pointer" onclick="toggleQuest('quest4Body')">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-slate-700 text-slate-400 font-bold flex items-center justify-center text-sm">Q4</div>
+              <div>
+                <h4 class="font-bold text-white text-base">Quest 4. Gamma AI 5분 피칭 덱 완성 & 최종 발표</h4>
+                <p class="text-xs text-slate-400">모든 퀘스트 결과물을 1분 만에 IR 피칭 슬라이드로 변환</p>
+              </div>
+            </div>
+            <span id="quest4Status" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-700 text-slate-400">🔒 잠김</span>
+          </div>
+
+          <div id="quest4Body" class="mt-5 pt-4 border-t border-slate-700 space-y-4 hidden">
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs space-y-2">
+              <div class="flex items-center gap-1.5 font-bold text-amber-400">
+                <span>💡 Gamma AI 피칭 슬라이드 팁</span>
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                하단의 [우리 팀 결과물 요약 복사] 버튼을 눌러 전체 내용을 복사한 뒤, Gamma AI(gamma.app)에 붙여넣기만 하면 8장짜리 발표 PPT가 즉시 완성됩니다!
+              </p>
+            </div>
+
+            <form onsubmit="submitQuest4(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Gamma 피칭 슬라이드 공유 링크</label>
+                <input type="url" id="q4_link" required placeholder="https://gamma.app/docs/..." 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">심사위원의 마음을 사로잡을 1줄 피칭 슬로건</label>
+                <input type="text" id="q4_slogan" required placeholder="예: '18% 지연을 0%로, 대한민국 물류의 새 길을 여는 루트AI'" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500">
+              </div>
+              <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-teal-500/30 transition">
+                🏆 최종 해커톤 완주 및 피칭 준비 완료!
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Result Summary Card -->
+      <div id="summaryCard" class="hidden bg-slate-800 border border-emerald-500/60 rounded-2xl p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🎉</span>
+            <h4 class="font-bold text-white text-base">우리 팀 해커톤 완주 리포트</h4>
+          </div>
+          <button type="button" onclick="copyFullReport()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white shadow">
+            전체 내용 복사하기 📋
+          </button>
+        </div>
+        <div id="summaryContent" class="text-xs text-slate-300 bg-slate-900 p-4 rounded-xl space-y-2 border border-slate-800">
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+    Designed for 6-Hour AI Hackathon Sprint with Aside & Claude
+  </footer>
+
+  <!-- Script Logic -->
+  <script>
+    let currentLevel = 1;
+    let teamData = {
+      name: '',
+      pin: '',
+      q1: {},
+      q2: {},
+      q3: {},
+      q4: {}
+    };
+
+    // Auto-load from localStorage
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('hackathon_team_data');
+      if (saved) {
+        try {
+          teamData = JSON.parse(saved);
+          if (teamData.name) {
+            initDashboard();
+          }
+        } catch(e) {}
+      }
+      startTimer();
+    });
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const name = document.getElementById('inputTeamName').value.trim();
+      const pin = document.getElementById('inputTeamPin').value.trim();
+      if (!name) return;
+
+      teamData.name = name;
+      teamData.pin = pin;
+      saveData();
+      initDashboard();
+    }
+
+    function initDashboard() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('questScreen').classList.remove('hidden');
+      document.getElementById('teamBadge').classList.remove('hidden');
+      document.getElementById('displayTeamName').textContent = teamData.name;
+
+      // Restore inputs
+      if (teamData.q1?.company) document.getElementById('q1_company').value = teamData.q1.company;
+      if (teamData.q1?.problems) document.getElementById('q1_problems').value = teamData.q1.problems;
+      if (teamData.q2?.title) document.getElementById('q2_title').value = teamData.q2.title;
+      if (teamData.q2?.bm) document.getElementById('q2_bm').value = teamData.q2.bm;
+      if (teamData.q3?.feature) document.getElementById('q3_feature').value = teamData.q3.feature;
+      if (teamData.q3?.link) document.getElementById('q3_link').value = teamData.q3.link;
+      if (teamData.q4?.link) document.getElementById('q4_link').value = teamData.q4.link;
+      if (teamData.q4?.slogan) document.getElementById('q4_slogan').value = teamData.q4.slogan;
+
+      // Restore Levels
+      if (teamData.q1?.completed) unlockLevel(2, false);
+      if (teamData.q2?.completed) unlockLevel(3, false);
+      if (teamData.q3?.completed) unlockLevel(4, false);
+      if (teamData.q4?.completed) showSummary(false);
+    }
+
+    function submitQuest1(e) {
+      e.preventDefault();
+      teamData.q1 = {
+        company: document.getElementById('q1_company').value,
+        problems: document.getElementById('q1_problems').value,
+        completed: true
+      };
+      saveData();
+      unlockLevel(2, true);
+    }
+
+    function submitQuest2(e) {
+      e.preventDefault();
+      teamData.q2 = {
+        title: document.getElementById('q2_title').value,
+        bm: document.getElementById('q2_bm').value,
+        completed: true
+      };
+      saveData();
+      unlockLevel(3, true);
+    }
+
+    function submitQuest3(e) {
+      e.preventDefault();
+      teamData.q3 = {
+        feature: document.getElementById('q3_feature').value,
+        link: document.getElementById('q3_link').value,
+        completed: true
+      };
+      saveData();
+      unlockLevel(4, true);
+    }
+
+    function submitQuest4(e) {
+      e.preventDefault();
+      teamData.q4 = {
+        link: document.getElementById('q4_link').value,
+        slogan: document.getElementById('q4_slogan').value,
+        completed: true
+      };
+      saveData();
+      showSummary(true);
+    }
+
+    function unlockLevel(lvl, animate) {
+      currentLevel = Math.max(currentLevel, lvl);
+      if (animate && window.confetti) {
+        confetti({ particleCount: 60, spread: 60, origin: { y: 0.6 } });
+      }
+
+      if (lvl >= 2) {
+        const q1Card = document.getElementById('quest1Card');
+        q1Card.classList.remove('border-indigo-500/80');
+        q1Card.classList.add('border-emerald-500/60');
+        document.getElementById('quest1Status').textContent = '완료 ✓';
+        document.getElementById('quest1Status').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300';
+
+        const q2Card = document.getElementById('quest2Card');
+        q2Card.classList.remove('opacity-60', 'bg-slate-800/50');
+        q2Card.classList.add('border-indigo-500/80', 'bg-slate-800');
+        document.getElementById('quest2Status').textContent = '진행 중';
+        document.getElementById('quest2Status').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300';
+        document.getElementById('quest2Body').classList.remove('hidden');
+
+        document.getElementById('progressPercent').textContent = '50%';
+        document.getElementById('progressBar').style.width = '50%';
+        document.getElementById('currentLevelBadge').textContent = 'Quest 2 진행 중';
+        document.getElementById('progressTitle').textContent = '킬러 솔루션 & 비즈니스 모델';
+      }
+
+      if (lvl >= 3) {
+        const q2Card = document.getElementById('quest2Card');
+        q2Card.classList.remove('border-indigo-500/80');
+        q2Card.classList.add('border-emerald-500/60');
+        document.getElementById('quest2Status').textContent = '완료 ✓';
+        document.getElementById('quest2Status').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300';
+
+        const q3Card = document.getElementById('quest3Card');
+        q3Card.classList.remove('opacity-60', 'bg-slate-800/50');
+        q3Card.classList.add('border-indigo-500/80', 'bg-slate-800');
+        document.getElementById('quest3Status').textContent = '진행 중';
+        document.getElementById('quest3Status').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300';
+        document.getElementById('quest3Body').classList.remove('hidden');
+
+        document.getElementById('progressPercent').textContent = '75%';
+        document.getElementById('progressBar').style.width = '75%';
+        document.getElementById('currentLevelBadge').textContent = 'Quest 3 진행 중';
+        document.getElementById('progressTitle').textContent = '시제품 프로토타입 소환';
+      }
+
+      if (lvl >= 4) {
+        const q3Card = document.getElementById('quest3Card');
+        q3Card.classList.remove('border-indigo-500/80');
+        q3Card.classList.add('border-emerald-500/60');
+        document.getElementById('quest3Status').textContent = '완료 ✓';
+        document.getElementById('quest3Status').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300';
+
+        const q4Card = document.getElementById('quest4Card');
+        q4Card.classList.remove('opacity-60', 'bg-slate-800/50');
+        q4Card.classList.add('border-indigo-500/80', 'bg-slate-800');
+        document.getElementById('quest4Status').textContent = '진행 중';
+        document.getElementById('quest4Status').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300';
+        document.getElementById('quest4Body').classList.remove('hidden');
+
+        document.getElementById('progressPercent').textContent = '90%';
+        document.getElementById('progressBar').style.width = '90%';
+        document.getElementById('currentLevelBadge').textContent = 'Quest 4 마감 임박';
+        document.getElementById('progressTitle').textContent = 'IR 피칭 덱 & 최종 데모데이';
+      }
+    }
+
+    function showSummary(animate) {
+      if (animate && window.confetti) {
+        confetti({ particleCount: 120, spread: 90, origin: { y: 0.5 } });
+      }
+
+      const q4Card = document.getElementById('quest4Card');
+      q4Card.classList.remove('border-indigo-500/80');
+      q4Card.classList.add('border-emerald-500/60');
+      document.getElementById('quest4Status').textContent = '완료 ✓';
+      document.getElementById('quest4Status').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300';
+
+      document.getElementById('progressPercent').textContent = '100%';
+      document.getElementById('progressBar').style.width = '100%';
+      document.getElementById('progressBar').classList.replace('from-blue-500', 'from-emerald-500');
+      document.getElementById('progressBar').classList.replace('to-indigo-500', 'to-teal-500');
+      document.getElementById('currentLevelBadge').textContent = '해커톤 완주 완료 🏆';
+      document.getElementById('currentLevelBadge').className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+      document.getElementById('progressTitle').textContent = '모든 퀘스트를 성공적으로 클리어했습니다!';
+
+      const sumCard = document.getElementById('summaryCard');
+      sumCard.classList.remove('hidden');
+
+      const sumBox = document.getElementById('summaryContent');
+      sumBox.innerHTML = `
+        <div class="border-b border-slate-800 pb-2">
+          <span class="text-indigo-400 font-bold">[팀명]</span> <span class="text-white font-semibold">${teamData.name}</span>
+        </div>
+        <div class="border-b border-slate-800 pb-2">
+          <span class="text-amber-400 font-bold">[1. 대상 기업 및 문제점]</span><br>
+          <span class="text-slate-300">${teamData.q1.company}</span><br>
+          <pre class="whitespace-pre-wrap font-sans text-slate-400 mt-1">${teamData.q1.problems}</pre>
+        </div>
+        <div class="border-b border-slate-800 pb-2">
+          <span class="text-blue-400 font-bold">[2. 킬러 솔루션 & BM]</span><br>
+          <span class="text-white font-semibold">${teamData.q2.title}</span><br>
+          <pre class="whitespace-pre-wrap font-sans text-slate-400 mt-1">${teamData.q2.bm}</pre>
+        </div>
+        <div class="border-b border-slate-800 pb-2">
+          <span class="text-purple-400 font-bold">[3. 시제품 기능 & 링크]</span><br>
+          <pre class="whitespace-pre-wrap font-sans text-slate-400">${teamData.q3.feature}</pre>
+          <a href="${teamData.q3.link}" target="_blank" class="text-indigo-400 underline break-all">${teamData.q3.link}</a>
+        </div>
+        <div>
+          <span class="text-emerald-400 font-bold">[4. 최종 슬로건 & 피칭 덱]</span><br>
+          <span class="text-white font-semibold">"${teamData.q4.slogan}"</span><br>
+          <a href="${teamData.q4.link}" target="_blank" class="text-teal-400 underline break-all">${teamData.q4.link}</a>
+        </div>
+      `;
+    }
+
+    function toggleQuest(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    function copyPrompt(n) {
+      let text = '';
+      if (n === 1) text = '이 기업의 최근 1년간 가장 치명적인 고객 불만 및 경영 리스크 3가지를 데이터 근거와 함께 정리해 줘.';
+      if (n === 2) text = '우리가 찾은 문제점을 해결할 AI 자동화 솔루션 3가지 아이디어와 타깃 고객, 수익 모델을 비교해 줘.';
+      if (n === 3) text = '이 솔루션의 핵심 관리자 대시보드 화면을 실제 동작하는 세련된 HTML 단일 웹페이지로 코딩해 줘.';
+      navigator.clipboard.writeText(text).then(() => alert('Aside 프롬프트가 복사되었습니다! 우측 사이드바에 붙여넣으세요.'));
+    }
+
+    function copyFullReport() {
+      const text = `[해커톤 팀 결과물 요약]
+- 팀명: ${teamData.name}
+- 대상 기업: ${teamData.q1?.company}
+- 문제점:\n${teamData.q1?.problems}
+- 솔루션 명칭: ${teamData.q2?.title}
+- BM 모델:\n${teamData.q2?.bm}
+- 시제품 기능:\n${teamData.q3?.feature}
+- 시제품 링크: ${teamData.q3?.link}
+- 피칭 슬로건: "${teamData.q4?.slogan}"
+- 피칭 덱 링크: ${teamData.q4?.link}`;
+      navigator.clipboard.writeText(text).then(() => alert('전체 결과물이 복사되었습니다! Gamma AI나 발표 슬라이드에 바로 붙여넣으세요.'));
+    }
+
+    function saveData() {
+      localStorage.setItem('hackathon_team_data', JSON.stringify(teamData));
+    }
+
+    function startTimer() {
+      let seconds = 6 * 3600;
+      setInterval(() => {
+        if (seconds > 0) seconds--;
+        const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const s = String(seconds % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').textContent = `${h}:${m}:${s}`;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
