@@ -79,6 +79,10 @@ decks.splice(decks.findIndex(s=>s.id==='formula'),0,
 decks.splice(decks.findIndex(s=>s.id==='ending'),0,
  {id:'future-mages',ch:4,type:'artwork',scene:5,title:'새로운 시대, 어떤 미래 직업을 선택할까요?',tag:'FUTURE GUILD · 미래의 창작자',note:'프롬프트 설계·생성형 디자인·XR·AI 협업 등 창작에 필요한 역량을 소개합니다. 직업 이름과 역할은 조직에 따라 다를 수 있으며 정해진 진로 목록이 아닙니다.'});
 
+
+const futureMageIndex=decks.findIndex(slide=>slide.id==='future-mages');
+if(futureMageIndex>=0){const [futureMageSlide]=decks.splice(futureMageIndex,1);futureMageSlide.ch=0;decks.splice(1,0,futureMageSlide);}
+
 const STORAGE='excitingedu.bookcover.quest.v1';
 let state={slide:'join',answers:{},solved:[],checks:[],topic:0,mood:0};
 try{const saved=JSON.parse(localStorage.getItem(STORAGE)||'null');if(saved&&typeof saved==='object'){if(decks.some(d=>d.id===saved.slide))state.slide=saved.slide;if(saved.answers&&typeof saved.answers==='object'&&!Array.isArray(saved.answers))state.answers=saved.answers;state.solved=Array.isArray(saved.solved)?[...new Set(saved.solved.filter(id=>decks.some(d=>d.id===id&&d.type==='quiz')))]:[];state.checks=Array.isArray(saved.checks)?saved.checks.filter(i=>Number.isInteger(i)&&i>=0&&i<5):[];state.topic=Number.isInteger(saved.topic)&&saved.topic>=0&&saved.topic<8?saved.topic:0;state.mood=Number.isInteger(saved.mood)&&saved.mood>=0&&saved.mood<3?saved.mood:0;}}catch{}
