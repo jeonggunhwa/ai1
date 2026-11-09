@@ -585,6 +585,43 @@
       .padlet-steps { grid-template-columns: 1fr 1fr; }
       .mission-card { padding: 20px 16px; }
     }
+
+    body {background:#f7f8fc;color:#253249;}
+    :root {--text:#253249;--text-muted:#59677c;--card-bg:#fff;--card-border:#dfe4f0;}
+    .stars-bg {display:none;}
+    h1 {-webkit-text-fill-color:#28395a;background:none;}
+    .badge-mission {background:#eef0ff;color:#4846a8;border-color:#d8d9f4;}
+    .story-prologue {background:#fff7e9;color:#55452b;border-color:#eddfc8;}
+    .mission-card {background:#fff;box-shadow:0 6px 24px rgba(40,57,90,.05);}
+    .mission-title,.tool-tip h5 {color:#263858;}
+    .mission-header {border-color:#e5e9f2;flex-wrap:wrap;}
+    .mission-brief,.ring-item,.formula-step,.tool-tip,.checklist-item,.p-step {background:#f5f7fc;color:#34445d;border-color:#e0e5f0;}
+    .ring-item h4,.form-label,.formula-step h5 {color:#394e8a;}
+    .form-input {background:#fff;color:#23324c;border-color:#b9c5dc;font-weight:500;}
+    .form-input::placeholder {color:#6b788e;opacity:1;}
+    .form-input:focus {border-color:#6366f1;box-shadow:0 0 0 3px #ececff;}
+    textarea {resize:vertical;min-height:90px;}
+    .chip {background:#f0f3fa;color:#354764;border-color:#d6ddec;font-family:inherit;line-height:1.45;}
+    .chip:hover {background:#e5eafa;border-color:#9aaadd;}
+    .chip.active {background:#5654cc;color:#fff;border-color:#5654cc;box-shadow:none;}
+    .spell-scroll {background:#f2f4ff;border-color:#b9bcef;box-shadow:none;}
+    .spell-header {color:#434b8d;gap:10px;}
+    .spell-box {background:#fff;border-color:#d6dcf0;color:#263858;}
+    .help {color:#59677c;font-size:13px;margin:12px 0 18px;}
+    .design-options {background:#f8fafc;border:1px solid #dce3ef;border-radius:14px;padding:18px;margin:18px 0;}
+    summary {font-weight:800;color:#354974;cursor:pointer;margin-bottom:18px;}
+    .options-grid {display:grid;grid-template-columns:1fr 1fr;gap:0 18px;}
+    .toast {background:#fff;color:#28395a;border-color:#b7bbe9;}
+    .completion-banner {background:#edfaf5;}.completion-banner h3 {color:#176548;}.completion-banner p {color:#275542;}
+    .progress-track {background:#e4e8f3;}.progress-info {color:#4a5791;}
+    .btn:focus-visible,.chip:focus-visible,summary:focus-visible {outline:3px solid #d48b16;outline-offset:3px;}
+    .mission-brief strong {color:inherit;}
+    .formula-grid + div[style] {background:#fff8ec!important;color:#625032!important;}
+    #padlet-section {border-color:#edb6c6!important;box-shadow:0 6px 24px #eee!important;}
+    #padlet-section span[style],#padlet-section a[style] {color:#a62f55!important;}
+    .spell-header span[style] {color:#277052!important;}
+    .p-step h5 {color:#a62f55;}
+    @media(max-width:680px){.options-grid{grid-template-columns:1fr;} .spell-scroll{padding:14px;} .chip{max-width:100%;} .mission-title{font-size:18px;}}
   </style>
 </head>
 <body>
@@ -595,7 +632,7 @@
     <div class="badge-mission">🎯 AI 창의 융합 프로젝트 | 실전 미션 퀘스트</div>
     <h1>AI 북커버 만들기</h1>
     <div class="story-prologue">
-      "독자가 책을 집어들기까지 걸리는 시간은 단 3초! AI 파트너에게 논리적이고 구체적인 프롬프트 주문을 내려 '3초의 마법'을 일으키는 나만의 북커버를 완성하고, 패들렛 갤러리에 멋지게 공유하세요!"
+      내 이야기와 생각이 한 권의 책이 된다면? 주제와 메시지를 정하고, 그림체와 구도를 골라 나만의 표지를 디자인해 보세요. 완성한 작품은 패들렛 갤러리에서 함께 감상합니다.
     </div>
   </header>
 
@@ -620,21 +657,21 @@
       </div>
 
       <div class="mission-brief">
-        <strong>미션 브리핑:</strong> 오늘 디자인할 책 제목을 정해주세요. 이 제목은 AI가 생성할 표지 상단에 가장 큰 글씨로 선명하게 새겨집니다!
+        <strong>미션 브리핑:</strong> 오늘 디자인할 책 제목을 정해주세요. 제목을 그림에 함께 넣거나, 그림 완성 후 편집 도구에서 넣을 수 있어요.
       </div>
 
       <div class="form-group">
-        <label class="form-label">🏷️ 참가자 / 팀 이름</label>
+        <label class="form-label" for="team-name">🏷️ 참가자 / 팀 이름</label>
         <input type="text" id="team-name" class="form-input" value="3조 창의탐험대" placeholder="예: 3조 창의탐험대 / 홍길동 작가 / 1학년 2반">
       </div>
 
       <div class="form-group">
-        <label class="form-label">📖 오늘 만들 책 제목 (표지 상단에 인쇄될 제목)</label>
+        <label class="form-label" for="book-title">📖 오늘 만들 책 제목 (내 이야기를 담은 제목)</label>
         <input type="text" id="book-title" class="form-input" value="별빛 우주 고양이" placeholder="예: 별빛 우주 고양이 / 마법 숲의 비밀 / 공룡 시간여행자">
       </div>
     </div>
 
-    <!-- Mission 2: 북커버를 완성하는 4가지 절대 반지 (기획 핵심) -->
+<div class="mission-card"><h2 class="mission-title">내 책은 어떤 이야기를 담나요?</h2><p class="help">정답은 없어요. 예시는 출발점으로만 쓰고, 나만의 주제로 바꿔 보세요. 실제 이름 대신 가상의 인물을 써도 좋아요.</p><div class="form-group"><label class="form-label" for="story">책 내용과 전하고 싶은 메시지</label><textarea id="story" class="form-input" rows="3" placeholder="예: SNS 속 모습과 진짜 내 모습 사이에서 고민하는 청소년이 자신만의 기준을 찾아가는 이야기"></textarea></div><div class="form-group"><label class="form-label" for="reader">이 책을 읽을 사람</label><input type="text" id="reader" class="form-input" placeholder="예: 또래 청소년 / 어린이 / 성인 / 모든 세대"></div><p class="help">선택을 바꿔도 직접 쓴 내용이 남아 있으면 직접 입력이 우선해요. 입력을 지우면 선택지가 다시 적용됩니다.</p></div>    <!-- Mission 2: 북커버를 완성하는 4가지 절대 반지 (기획 핵심) -->
     <div class="mission-card">
       <div class="mission-header">
         <span class="mission-badge">QUEST 02</span>
@@ -656,7 +693,7 @@
         </div>
         <div class="ring-item">
           <h4>🌈 3. 킬러 팔레트</h4>
-          <p><strong>색상은 3가지 이내!</strong> 바탕색 1 + 주인공색 1 + 강조색 1의 조화로 책의 전체적인 감성을 좌우해요.</p>
+          <p><strong>주요 색을 정해요!</strong> 바탕색과 강조색의 조화로 책의 전체적인 감성을 좌우해요.</p>
         </div>
         <div class="ring-item">
           <h4>📐 4. 레이아웃 & 여백</h4>
@@ -687,7 +724,7 @@
         </div>
         <div class="formula-step">
           <h5>3. 구도 & 조명 (Lighting)</h5>
-          <p>3:4 세로 비율 + 상단 제목형 구도 + 조명</p>
+          <p>세로형 표지 + 원하는 구도 + 빛의 분위기</p>
         </div>
         <div class="formula-step">
           <h5>4. 디테일 (Details)</h5>
@@ -696,7 +733,7 @@
       </div>
 
       <div style="background: rgba(15,23,42,0.6); padding: 12px 14px; border-radius: 12px; border-left: 4px solid var(--accent); font-size: 13px; color: #cbd5e1;">
-        💡 <strong>키트 맞춤 팁:</strong> 오늘 크라프트 북박스 규격(가로 17cm × 세로 22.5cm)은 정확히 <strong>3:4 세로 비율</strong>입니다. 상단에 제목이 들어가도록 상단 제목형 구도로 주문하세요!
+        💡 <strong>키트 맞춤 팁:</strong> 오늘 크라프트 북박스 규격(가로 17cm × 세로 22.5cm)은 <strong>3:4에 가까운 세로 비율</strong>입니다. 생성 후 인쇄 크기와 잘리는 부분을 확인하세요.
       </div>
     </div>
 
@@ -708,62 +745,39 @@
       </div>
 
       <div class="mission-brief">
-        <strong>작전 실행:</strong> 아래 요소를 선택하면 4단계 마법 공식이 적용된 완벽한 프롬프트가 한 줄로 완성됩니다. 복사 후 제미나이나 챗GPT로 바로 이미지를 생성하세요!
+        <strong>작전 실행:</strong> 아래 요소를 선택하면 4단계 마법 공식이 적용된 내 기획을 담은 프롬프트가 완성됩니다. 복사 후 제미나이나 챗GPT로 바로 이미지를 생성하세요!
       </div>
 
       <!-- 요소 1: 장르 -->
       <div class="form-group">
-        <label class="form-label">① 책의 장르 & 분위기 (킬러 팔레트 연동)</label>
-        <div class="chip-grid" id="genre-grid">
-          <div class="chip active" data-val="어린이 SF 우주 모험">🚀 SF 우주 모험</div>
-          <div class="chip" data-val="신비로운 마법 판타지">🧙 마법 판타지</div>
-          <div class="chip" data-val="따뜻하고 포근한 동물 동화">🐾 따뜻한 동물 동화</div>
-          <div class="chip" data-val="두근두근 비밀 탐정 추리">🔍 비밀 탐정 추리</div>
-          <div class="chip" data-val="신나는 공룡 시간 여행">🦕 공룡 모험</div>
-        </div>
+        <label class="form-label">① 책의 주제와 장르</label>
+        <div class="chip-grid" id="genre-grid"><button type="button" class="chip active" aria-pressed="true" data-val="SF와 미래사회">SF와 미래사회</button><button type="button" class="chip" aria-pressed="false" data-val="판타지와 모험">판타지와 모험</button><button type="button" class="chip" aria-pressed="false" data-val="학교생활과 성장">학교생활과 성장</button><button type="button" class="chip" aria-pressed="false" data-val="우정과 관계">우정과 관계</button><button type="button" class="chip" aria-pressed="false" data-val="나의 정체성과 감정">나의 정체성과 감정</button><button type="button" class="chip" aria-pressed="false" data-val="로맨스">로맨스</button><button type="button" class="chip" aria-pressed="false" data-val="미스터리와 스릴러">미스터리와 스릴러</button><button type="button" class="chip" aria-pressed="false" data-val="기후위기와 환경">기후위기와 환경</button><button type="button" class="chip" aria-pressed="false" data-val="사회문제와 공존">사회문제와 공존</button><button type="button" class="chip" aria-pressed="false" data-val="진로와 꿈">진로와 꿈</button><button type="button" class="chip" aria-pressed="false" data-val="여행과 일상 에세이">여행과 일상 에세이</button><button type="button" class="chip" aria-pressed="false" data-val="시와 문학">시와 문학</button><button type="button" class="chip" aria-pressed="false" data-val="역사와 문화">역사와 문화</button><button type="button" class="chip" aria-pressed="false" data-val="과학과 기술">과학과 기술</button><button type="button" class="chip" aria-pressed="false" data-val="스포츠와 도전">스포츠와 도전</button><button type="button" class="chip" aria-pressed="false" data-val="음악과 예술">음악과 예술</button></div><div class="form-group"><label class="form-label" for="custom-genre">주제·장르 직접 쓰기 (입력하면 선택지보다 우선해요)</label><input type="text" id="custom-genre" class="form-input" placeholder="예: 디지털 세상에서 나를 지키는 방법"></div>
       </div>
 
       <!-- 요소 2: 주인공 -->
       <div class="form-group">
-        <label class="form-label">② 표지의 확실한 주인공 (이미지 & 그래픽)</label>
-        <div class="chip-grid" id="char-grid">
-          <div class="chip active" data-val="우주복을 입고 우주를 유영하는 귀여운 아기 고양이">🐱 우주복 고양이</div>
-          <div class="chip" data-val="마법 지팡이로 별빛 마법을 부리는 꼬마 마법사">✨ 별빛 꼬마 마법사</div>
-          <div class="chip" data-val="딸기 케이크를 들고 신나게 웃는 아기 토끼">🐰 케이크 먹는 토끼</div>
-          <div class="chip" data-val="호기심 가득한 눈으로 돋보기를 든 꼬마 탐정">🕵️ 꼬마 탐정</div>
-          <div class="chip" data-val="선글라스를 낀 장난꾸러기 아기 티라노사우루스">🦖 힙한 아기 공룡</div>
-        </div>
-        <input type="text" id="custom-char" class="form-input" style="font-size: 13.5px; padding: 10px 14px;" placeholder="직접 쓰고 싶다면 여기에 입력 (예: 날개 달린 황금 강아지)">
+        <label class="form-label">② 표지에 담을 인물·사물·상징</label>
+        <div class="chip-grid" id="char-grid"><button type="button" class="chip active" aria-pressed="true" data-val="우주복을 입고 우주를 탐험하는 고양이">우주복을 입고 우주를 탐험하는 고양이</button><button type="button" class="chip" aria-pressed="false" data-val="갈림길 앞에서 자신의 미래를 고민하는 청소년">갈림길 앞에서 자신의 미래를 고민하는 청소년</button><button type="button" class="chip" aria-pressed="false" data-val="서로 다른 방향을 바라보는 두 친구">서로 다른 방향을 바라보는 두 친구</button><button type="button" class="chip" aria-pressed="false" data-val="균열 사이에서 자라는 작은 새싹">균열 사이에서 자라는 작은 새싹</button><button type="button" class="chip" aria-pressed="false" data-val="한쪽 날개를 펼친 종이학">한쪽 날개를 펼친 종이학</button><button type="button" class="chip" aria-pressed="false" data-val="미래 도시를 걷는 탐험가">미래 도시를 걷는 탐험가</button><button type="button" class="chip" aria-pressed="false" data-val="책상 위의 헤드폰과 일기장">책상 위의 헤드폰과 일기장</button><button type="button" class="chip" aria-pressed="false" data-val="비어 있는 의자와 창문으로 들어오는 빛">비어 있는 의자와 창문으로 들어오는 빛</button></div>
+        <input type="text" aria-label="주요 이미지 직접 입력" id="custom-char" class="form-input" style="font-size: 13.5px; padding: 10px 14px;" placeholder="직접 쓰고 싶다면 여기에 입력 (예: 날개 달린 황금 강아지)">
       </div>
 
       <!-- 요소 3: 배경 -->
       <div class="form-group">
-        <label class="form-label">③ 배경 장소 & 조명 분위기</label>
-        <div class="chip-grid" id="bg-grid">
-          <div class="chip active" data-val="알록달록 빛나는 신비로운 행성들과 은하수 별빛">🌌 빛나는 은하수와 행성</div>
-          <div class="chip" data-val="반딧불이가 춤추는 신비로운 밤의 비밀 마법 숲">🌲 반딧불이 밤의 마법 숲</div>
-          <div class="chip" data-val="햇살이 따스하게 비치는 알록달록 꽃밭과 숲속 잔디밭">🌸 햇살 가득한 꽃밭</div>
-          <div class="chip" data-val="네온사인이 반짝이는 미래 사이버 도시의 밤거리">🏙️ 네온사인 미래 도시</div>
-          <div class="chip" data-val="환상적인 산호초와 고대 보물선이 있는 바닷속">🌊 비밀 가득한 바닷속</div>
-        </div>
-        <input type="text" id="custom-bg" class="form-input" style="font-size: 13.5px; padding: 10px 14px;" placeholder="직접 쓰고 싶다면 여기에 입력 (예: 구름 위에 지어진 무지개 성)">
+        <label class="form-label">③ 배경 장소</label>
+        <div class="chip-grid" id="bg-grid"><button type="button" class="chip active" aria-pressed="true" data-val="별과 행성이 보이는 광활한 우주">별과 행성이 보이는 광활한 우주</button><button type="button" class="chip" aria-pressed="false" data-val="방과 후 텅 빈 교실">방과 후 텅 빈 교실</button><button type="button" class="chip" aria-pressed="false" data-val="비가 내리는 도시 골목">비가 내리는 도시 골목</button><button type="button" class="chip" aria-pressed="false" data-val="노을이 비치는 바다">노을이 비치는 바다</button><button type="button" class="chip" aria-pressed="false" data-val="미래 기술과 자연이 공존하는 도시">미래 기술과 자연이 공존하는 도시</button><button type="button" class="chip" aria-pressed="false" data-val="기후위기로 변화한 지구">기후위기로 변화한 지구</button><button type="button" class="chip" aria-pressed="false" data-val="옛 궁궐과 현대 건물이 만나는 거리">옛 궁궐과 현대 건물이 만나는 거리</button><button type="button" class="chip" aria-pressed="false" data-val="배경 없이 넓은 단색 여백">배경 없이 넓은 단색 여백</button></div>
+        <input type="text" aria-label="배경 직접 입력" id="custom-bg" class="form-input" style="font-size: 13.5px; padding: 10px 14px;" placeholder="직접 쓰고 싶다면 여기에 입력 (예: 구름 위에 지어진 무지개 성)">
       </div>
 
       <!-- 요소 4: 스타일 -->
       <div class="form-group">
         <label class="form-label">④ 아트 스타일 (화풍)</label>
-        <div class="chip-grid" id="style-grid">
-          <div class="chip active" data-val="3D 디즈니 픽사 애니메이션 스타일">🎬 3D 픽사 애니메이션</div>
-          <div class="chip" data-val="포근하고 따뜻한 수채화 파스텔 동화책 스타일">🎨 포근한 수채화 동화</div>
-          <div class="chip" data-val="귀여운 클레이 점토 스톱모션 애니메이션 스타일">🧸 귀여운 클레이 점토</div>
-          <div class="chip" data-val="선명하고 생동감 넘치는 만화 애니메이션 스타일">⚡ 만화 애니메이션</div>
-        </div>
+        <div class="chip-grid" id="style-grid"><button type="button" class="chip active" aria-pressed="true" data-val="입체적인 3D 애니메이션">입체적인 3D 애니메이션</button><button type="button" class="chip" aria-pressed="false" data-val="번짐과 종이 질감을 살린 수채화">번짐과 종이 질감을 살린 수채화</button><button type="button" class="chip" aria-pressed="false" data-val="클레이와 점토 스톱모션">클레이와 점토 스톱모션</button><button type="button" class="chip" aria-pressed="false" data-val="선명한 웹툰 일러스트">선명한 웹툰 일러스트</button><button type="button" class="chip" aria-pressed="false" data-val="종이를 오려 겹친 콜라주">종이를 오려 겹친 콜라주</button><button type="button" class="chip" aria-pressed="false" data-val="흑백 목판화">흑백 목판화</button><button type="button" class="chip" aria-pressed="false" data-val="여백을 살린 미니멀 그래픽">여백을 살린 미니멀 그래픽</button><button type="button" class="chip" aria-pressed="false" data-val="영화 포스터 같은 사진 표현">영화 포스터 같은 사진 표현</button><button type="button" class="chip" aria-pressed="false" data-val="한국화와 수묵담채">한국화와 수묵담채</button><button type="button" class="chip" aria-pressed="false" data-val="레트로 인쇄 포스터">레트로 인쇄 포스터</button><button type="button" class="chip" aria-pressed="false" data-val="초현실주의 디지털 아트">초현실주의 디지털 아트</button><button type="button" class="chip" aria-pressed="false" data-val="연필과 색연필 드로잉">연필과 색연필 드로잉</button></div><div class="form-group"><label class="form-label" for="custom-style">그림체 직접 쓰기 (입력하면 선택지보다 우선해요)</label><input type="text" id="custom-style" class="form-input" placeholder="예: 거친 펜 선과 신문 스크랩을 섞은 표현"></div>
       </div>
 
-      <!-- 마법 주문 스크롤 -->
+<details class="design-options" open><summary>⑤ 표지의 표현 방식 정하기</summary><div class="options-grid"><div class="form-group"><label class="form-label" for="cover-mode">표지에 무엇을 담을까요?</label><select id="cover-mode" class="form-input"><option>인물·사물·상징 중심</option><option>인물 없이 풍경 중심</option><option>인물 없이 사물·상징 중심</option><option>추상적인 형태와 색 중심</option></select></div><div class="form-group"><label class="form-label" for="layout">구도와 여백</label><select id="layout" class="form-input"><option>상단 제목 공간, 아래쪽에 주요 이미지</option><option>하단 제목 공간, 위쪽에 주요 이미지</option><option>좌측 제목 공간, 우측에 주요 이미지</option><option>넓은 여백에 작은 이미지 하나</option><option>화면 전체에 풍경을 펼치는 구도</option></select></div><div class="form-group"><label class="form-label" for="palette">주요 색감</label><select id="palette" class="form-input"><option>남색과 보라, 은빛 강조</option><option>크림색과 초록, 노란색 강조</option><option>흑백과 한 가지 강조색</option><option>차분한 저채도 색감</option><option>강렬한 원색 대비</option><option>부드러운 파스텔 색감</option></select></div><div class="form-group"><label class="form-label" for="lighting">빛과 분위기</label><select id="lighting" class="form-input"><option>선택한 이야기와 어울리는 자연스러운 빛</option><option>서늘하고 신비로운 달빛</option><option>따뜻한 오후 햇살</option><option>명암 대비가 강한 극적인 빛</option><option>안개 낀 듯 고요하고 몽환적인 빛</option><option>선명한 네온 빛</option><option>그림자 없는 평면 그래픽 표현</option></select></div><div class="form-group"><label class="form-label" for="text-mode">제목을 넣는 방법</label><select id="text-mode" class="form-input"><option>그림에 제목 함께 생성</option><option>그림만 생성하고 제목은 나중에 편집</option></select></div></div><div class="form-group"><label class="form-label" for="custom-detail">더 담고 싶은 내용·색·구도</label><textarea id="custom-detail" class="form-input" rows="3" placeholder="예: 인물의 얼굴은 보이지 않게, 빨간 실을 상징으로 사용"></textarea></div><div class="form-group"><label class="form-label" for="avoid">빼고 싶은 요소</label><input type="text" id="avoid" class="form-input" placeholder="예: 귀여운 캐릭터, 복잡한 배경, 로고"></div><p class="help">이곳은 요청문을 만드는 도구예요. 복사한 뒤 ChatGPT 또는 제미나이에 붙여넣어 이미지를 생성합니다. 한글 제목이 틀리면 그림만 만든 후 편집 도구에서 제목을 넣어 보세요.</p></details>      <!-- 마법 주문 스크롤 -->
       <div class="spell-scroll">
         <div class="spell-header">
-          <span>📜 생성 준비 완료된 AI 프롬프트 (4단계 공식 완벽 적용)</span>
+          <span>📜 내 기획으로 만든 이미지 생성 요청문</span>
           <span style="color: #34d399;">Ready</span>
         </div>
         <div class="spell-box" id="spell-box">프롬프트 생성 중...</div>
@@ -785,11 +799,11 @@
       <div class="compare-container">
         <div class="tool-tip gemini">
           <h5>🚀 제미나이(Gemini) 추천 팁</h5>
-          <p>구글 계정으로 <strong>무료 무제한 연속 생성</strong> 가능! 여러 번 뽑아볼 수 있어 수업 실습에 가장 안전합니다.</p>
+          <p>복사한 요청문을 붙여넣고 이미지 생성을 요청해요. 이용 가능 여부와 생성 한도는 계정 및 서비스 안내에서 확인하세요.</p>
         </div>
         <div class="tool-tip gpt">
           <h5>🤖 챗GPT(ChatGPT) 추천 팁</h5>
-          <p>한글 제목 타이포그래피를 감각적으로 잘 표현하지만, <strong>무료 계정은 하루 2~3회 생성 제한</strong>이 있습니다.</p>
+          <p>생성한 이미지를 보고 수정할 부분을 구체적으로 요청해요. 이용 가능 여부와 생성 한도는 계정 및 서비스 안내에서 확인하세요.</p>
         </div>
       </div>
     </div>
@@ -806,23 +820,23 @@
       </div>
 
       <div class="checklist-item">
-        <input type="checkbox" id="chk1" checked>
-        <label for="chk1">① 멀리서 봐도 책 제목이 한눈에 읽히는가?</label>
+        <input type="checkbox" id="chk1">
+        <label for="chk1">① 제목이 잘 읽히는가? (그림만 만들었다면 제목 넣을 여백이 있는가?)</label>
       </div>
       <div class="checklist-item">
-        <input type="checkbox" id="chk2" checked>
-        <label for="chk2">② 색상이 3가지 이내로 깔끔하게 정리되어 있는가?</label>
+        <input type="checkbox" id="chk2">
+        <label for="chk2">② 주요 색감이 의도한 분위기와 어울리는가?</label>
       </div>
       <div class="checklist-item">
-        <input type="checkbox" id="chk3" checked>
-        <label for="chk3">③ 그림 하나가 표지의 확실한 주인공인가? (여러 개가 싸우지 않는가)</label>
+        <input type="checkbox" id="chk3">
+        <label for="chk3">③ 인물·풍경·상징 중 표현하려던 중심 요소가 잘 보이는가?</label>
       </div>
       <div class="checklist-item">
-        <input type="checkbox" id="chk4" checked>
+        <input type="checkbox" id="chk4">
         <label for="chk4">④ 책 내용과 어울리는 분위기(장르)인가?</label>
       </div>
       <div class="checklist-item">
-        <input type="checkbox" id="chk5" checked>
+        <input type="checkbox" id="chk5">
         <label for="chk5">⑤ 제목 글자와 주인공 그림이 서로 가려지지 않는가?</label>
       </div>
 
@@ -919,6 +933,9 @@
         c.addEventListener('click', () => {
           grid.querySelectorAll('.chip').forEach(item => item.classList.remove('active'));
           c.classList.add('active');
+          grid.querySelectorAll('.chip').forEach(item => item.setAttribute('aria-pressed', String(item === c)));
+          const custom = document.getElementById('custom-' + ({'genre-grid':'genre','char-grid':'char','bg-grid':'bg','style-grid':'style'}[grid.id]));
+          if (custom && custom.value.trim()) showToast('직접 입력한 내용이 우선 적용됩니다. 선택지를 쓰려면 직접 입력을 지워 주세요.');
           buildSpell();
         });
       });
@@ -939,17 +956,36 @@
       return active ? active.getAttribute('data-val') : '';
     }
 
+    const val = id => document.getElementById(id).value.trim();
     function buildSpell() {
-      const title = titleInput.value.trim() || '나만의 특별한 모험';
-      const genre = getVal(genreGrid);
-      const character = customChar.value.trim() || getVal(charGrid);
+      const title = titleInput.value.trim() || '나만의 특별한 이야기';
+      const genre = val('custom-genre') || getVal(genreGrid);
+      const subject = customChar.value.trim() || getVal(charGrid);
       const background = customBg.value.trim() || getVal(bgGrid);
-      const style = getVal(styleGrid);
-
-      const spell = `${genre} 책 표지 일러스트. 3:4 세로 비율. 표지 상단 중앙에는 선명하고 큰 글씨로 제목 "${title}"이라는 한글 텍스트를 예쁜 북 타이포그래피로 눈에 띄게 적어줘. 표지 중앙 또는 약간 아래에는 ${character}, 배경은 ${background}. ${style}, 따뜻하고 선명한 조명, 완성도 높은 어린이 책 표지 디자인.`;
-
-      spellBox.textContent = spell;
+      const style = val('custom-style') || getVal(styleGrid);
+      const mode = val('cover-mode');
+      const imageOnly = val('text-mode') === '그림만 생성하고 제목은 나중에 편집';
+      let scene = mode === '인물·사물·상징 중심' ? '주요 이미지: ' + subject :
+        mode === '인물 없이 풍경 중심' ? '인물이나 캐릭터 없이 풍경 자체를 중심으로 구성.' :
+        mode === '인물 없이 사물·상징 중심' ? '인물이나 캐릭터 없이 사물과 상징으로 메시지를 표현. 제안 소재 중 사물과 상징만 활용: ' + subject :
+        '인물이나 캐릭터 없이 추상적인 형태와 색의 관계로 메시지를 표현.';
+      const parts = [genre + ' 책의 앞표지를 디자인해 줘. 3:4에 가까운 세로형 비율.',
+        '책 제목: 「' + title + '」.', val('story') ? '내용과 메시지: ' + val('story') : '',
+        val('reader') ? '독자: ' + val('reader') : '독자 연령을 임의로 어린이로 한정하지 말 것.',
+        scene, '배경: ' + background + '.', '표현 방식: ' + style + '.',
+        '구도: ' + val('layout') + '.', '색감: ' + val('palette') + '.', '빛과 분위기: ' + val('lighting') + '.',
+        imageOnly ? '이미지에 글자·문자·로고를 넣지 말고, 선택한 구도에 제목을 나중에 넣을 여백을 확보해 줘.' : '선택한 구도의 제목 공간에 「' + title + '」를 정확한 한글로 크게 넣고 이미지와 겹치지 않게 해 줘.',
+        val('custom-detail') ? '추가 요청: ' + val('custom-detail') : '',
+        val('avoid') ? '제외할 요소: ' + val('avoid') : '',
+        '책의 메시지와 선택한 표현에 맞게 완성하고, 요청하지 않은 작가명·출판사명·바코드는 넣지 말아 줘.'];
+      spellBox.textContent = parts.filter(Boolean).join('\n');
+      document.getElementById('completion-area').style.display = 'none';
+      document.getElementById('progress-bar').style.width = '65%';
+      document.getElementById('progress-text').textContent = '기획 중 · 이미지 생성 후 체크리스트로 확인해요';
     }
+    document.querySelectorAll('input:not([type="checkbox"]), textarea, select').forEach(el => {
+      el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', buildSpell);
+    });
 
     function copySpell() {
       const text = spellBox.textContent;
@@ -967,6 +1003,7 @@
     }
 
     function completeChecklist() {
+      if (![1,2,3,4,5].every(i => document.getElementById('chk'+i).checked)) { showToast('작품을 확인하고 5가지 항목을 모두 체크해 주세요.'); return; }
       const team = teamInput.value.trim() || '우리 팀';
       const title = titleInput.value.trim() || '나만의 특별한 모험';
 
@@ -977,7 +1014,7 @@
       document.getElementById('progress-bar').style.width = '100%';
       document.getElementById('progress-text').textContent = 'Final Quest 완료 대기 (100%)';
 
-      confetti({
+      if (typeof confetti === 'function') confetti({
         particleCount: 120,
         spread: 70,
         origin: { y: 0.6 }
