@@ -36,7 +36,7 @@ const ASSETS={hero:'assets/bookcover-magic/scene-01.svg',gallery:'assets/bookcov
 const URLS={slides:'https://jeonggunhwa.github.io/ai1/bookcover-slides.html',student:'https://jeonggunhwa.github.io/ai1/bookcover.html',padlet:'https://padlet.com/excitingedu/ai-zvpluj4mz7f7i5vv'};
 const chapters=[{name:'입학',icon:'◎',first:'join'},{name:'마법 수업',icon:'01',first:'role'},{name:'상상 도서관',icon:'02',first:'topics'},{name:'주문 제작',icon:'03',first:'formula'},{name:'작품 전시',icon:'04',first:'revise'}];
 const decks=[
-{id:'join',ch:0,type:'qr',tag:'WELCOME · 접속 안내',title:'이야기의 얼굴을 만드는<br><em>마법학교에 오신 걸 환영해요!</em>',body:'QR을 찍고 오늘의 퀘스트에 접속하세요.<br>지금 보는 설명 슬라이드 앱으로 연결됩니다.',qr:'join',qrTitle:'설명 슬라이드 앱 접속',button:'퀘스트 시작하기',note:'프로젝터에 첫 화면을 띄웁니다. 학생들은 QR로 이 설명 앱에 접속할 수 있습니다. 화면은 자동 동기화되지 않으므로 강사가 다음 장의 번호를 안내해 주세요. 프롬프트 실습 QR은 19장, 패들렛 QR은 마지막 장에 따로 나옵니다.'},
+{id:'join',ch:0,type:'qr',tag:'WELCOME · 접속 안내',title:'이야기의 얼굴을 만드는<br><em>마법학교에 오신 걸 환영해요!</em>',body:'QR을 찍고 오늘의 퀘스트에 접속하세요.<br>지금 보는 설명 슬라이드 앱으로 연결됩니다.',qr:'join',qrTitle:'설명 슬라이드 앱 접속',button:'퀘스트 시작하기',note:'프로젝터에 첫 화면을 띄웁니다. 학생들은 QR로 이 설명 앱에 접속할 수 있습니다. 화면은 자동 동기화되지 않으므로 강사가 다음 장의 번호를 안내해 주세요. 프롬프트 실습 QR은 21장, 패들렛 QR은 마지막 장에 따로 나옵니다.'},
 {id:'welcome',ch:0,type:'hero',tag:'PROLOGUE · 새로운 의뢰',title:'내 이야기가<br><em>책 한 권이 된다면?</em>',body:'오늘 여러분은 북커버 디자이너.<br>AI 파트너와 함께, 내가 전하고 싶은 생각을<br>독자가 보고 싶은 표지로 바꿉니다.',note:'최근에 표지만 보고 집어 든 책이나 웹소설이 있는지 물어보세요. 그림 실력보다 무엇을 왜 보여 줄지 정하는 선택이 중요하다는 점을 안내합니다.'},
 {id:'map',ch:0,type:'map',tag:'QUEST MAP · 오늘의 모험',title:'다섯 구역을 지나<br><em>나만의 표지를 완성해요.</em>',body:'미션은 함께 풀고, 작품에는 각자의 이야기를 담아요.',note:'설명과 교실 공동 퀴즈를 거친 뒤 학생용 앱에서 개별 실습합니다. XP는 강사 화면에서 함께 푸는 네 개 퀴즈의 도전 점수이며 학생별 평가나 순위가 아닙니다.'},
 {id:'role',ch:1,type:'cards',tag:'QUEST 01 · 디자이너의 역할',title:'AI가 그릴 때,<br><em>디자이너는 무엇을 할까요?</em>',body:'책의 의미를 정하고 결과를 판단하는 사람이 필요해요.',cards:[['내가 결정할 것','누구에게 어떤 이야기를 전할지, 어떤 장면과 분위기를 쓸지 정합니다.','🧭'],['AI에게 부탁할 것','설명한 내용을 이미지로 만들고, 여러 시안을 비교할 수 있도록 돕게 합니다.','✦']],callout:'좋은 결과는 기획하고, 비교하고, 고르는 과정에서 나옵니다.',note:'AI가 항상 지시를 정확히 따르지는 않는다는 점을 말해 주세요. 수정 요청과 최종 검수까지 디자이너의 일입니다.'},
@@ -80,8 +80,12 @@ decks.splice(decks.findIndex(s=>s.id==='ending'),0,
  {id:'future-mages',ch:4,type:'artwork',scene:5,title:'새로운 시대, 어떤 미래 직업을 선택할까요?',tag:'FUTURE GUILD · 미래의 창작자',note:'프롬프트 설계·생성형 디자인·XR·AI 협업 등 창작에 필요한 역량을 소개합니다. 직업 이름과 역할은 조직에 따라 다를 수 있으며 정해진 진로 목록이 아닙니다.'});
 
 
-const futureMageIndex=decks.findIndex(slide=>slide.id==='future-mages');
-if(futureMageIndex>=0){const [futureMageSlide]=decks.splice(futureMageIndex,1);futureMageSlide.ch=0;decks.splice(1,0,futureMageSlide);}
+const openingSlideIds=['future-mages','ending'];
+const openingSlides=openingSlideIds.map(id=>decks.find(slide=>slide.id===id)).filter(Boolean);
+for(const slide of openingSlides){decks.splice(decks.indexOf(slide),1);slide.ch=0;}
+const imaginationSlide=openingSlides.find(slide=>slide.id==='ending');
+if(imaginationSlide){imaginationSlide.tag='PROLOGUE · 상상력과 AI';imaginationSlide.note='인간의 상상력과 AI 도구의 역할을 소개하고 마법학교 입학식으로 이어갑니다. 학생이 기획하고 비교하고 선택하는 주체임을 강조합니다.';}
+decks.splice(1,0,...openingSlides);
 
 const STORAGE='excitingedu.bookcover.quest.v1';
 let state={slide:'join',answers:{},solved:[],checks:[],topic:0,mood:0};
