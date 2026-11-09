@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우리 가족 AI 북커버 디자이너 | 안민초 별빛도서관</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --primary-light: #e0e7ff;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --gpt-green: #10a37f;
+      --gemini-blue: #2563eb;
+      --dark: #0f172a;
+      --card-bg: #ffffff;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 18px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%);
+      color: white;
+      padding: 44px 20px 38px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.8px;
+    }
+
+    .subtitle {
+      font-size: 15.5px;
+      color: #c7d2fe;
+      max-width: 620px;
+      margin: 0 auto;
+      font-weight: 400;
+      word-break: keep-all;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: -24px auto 0;
+      padding: 0 16px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-title span.icon {
+      font-size: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      background: var(--primary-light);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+
+    .highlight-box {
+      background: linear-gradient(to right, #eff6ff, #f0fdf4);
+      border-left: 5px solid var(--primary);
+      padding: 16px 18px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-size: 14.5px;
+      color: #1e293b;
+      word-break: keep-all;
+    }
+
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .rule-item {
+      background: #f8fafc;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .rule-item h4 {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rule-item p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* 디자인 주의점 */
+    .tips-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tip-card {
+      display: flex;
+      gap: 12px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      align-items: flex-start;
+    }
+
+    .tip-number {
+      background: var(--primary);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .tip-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .tip-content p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    /* 프롬프트 빌더 */
+    .builder-step {
+      margin-bottom: 18px;
+    }
+
+    .step-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .chip:hover {
+      background: #e2e8f0;
+    }
+
+    .chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    }
+
+    .custom-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .title-input-box {
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .title-input-box label {
+      display: block;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+
+    .title-input-box input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border: 2px solid #3b82f6;
+      border-radius: 10px;
+      outline: none;
+      color: #0f172a;
+    }
+
+    /* 프롬프트 결과창 */
+    .prompt-result-area {
+      background: #1e1b4b;
+      border-radius: 16px;
+      padding: 20px;
+      color: #e0e7ff;
+      margin-top: 22px;
+      position: relative;
+    }
+
+    .prompt-result-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #a5b4fc;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .prompt-box {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #ffffff;
+      min-height: 80px;
+      white-space: pre-wrap;
+      word-break: keep-all;
+    }
+
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-copy {
+      background: var(--accent);
+      color: #1e1b4b;
+    }
+
+    .btn-copy:hover {
+      background: #d97706;
+      color: white;
+    }
+
+    .btn-gemini {
+      background: var(--gemini-blue);
+      color: white;
+    }
+
+    .btn-gemini:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-gpt {
+      background: var(--gpt-green);
+      color: white;
+    }
+
+    .btn-gpt:hover {
+      background: #0d8a6a;
+    }
+
+    /* AI 도구 비교 안내 */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .compare-card {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .compare-card.gemini {
+      border-left: 4px solid var(--gemini-blue);
+    }
+
+    .compare-card.gpt {
+      border-left: 4px solid var(--gpt-green);
+    }
+
+    .compare-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .compare-card p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* 예시 카드 */
+    .preset-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .preset-info h4 {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 3px;
+    }
+
+    .preset-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .btn-sm-copy {
+      padding: 8px 14px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .btn-sm-copy:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    /* 토스트 알림 */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 단계 가이드 */
+    .step-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .step-item:last-child {
+      border-bottom: none;
+    }
+
+    .step-badge {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      height: fit-content;
+      flex-shrink: 0;
+    }
+
+    .step-text h5 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+
+    .step-text p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 24px; }
+      .card { padding: 18px 14px; }
+      .action-buttons { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">🌟 안민초 별빛도서관 가족 AI 워크숍</div>
+    <h1>우리 가족 AI 북커버 디자이너</h1>
+    <p class="subtitle">AI 시대를 살아갈 우리 아이를 위한 논리적·구체적 대화법과 원클릭 북커버 만들기</p>
+  </header>
+
+  <div class="container">
+
+    <!-- 1. AI 세상과 프롬프트의 의미 -->
+    <div class="card">
+      <div class="section-title">
+        <span class="icon">💡</span>
+        <span>AI 세상, 왜 '프롬프트'가 최고의 슈퍼 파워일까요?</span>
+      </div>
+
+      <div class="highlight-box">
+        <strong>"AI는 마법이 아니라, 우리의 생각을 구체화해 주는 파트너입니다."</strong><br>
+        앞으로 AI가 일상이 되는 세상에서는 그림을 손으로 그리지 못해도 상관없습니다. 대신 <strong>내가 상상하는 것을 논리적이고 구체적으로 AI에게 설명하는 능력(프롬프트 문해력)</strong>이 가장 강력한 무기가 됩니다.
+      </div>
+
+      <div class="rule-grid">
+        <div class="rule-item">
+          <h4>👦 1. 주인공 (누가?)</h4>
+          <p>어떤 동물이나 사람인지, 어떤 옷과 표정인지 자세히 설명해요.</p>
+        </div>
+        <div class="rule-item">
+          <h4>🌌 2. 배경 (어디서?)</h4>
+          <p>우주선 안인지, 비밀 숲속인지, 날씨와 시간대를 함께 묘사해요.</p>
+        </div>
+        <div class="rule-item">
+          <h4>🎨 3. 스타일 (어떻게?)</h4>
+          <p>3D 애니메이션인지, 따뜻한 수채화인지 그림의 화풍을 정해요.</p>
+        </div>
+        <div class="rule-item">
+          <h4>📐 4. 제목 & 규격 (배치)</h4>
+          <p>3:4 세로 비율에 맞추고, 상단에 우리 책 제목을 크게 적어달라고 해요.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 북커버 디자인할 때 중요한 점 (키트 규격) -->
+    <div class="card">
+      <div class="section-title">
+        <span class="icon">📏</span>
+        <span>북커버 디자인할 때 꼭 지켜야 할 3가지 비밀!</span>
+      </div>
+
+      <div class="tips-list">
+        <div class="tip-card">
+          <div class="tip-number">1</div>
+          <div class="tip-content">
+            <h4>가로 17cm × 세로 22.5cm → '3:4 세로 비율' 필수!</h4>
+            <p>오늘 우리가 만드는 크라프트 북박스 키트는 세로 형태예요. AI에게 꼭 <strong>"3:4 세로 비율의 책 표지"</strong>라고 지정해야 오차 없이 딱 맞게 들어갑니다.</p>
+          </div>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-number">2</div>
+          <div class="tip-content">
+            <h4>표지 상단 라벨 위치에 책 제목을 바로 박기!</h4>
+            <p>캔바로 따로 편집할 시간이 없으니, 프롬프트에 <strong>표지 상단 중앙에 책 제목 "[우리 책 제목]"을 예쁜 한글 텍스트로 크게 적어줘</strong>를 넣어서 이미지와 제목을 한 번에 뽑아냅니다.</p>
+          </div>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-number">3</div>
+          <div class="tip-content">
+            <h4>주인공 캐릭터는 가운데 또는 약간 아래에 배치하기</h4>
+            <p>제목 글자가 상단에 들어가므로, 주인공 얼굴이나 중요한 그림은 가운데나 아래쪽에 배치해야 제목과 겹치지 않고 한눈에 쏙 들어옵니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 우리 가족 프롬프트 자동 빌더 -->
+    <div class="card">
+      <div class="section-title">
+        <span class="icon">🪄</span>
+        <span>우리 가족 북커버 원클릭 프롬프트 완성기</span>
+      </div>
+
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 18px;">
+        책 제목을 적고 보기를 클릭해 보세요! 제목까지 표지에 쏙 들어가는 완벽한 프롬프트가 완성됩니다.
+      </p>
+
+      <!-- 책 제목 입력란 -->
+      <div class="title-input-box">
+        <label for="book-title">✨ 우리 가족의 책 제목을 입력해 주세요 (표지 상단에 인쇄됩니다)</label>
+        <input type="text" id="book-title" value="별빛 우주 고양이" placeholder="예: 별빛 우주 고양이 / 마법 숲의 비밀 / 공룡 시간여행자">
+      </div>
+
+      <!-- 스텝 1: 장르 -->
+      <div class="builder-step">
+        <div class="step-label">① 책의 장르와 분위기를 골라보세요</div>
+        <div class="chip-group" id="genre-group">
+          <div class="chip active" data-val="어린이 SF 우주 모험">🚀 SF 우주 모험</div>
+          <div class="chip" data-val="신비로운 마법 판타지">🧙 마법 판타지</div>
+          <div class="chip" data-val="따뜻하고 포근한 동물 동화">🐾 따뜻한 동물 동화</div>
+          <div class="chip" data-val="두근두근 비밀 탐정 추리">🔍 비밀 탐정 추리</div>
+          <div class="chip" data-val="신나는 공룡 시간 여행">🦕 공룡 모험</div>
+        </div>
+      </div>
+
+      <!-- 스텝 2: 주인공 -->
+      <div class="builder-step">
+        <div class="step-label">② 우리 책의 멋진 주인공은 누구인가요?</div>
+        <div class="chip-group" id="character-group">
+          <div class="chip active" data-val="우주복을 입고 우주를 유영하는 귀여운 아기 고양이">🐱 우주복 고양이</div>
+          <div class="chip" data-val="마법 지팡이로 별빛 마법을 부리는 꼬마 마법사">✨ 별빛 꼬마 마법사</div>
+          <div class="chip" data-val="딸기 케이크를 들고 신나게 웃는 아기 토끼">🐰 케이크 먹는 토끼</div>
+          <div class="chip" data-val="호기심 가득한 눈으로 돋보기를 든 꼬마 탐정">🕵️ 꼬마 탐정</div>
+          <div class="chip" data-val="선글라스를 낀 장난꾸러기 아기 티라노사우루스">🦖 힙한 아기 공룡</div>
+        </div>
+        <input type="text" id="custom-character" class="custom-input" style="margin-top: 8px;" placeholder="직접 쓰고 싶다면 여기에 적어주세요 (예: 날개 달린 황금 강아지)">
+      </div>
+
+      <!-- 스텝 3: 배경 -->
+      <div class="builder-step">
+        <div class="step-label">③ 주인공이 있는 곳은 어디인가요?</div>
+        <div class="chip-group" id="background-group">
+          <div class="chip active" data-val="알록달록 빛나는 신비로운 행성들과 은하수 별빛">🌌 빛나는 은하수와 행성</div>
+          <div class="chip" data-val="반딧불이가 춤추는 신비로운 밤의 비밀 마법 숲">🌲 반딧불이 밤의 마법 숲</div>
+          <div class="chip" data-val="햇살이 따스하게 비치는 알록달록 꽃밭과 숲속 잔디밭">🌸 햇살 가득한 꽃밭</div>
+          <div class="chip" data-val="네온사인이 반짝이는 미래 사이버 도시의 밤거리">🏙️ 네온사인 미래 도시</div>
+          <div class="chip" data-val="환상적인 산호초와 고대 보물선이 있는 바닷속">🌊 비밀 가득한 바닷속</div>
+        </div>
+        <input type="text" id="custom-background" class="custom-input" style="margin-top: 8px;" placeholder="직접 쓰고 싶다면 여기에 적어주세요 (예: 구름 위에 지어진 과자 성)">
+      </div>
+
+      <!-- 스텝 4: 스타일 -->
+      <div class="builder-step">
+        <div class="step-label">④ 어떤 그림 스타일이 마음에 드나요?</div>
+        <div class="chip-group" id="style-group">
+          <div class="chip active" data-val="3D 디즈니 픽사 애니메이션 스타일">🎬 3D 픽사 애니메이션</div>
+          <div class="chip" data-val="포근하고 따뜻한 수채화 파스텔 동화책 스타일">🎨 포근한 수채화 동화</div>
+          <div class="chip" data-val="귀여운 클레이 점토 스톱모션 애니메이션 스타일">🧸 귀여운 클레이 점토</div>
+          <div class="chip" data-val="선명하고 생동감 넘치는 일본 만화 애니메이션 스타일">⚡ 만화 애니메이션</div>
+        </div>
+      </div>
+
+      <!-- 실시간 조립된 프롬프트 -->
+      <div class="prompt-result-area">
+        <div class="prompt-result-title">
+          <span>✨ 우리 가족 전용 AI 북커버 프롬프트</span>
+          <span style="font-size: 11px; color: #a5b4fc;">제목 포함 자동 완성</span>
+        </div>
+        <div class="prompt-box" id="final-prompt">생성 중...</div>
+
+        <!-- 3개 액션 버튼 -->
+        <div class="action-buttons">
+          <button class="btn btn-copy" onclick="copyPrompt()">
+            📋 프롬프트 복사하기
+          </button>
+          <a class="btn btn-gemini" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">
+            🚀 제미나이(Gemini) 열기 ↗
+          </a>
+          <a class="btn btn-gpt" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">
+            🤖 챗GPT(ChatGPT) 열기 ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- 제미나이 vs 챗GPT 비교 안내 -->
+      <div class="compare-grid">
+        <div class="compare-card gemini">
+          <h4>🚀 제미나이(Gemini) 추천 팁</h4>
+          <p>구글 로그인만 있으면 <strong>무료로 여러 장을 빠르게 연속 생성</strong>할 수 있어 학교 실습에 가장 안정적입니다!</p>
+        </div>
+        <div class="compare-card gpt">
+          <h4>🤖 챗GPT(ChatGPT) 추천 팁</h4>
+          <p>한글 제목 글씨 디자인을 감각적으로 잘 구현하지만, <strong>무료 계정은 하루 생성 장수 제한(2~3장)</strong>이 있어 아껴 써야 합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 인기 베스트 추천 프롬프트 -->
+    <div class="card">
+      <div class="section-title">
+        <span class="icon">⭐</span>
+        <span>고민될 때 바로 쓰는 인기 베스트 프롬프트</span>
+      </div>
+
+      <div class="preset-card">
+        <div class="preset-info">
+          <h4>🚀 1. 「별빛 우주 고양이」 (SF 모험)</h4>
+          <p>우주복 고양이가 행성을 누비는 표지 (상단에 '별빛 우주 고양이' 제목 포함)</p>
+        </div>
+        <button class="btn-sm-copy" onclick="copyPreset(1)">복사</button>
+      </div>
+
+      <div class="preset-card">
+        <div class="preset-info">
+          <h4>🧙 2. 「마법 숲의 비밀」 (판타지)</h4>
+          <p>별빛 마법사와 아기 부엉이의 몽환적인 표지 (상단에 '마법 숲의 비밀' 제목 포함)</p>
+        </div>
+        <button class="btn-sm-copy" onclick="copyPreset(2)">복사</button>
+      </div>
+
+      <div class="preset-card">
+        <div class="preset-info">
+          <h4>🍰 3. 「숲속 달콤한 피크닉」 (동물 동화)</h4>
+          <p>꽃밭에서 피크닉을 즐기는 아기 동물들의 표지 (상단에 '숲속 달콤한 피크닉' 제목 포함)</p>
+        </div>
+        <button class="btn-sm-copy" onclick="copyPreset(3)">복사</button>
+      </div>
+
+      <div class="preset-card">
+        <div class="preset-info">
+          <h4>🔍 4. 「비밀 도서관의 꼬마 탐정」 (추리 모험)</h4>
+          <p>보물 지도를 든 꼬마 탐정의 표지 (상단에 '비밀 도서관의 꼬마 탐정' 제목 포함)</p>
+        </div>
+        <button class="btn-sm-copy" onclick="copyPreset(4)">복사</button>
+      </div>
+    </div>
+
+    <!-- 5. 활동 미션 순서 -->
+    <div class="card">
+      <div class="section-title">
+        <span class="icon">🎯</span>
+        <span>오늘의 가족 활동 4단계 미션!</span>
+      </div>
+
+      <div class="step-item">
+        <span class="step-badge">STEP 1</span>
+        <div class="step-text">
+          <h5>가족과 함께 책 제목과 줄거리 상상하기</h5>
+          <p>우리 가족만의 특별한 책 제목을 정하고 위 제목 입력창에 적어보세요.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-badge">STEP 2</span>
+        <div class="step-text">
+          <h5>프롬프트 복사 후 제미나이 또는 챗GPT에 붙여넣기</h5>
+          <p>[프롬프트 복사하기]를 누른 뒤 제미나이나 챗GPT 열기 버튼을 눌러 입력창에 붙여넣고 이미지를 생성합니다.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-badge">STEP 3</span>
+        <div class="step-text">
+          <h5>가장 마음에 드는 그림 골라 다운로드하기</h5>
+          <p>생성된 그림 중 제목과 그림이 가장 멋진 표지를 컴퓨터에 저장합니다.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-badge">STEP 4</span>
+        <div class="step-text">
+          <h5>A4 출력 후 17×22.5cm 크라프트 북박스에 붙이기!</h5>
+          <p>출력한 표지를 북박스 규격에 맞춰 붙이면 세상에 하나뿐인 우리 가족 AI 책 완성!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast">📋 프롬프트가 복사되었습니다!</div>
+
+  <script>
+    const bookTitleInput = document.getElementById('book-title');
+    const genreGroup = document.getElementById('genre-group');
+    const characterGroup = document.getElementById('character-group');
+    const backgroundGroup = document.getElementById('background-group');
+    const styleGroup = document.getElementById('style-group');
+
+    const customCharacter = document.getElementById('custom-character');
+    const customBackground = document.getElementById('custom-background');
+    const finalPrompt = document.getElementById('final-prompt');
+    const toast = document.getElementById('toast');
+
+    function setupChipGroup(group, callback) {
+      group.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          callback();
+        });
+      });
+    }
+
+    setupChipGroup(genreGroup, updatePrompt);
+    setupChipGroup(characterGroup, updatePrompt);
+    setupChipGroup(backgroundGroup, updatePrompt);
+    setupChipGroup(styleGroup, updatePrompt);
+
+    bookTitleInput.addEventListener('input', updatePrompt);
+    customCharacter.addEventListener('input', updatePrompt);
+    customBackground.addEventListener('input', updatePrompt);
+
+    function getActiveValue(group) {
+      const active = group.querySelector('.chip.active');
+      return active ? active.getAttribute('data-val') : '';
+    }
+
+    function updatePrompt() {
+      const title = bookTitleInput.value.trim() !== '' ? bookTitleInput.value.trim() : '우리 가족의 비밀 모험';
+      const genre = getActiveValue(genreGroup);
+      const character = customCharacter.value.trim() !== '' ? customCharacter.value.trim() : getActiveValue(characterGroup);
+      const background = customBackground.value.trim() !== '' ? customBackground.value.trim() : getActiveValue(backgroundGroup);
+      const style = getActiveValue(styleGroup);
+
+      const prompt = `${genre} 책 표지 일러스트. 3:4 세로 비율. 표지 상단 중앙에는 선명하고 큰 글씨로 제목 "${title}"이라는 한글 텍스트를 예쁜 북 타이포그래피로 눈에 띄게 적어줘. 표지 중앙 또는 약간 아래에는 ${character}, 배경은 ${background}. ${style}, 따뜻하고 선명한 조명, 완성도 높은 어린이 책 표지 디자인.`;
+
+      finalPrompt.textContent = prompt;
+    }
+
+    function copyPrompt() {
+      const text = finalPrompt.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("📋 프롬프트가 복사되었습니다! 제미나이나 챗GPT에 붙여넣으세요.");
+      }).catch(err => {
+        showToast("복사 실패: 텍스트를 직접 드래그해 복사해 주세요.");
+      });
+    }
+
+    const presets = {
+      1: '어린이 SF 우주 모험 책 표지 일러스트. 3:4 세로 비율. 표지 상단 중앙에는 선명하고 큰 글씨로 제목 "별빛 우주 고양이"라는 한글 텍스트를 예쁜 북 타이포그래피로 눈에 띄게 적어줘. 표지 중앙 또는 약간 아래에는 우주복을 입고 우주를 둥둥 유영하는 귀여운 아기 고양이 우주비행사, 배경은 알록달록 빛나는 신비로운 행성들과 은하수 별빛. 3D 디즈니 픽사 애니메이션 스타일, 따뜻하고 선명한 조명, 완성도 높은 어린이 책 표지 디자인.',
+      2: '신비로운 마법 판타지 책 표지 일러스트. 3:4 세로 비율. 표지 상단 중앙에는 선명하고 큰 글씨로 제목 "마법 숲의 비밀"이라는 한글 텍스트를 예쁜 북 타이포그래피로 눈에 띄게 적어줘. 표지 중앙 또는 약간 아래에는 마법 지팡이로 별빛 마법을 부리는 꼬마 마법사와 아기 부엉이, 배경은 반딧불이가 춤추는 신비로운 밤의 비밀 마법 숲. 3D 디즈니 픽사 애니메이션 스타일, 몽환적이고 따뜻한 조명, 완성도 높은 어린이 책 표지 디자인.',
+      3: '따뜻하고 포근한 동물 동화 책 표지 일러스트. 3:4 세로 비율. 표지 상단 중앙에는 선명하고 큰 글씨로 제목 "숲속 달콤한 피크닉"이라는 한글 텍스트를 예쁜 북 타이포그래피로 눈에 띄게 적어줘. 표지 중앙 또는 약간 아래에는 딸기 케이크를 먹으며 피크닉을 즐기는 아기 토끼와 다람쥐, 배경은 햇살이 따스하게 비치는 알록달록 꽃밭과 숲속 잔디밭. 포근하고 따뜻한 수채화 파스텔 동화책 스타일, 완성도 높은 어린이 책 표지 디자인.',
+      4: '두근두근 비밀 탐정 추리 책 표지 일러스트. 3:4 세로 비율. 표지 상단 중앙에는 선명하고 큰 글씨로 제목 "비밀 도서관의 꼬마 탐정"이라는 한글 텍스트를 예쁜 북 타이포그래피로 눈에 띄게 적어줘. 표지 중앙 또는 약간 아래에는 돋보기와 고대 보물 지도를 들고 호기심 가득한 표정의 꼬마 탐정, 배경은 고대 비밀 도서관의 서가와 숨겨진 황금 문. 3D 디즈니 픽사 애니메이션 스타일, 완성도 높은 어린이 책 표지 디자인.'
+    };
+
+    function copyPreset(num) {
+      const text = presets[num];
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("⭐ 추천 " + num + "번 프롬프트가 복사되었습니다!");
+      });
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    updatePrompt();
+  </script>
+</body>
+</html>
