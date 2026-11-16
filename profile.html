@@ -150,9 +150,9 @@ h2 .sub{display:block;font-family:var(--sans);font-size:13.5px;font-weight:500;c
 }
 .card h3{
   font-size:17px;margin:0 0 6px;font-weight:700;letter-spacing:-.02em;
-  display:flex;align-items:center;gap:8px;
+  line-height:1.5;text-wrap:balance;
 }
-.card h3 .ico{font-size:15px;filter:grayscale(.15)}
+.card h3 .ico{font-size:15px;margin-right:7px;filter:grayscale(.15)}
 .card p{margin:0;font-size:13.8px;color:var(--ink-2);line-height:1.72}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .tag{
@@ -170,7 +170,7 @@ h2 .sub{display:block;font-family:var(--sans);font-size:13.5px;font-weight:500;c
 .bar-row{display:grid;grid-template-columns:96px 1fr 52px;align-items:center;gap:10px;padding:7px 0;font-size:12.5px}
 .bar-row .lbl{color:var(--ink-2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar-row .track{height:9px;border-radius:5px;background:#efe8da;overflow:hidden}
-.bar-row .fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent-2),#3b7f6c);width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar-row .fill{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent-2),#3b7f6c)}
 .bar-row .val{text-align:right;color:var(--ink-3);font-variant-numeric:tabular-nums;font-weight:600}
 .bars .foot{font-size:11.5px;color:var(--ink-3);margin:14px 0 0;padding-top:12px;border-top:1px dashed var(--line)}
 
@@ -282,12 +282,19 @@ footer p{font-size:11.5px;color:#98a09c;margin:0;line-height:1.9;letter-spacing:
   .bar-row{grid-template-columns:120px 1fr 60px;font-size:13px}
 }
 @media(min-width:900px){
-  body{font-size:16.5px}
+  body{font-size:16.5px;padding-bottom:110px}
   .wrap{padding:0 32px}
   section{padding-top:60px}
   .cards{grid-template-columns:1fr 1fr 1fr}
   .card.wide{grid-column:span 2}
   .hero .wrap,.stats{max-width:780px}
+  .actionbar{
+    left:50%;right:auto;bottom:22px;transform:translateX(-50%);
+    width:auto;grid-template-columns:auto auto auto;gap:6px;
+    padding:7px;border:1px solid var(--line);border-radius:999px;
+    background:rgba(255,253,248,.92);box-shadow:0 14px 40px -14px rgba(20,33,30,.35);
+  }
+  .actionbar a{min-height:44px;padding:0 20px;border-radius:999px}
 }
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -428,16 +435,16 @@ footer p{font-size:11.5px;color:#98a09c;margin:0;line-height:1.9;letter-spacing:
       <p class="sub">2024~2027 강의일정·CMS 전수 대조로 집계한 236개 기관 552회.</p>
     </div>
     <div class="bars" id="chart">
-      <div class="bar-row"><span class="lbl">AI·디지털</span><span class="track"><span class="fill" data-w="25.2"></span></span><span class="val">139</span></div>
-      <div class="bar-row"><span class="lbl">기타 융합체험</span><span class="track"><span class="fill" data-w="20.7"></span></span><span class="val">114</span></div>
-      <div class="bar-row"><span class="lbl">과학·메이커</span><span class="track"><span class="fill" data-w="10.7"></span></span><span class="val">59</span></div>
-      <div class="bar-row"><span class="lbl">역사</span><span class="track"><span class="fill" data-w="9.4"></span></span><span class="val">52</span></div>
-      <div class="bar-row"><span class="lbl">건축·공간</span><span class="track"><span class="fill" data-w="8.9"></span></span><span class="val">49</span></div>
-      <div class="bar-row"><span class="lbl">경제·진로</span><span class="track"><span class="fill" data-w="7.4"></span></span><span class="val">41</span></div>
-      <div class="bar-row"><span class="lbl">세계문화</span><span class="track"><span class="fill" data-w="6.2"></span></span><span class="val">34</span></div>
-      <div class="bar-row"><span class="lbl">환경·기후</span><span class="track"><span class="fill" data-w="4.3"></span></span><span class="val">24</span></div>
-      <div class="bar-row"><span class="lbl">의사·인체</span><span class="track"><span class="fill" data-w="4.2"></span></span><span class="val">23</span></div>
-      <div class="bar-row"><span class="lbl">독서·인문</span><span class="track"><span class="fill" data-w="3.1"></span></span><span class="val">17</span></div>
+      <div class="bar-row"><span class="lbl">AI·디지털</span><span class="track"><span class="fill" style="width:100%"></span></span><span class="val">139</span></div>
+      <div class="bar-row"><span class="lbl">기타 융합체험</span><span class="track"><span class="fill" style="width:82%"></span></span><span class="val">114</span></div>
+      <div class="bar-row"><span class="lbl">과학·메이커</span><span class="track"><span class="fill" style="width:42.4%"></span></span><span class="val">59</span></div>
+      <div class="bar-row"><span class="lbl">역사</span><span class="track"><span class="fill" style="width:37.4%"></span></span><span class="val">52</span></div>
+      <div class="bar-row"><span class="lbl">건축·공간</span><span class="track"><span class="fill" style="width:35.3%"></span></span><span class="val">49</span></div>
+      <div class="bar-row"><span class="lbl">경제·진로</span><span class="track"><span class="fill" style="width:29.5%"></span></span><span class="val">41</span></div>
+      <div class="bar-row"><span class="lbl">세계문화</span><span class="track"><span class="fill" style="width:24.5%"></span></span><span class="val">34</span></div>
+      <div class="bar-row"><span class="lbl">환경·기후</span><span class="track"><span class="fill" style="width:17.3%"></span></span><span class="val">24</span></div>
+      <div class="bar-row"><span class="lbl">의사·인체</span><span class="track"><span class="fill" style="width:16.5%"></span></span><span class="val">23</span></div>
+      <div class="bar-row"><span class="lbl">독서·인문</span><span class="track"><span class="fill" style="width:12.2%"></span></span><span class="val">17</span></div>
       <p class="foot">환경·기후변화 분야는 기상청 위촉기간 등 역대 누적 <b>120회 이상</b>의 출강 기록을 별도로 보유합니다.</p>
     </div>
   </section>
@@ -699,20 +706,5 @@ footer p{font-size:11.5px;color:#98a09c;margin:0;line-height:1.9;letter-spacing:
   </a>
 </nav>
 
-<script>
-(function(){
-  var fills = document.querySelectorAll('.fill');
-  function draw(){
-    fills.forEach(function(f){ f.style.width = f.getAttribute('data-w') + '%'; });
-  }
-  if ('IntersectionObserver' in window){
-    var chart = document.getElementById('chart');
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if (e.isIntersecting){ draw(); io.disconnect(); } });
-    }, {threshold:.2});
-    if (chart) io.observe(chart);
-  } else { draw(); }
-})();
-</script>
 </body>
 </html>
