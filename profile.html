@@ -34,6 +34,7 @@ body{
   margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
   line-height:1.7;font-size:16px;letter-spacing:-.01em;
   -webkit-font-smoothing:antialiased;
+  word-break:keep-all;overflow-wrap:break-word;
   padding-bottom:calc(84px + env(safe-area-inset-bottom));
 }
 img{max-width:100%}
@@ -209,8 +210,9 @@ details{
 details[open]{box-shadow:var(--shadow)}
 summary{
   cursor:pointer;list-style:none;padding:15px 0;font-size:14.5px;font-weight:600;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  display:flex;align-items:center;gap:10px;
 }
+summary .cnt{margin-left:auto}
 summary::-webkit-details-marker{display:none}
 summary .cnt{font-size:11.5px;color:var(--ink-3);font-weight:600;letter-spacing:.04em}
 summary .chev{width:14px;height:14px;flex:0 0 auto;transition:transform .2s;color:var(--ink-3)}
