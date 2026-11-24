@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<title>해커톤 5부 설계도 작업대 v2 · 2026 신산업 경진대회</title>
+<title>2026 NI2.0 AID 해커톤 대회 · 5부 설계도 작업대</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%236366f1'/%3E%3Cpath%20d='M16%2019h24v5H16zM16%2029h32v5H16zM16%2039h32v5H16z'%20fill='%23fff'/%3E%3C/svg%3E">
 <style>
 /* ============================================================
-   v2.0 / 2026 신산업 경진대회 본선 — 5부 설계도 작업대
+   v2.0 / 2026 NI2.0 AID 해커톤 대회 — 5부 설계도 작업대
    단일 HTML · 외부 CDN 0개 · 서버/로그인 없음 · localStorage 전용
    ============================================================ */
 :root{
@@ -82,6 +82,14 @@ input,textarea,select{font-family:inherit;font-size:16px;color:var(--txt)}
 .logo{width:42px;height:42px;border-radius:13px;background:var(--grad);display:grid;place-items:center;font-size:20px;box-shadow:0 6px 18px rgba(124,58,237,.35);flex:none}
 .brand h1{font-size:16.5px;font-weight:900;background:linear-gradient(90deg,#a5b4fc,#e9d5ff,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
 .brand small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;letter-spacing:0}
+/* ---------- 공식 현수막 문구 ---------- */
+.brand-txt{min-width:0}
+.banner-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.85px;color:#86efac;background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.32);border-radius:6px;padding:1px 7px;margin-bottom:3px;line-height:1.5}
+.hd-when{display:block;font-size:11.5px;color:#c7d2fe;font-weight:700;letter-spacing:0;margin-top:1px}
+.hd-org{position:relative;z-index:1;border-top:1px solid rgba(36,48,73,.55);background:rgba(9,14,26,.86)}
+.hd-org-in{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:5px 0;font-size:11px;color:var(--mut);font-weight:600;line-height:1.45}
+.hd-org .orgsep{opacity:.4}
+.hd-org .orgmeta{margin-left:auto;color:#a5b4fc;font-weight:800;white-space:nowrap}
 .hd-team{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);font-size:13.5px;font-weight:700;color:#c7d2fe;max-width:100%}
 .hd-team b{color:#fff;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:190px}
 .hd-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -92,6 +100,28 @@ input,textarea,select{font-family:inherit;font-size:16px;color:var(--txt)}
 .timer .tbtn:hover{background:#182238;color:#fff}
 .preview-badge{display:none;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(245,158,11,.16);border:1px solid rgba(245,158,11,.45);color:#fcd34d;font-size:12.5px;font-weight:800}
 body.preview .preview-badge{display:inline-flex}
+
+/* ---------- 팀 프리셋 ---------- */
+.presetbar{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(168,85,247,.08));border:1px solid rgba(99,102,241,.4);border-radius:13px;padding:13px 14px;margin-bottom:16px}
+.presetbar .flabel{font-size:14px;color:#e9d5ff}
+.presetinfo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:9px;font-size:12.5px;color:var(--txt2)}
+.presetinfo .pk{font-size:11.5px;font-weight:800;border:1px solid var(--line2);background:#0c1728;border-radius:999px;padding:2px 9px;color:#c7d2fe;white-space:nowrap}
+.presetinfo .pmission{flex:1 1 100%;font-size:12.5px;color:var(--mut);line-height:1.55;font-weight:600}
+
+/* ---------- 클로드 코드 5단계 가이드 ---------- */
+.guidebox{border:1px solid rgba(245,158,11,.4);border-radius:14px;background:linear-gradient(160deg,rgba(245,158,11,.11),rgba(168,85,247,.07));padding:15px 16px;margin-bottom:16px}
+.guidebox .gb-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.guidebox .gb-ico{font-size:22px;line-height:1.2;flex:none}
+.guidebox .gb-head b{display:block;font-size:15.5px;color:#fff;line-height:1.45;letter-spacing:-.3px}
+.guidebox .gb-head small{display:block;color:#fcd34d;opacity:.92;font-size:12.5px;font-weight:600;margin-top:4px;line-height:1.55}
+.gb-steps{list-style:none;counter-reset:gb;margin:0;padding:0;display:grid;gap:8px}
+.gb-steps li{counter-increment:gb;display:flex;gap:10px;align-items:flex-start;background:#0a1322;border:1px solid var(--line2);border-radius:11px;padding:9px 12px;font-size:13.5px;line-height:1.6}
+.gb-steps li::before{content:counter(gb);width:22px;height:22px;border-radius:7px;background:var(--grad);color:#fff;font-weight:900;font-size:12px;display:grid;place-items:center;flex:none;margin-top:1px}
+.gb-steps li > div{flex:1;min-width:0}
+.gb-steps li b{display:block;color:#fff;font-size:13.5px;font-weight:800}
+.gb-steps li span{display:block;color:var(--mut);font-weight:600}
+.gb-steps code{background:#0f1b2e;border:1px solid var(--line2);border-radius:5px;padding:0 5px;font-family:"SFMono-Regular",Consolas,"D2Coding",monospace;font-size:12.5px;color:#fbbf24;white-space:nowrap}
+.modal .guidebox{margin-bottom:2px}
 
 /* ---------- 5부 레일 ---------- */
 .rail{position:relative;z-index:1;border-top:1px solid rgba(36,48,73,.6)}
@@ -243,6 +273,10 @@ table.tin .tagcell{width:62px;text-align:center}
 .start-card p.lead{color:var(--mut);font-size:14.5px;margin-bottom:20px}
 .start-note{margin-top:16px;font-size:12.5px;color:var(--mut);line-height:1.6;display:grid;gap:6px}
 .start-note b{color:#fbbf24}
+.start-card .banner-badge{margin-bottom:9px;font-size:10.5px}
+.start-card h1{font-size:22px;line-height:1.3}
+.start-preset{margin-bottom:14px}
+.start-org{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--mut2);line-height:1.6;font-weight:600}
 
 /* 상태줄 */
 .statusbar{position:fixed;left:0;right:0;bottom:0;z-index:55;background:rgba(7,11,22,.94);border-top:1px solid var(--line);backdrop-filter:blur(10px)}
@@ -289,6 +323,8 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 .pg .dhead{display:flex;align-items:flex-end;gap:10pt;border-bottom:2pt solid #111;padding-bottom:5pt;margin-bottom:7pt}
 .pg .dhead .dl{flex:1}
 .pg .dhead .ev{font-size:7.8pt;color:#555;letter-spacing:.2px}
+.pg .dhead .ev.badge{font-weight:800;letter-spacing:.5px;color:#333;font-size:7.4pt;margin-bottom:1pt}
+.pg .dhead .ev.org{margin-top:1pt}
 .pg .stamp{font-size:7.8pt;color:#555;text-align:right;white-space:nowrap}
 .pg .pgfoot{margin-top:auto;padding-top:5pt;border-top:.5pt solid #c3cad6;font-size:7.5pt;color:#666;display:flex;justify-content:space-between;gap:8pt}
 .pg .sec{break-inside:avoid}
@@ -322,6 +358,8 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   .brand small{display:none}
   .hd-team{order:3;width:100%;justify-content:center}
   .hd-right{order:2}
+  .hd-org-in{font-size:10.5px}
+  .hd-org .orgmeta{margin-left:0;flex:1 1 100%}
   .btn{font-size:14px;padding:9px 12px}
   .step{flex:0 0 132px}
 }
@@ -360,16 +398,26 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 <div class="start" id="startScreen">
   <div class="start-card">
     <div class="logo">🏗️</div>
-    <h1>5부 설계도 작업대</h1>
-    <p class="lead">2026 신산업 경진대회 본선 · 조선이공대학교<br>이틀 동안 웹앱 하나를 짓습니다. 팀 이름을 넣고 시작하세요.</p>
+    <span class="banner-badge">신산업분야 특화 선도전문대학 2.0 · HACKATHON</span>
+    <h1>2026 NI2.0 AID 해커톤 대회</h1>
+    <p class="lead">2026. 11. 26.(목) ~ 27.(금) | 해운대 마리안느 호텔<br>5부 설계도 작업대 · 이틀 동안 웹앱 하나를 짓습니다.</p>
+    <div class="start-preset">
+      <label class="flabel" for="startPreset">우리 팀 빠른 선택 <span class="opt">15팀</span></label>
+      <div class="hint">팀을 고르면 팀 이름이 채워집니다 · 아래에서 다시 입력해도 됩니다</div>
+      <select class="sel" id="startPreset"></select>
+    </div>
     <label class="flabel" for="startTeam">팀 이름</label>
-    <input class="inp" id="startTeam" data-f="team" placeholder="예: 3조 · 냉동정비단" autocomplete="off" maxlength="40">
+    <input class="inp" id="startTeam" data-f="team" placeholder="예: 넥스톤(NEXTON)" autocomplete="off" maxlength="40">
     <div class="divider"></div>
     <button class="btn primary wide" id="startBtn">이 팀으로 시작하기 →</button>
     <div class="start-note">
       <div>🔒 입력한 내용은 <b>이 브라우저에만</b> 저장되고 서버로 전송되지 않습니다.</div>
       <div>⚠️ <b>시크릿(비공개) 창은 쓰지 마세요.</b> 창을 닫으면 기록이 사라집니다.</div>
       <div>💾 같은 팀 이름을 다시 입력하면 이 브라우저에 저장된 기록으로 이어집니다.</div>
+    </div>
+    <div class="start-org">
+      주최/주관: 교육부 · 한국연구재단(NRF) · 신산업특화사업 2.0 발전협의회<br>
+      후원: 한국공학교육인증원(ABEEK)
     </div>
   </div>
 </div>
@@ -382,9 +430,10 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
     <div class="wrap hd-in">
       <div class="brand">
         <div class="logo">🏗️</div>
-        <div>
-          <h1>해커톤 퀘스트보드 · 5부 설계도 작업대</h1>
-          <small>2026 신산업 경진대회 본선 · 16팀 · 50분 × 5부</small>
+        <div class="brand-txt">
+          <span class="banner-badge">신산업분야 특화 선도전문대학 2.0 · HACKATHON</span>
+          <h1>2026 NI2.0 AID 해커톤 대회</h1>
+          <small class="hd-when">2026. 11. 26.(목) ~ 27.(금) | 해운대 마리안느 호텔</small>
         </div>
       </div>
       <div class="hd-team">👥 <b id="hdTeam">팀 미지정</b></div>
@@ -401,6 +450,15 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       </div>
     </div>
   </header>
+
+  <div class="hd-org">
+    <div class="wrap hd-org-in">
+      <span>주최/주관: 교육부 · 한국연구재단(NRF) · 신산업특화사업 2.0 발전협의회</span>
+      <span class="orgsep">|</span>
+      <span>후원: 한국공학교육인증원(ABEEK)</span>
+      <span class="orgmeta">5부 설계도 작업대 · 15팀 · 50분 × 5부</span>
+    </div>
+  </div>
 
   <nav class="rail" aria-label="5부 진행 레일">
     <div class="wrap rail-in" id="rail"></div>
@@ -439,6 +497,12 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 
     <div class="block b2">
       <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 <small>필수 항목을 채우면 아래 프롬프트가 조립됩니다 · 자동 저장</small></h2></div>
+      <div class="presetbar">
+        <label class="flabel" for="teamPreset">⭐ 우리 팀 빠른 선택 <span class="opt">15팀</span></label>
+        <div class="hint">팀을 고르면 <b>팀명·소속 대학·분야·배정 미션</b>이 자동으로 채워집니다. 고친 뒤에는 직접 입력해도 됩니다.</div>
+        <select class="sel" id="teamPreset"><option value="">— 직접 입력 —</option></select>
+        <div class="presetinfo" id="teamPresetInfo" hidden></div>
+      </div>
       <div class="form">
         <div class="grid3">
           <div class="field">
@@ -449,7 +513,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
           <div class="field">
             <label for="f-univ">소속 대학 <span class="req">필수</span></label>
             <div class="hint">학교 이름</div>
-            <input class="inp" id="f-univ" data-f="p1.univ" placeholder="예: 조선이공대학교" maxlength="40">
+            <input class="inp" id="f-univ" data-f="p1.univ" placeholder="예: 동원과학기술대학교" maxlength="40">
           </div>
           <div class="field">
             <label for="f-track">분야 <span class="req">필수</span></label>
@@ -867,6 +931,23 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <span class="pts">25점</span>
     </div>
 
+    <div class="guidebox">
+      <div class="gb-head">
+        <span class="gb-ico">🐣</span>
+        <div>
+          <b>클로드 코드(Claude Code) 처음 써 보는 분을 위한 5단계 따라하기 (Windows 기준)</b>
+          <small>참가자 79%가 처음 씁니다 · 85%가 Windows 노트북입니다. 4부를 시작하기 전에 이 5단계만 먼저 끝내세요. 클로드 코드는 '검은 창'(터미널)에서 말로 시키는 도구입니다.</small>
+        </div>
+      </div>
+      <ol class="gb-steps">
+        <li><div><b>작업 폴더 만들기</b><span>바탕화면에 팀 이름으로 새 폴더를 만듭니다. (예: <code>our-team</code>)</span></div></li>
+        <li><div><b>폴더에서 터미널 열기</b><span>VS Code에서 그 폴더를 엽니다. (또는 폴더 주소창에 <code>cmd</code>를 치고 엔터)</span></div></li>
+        <li><div><b><code>claude</code> 실행 &amp; 로그인</b><span>검은 창에 <code>claude</code>를 치고 엔터 → 안내받은 팀 계정으로 로그인합니다.</span></div></li>
+        <li><div><b>프롬프트 붙여넣기</b><span>이 작업대에서 복사한 프롬프트를 검은 창에 붙여넣고(<code>Ctrl+V</code> 또는 우클릭) 엔터 → 멈추지 말고 끝날 때까지 기다립니다.</span></div></li>
+        <li><div><b>결과 파일 확인</b><span>폴더에 생긴 <code>index.html</code>을 더블클릭해 Chrome/Edge로 열어 확인합니다. 오류가 나면 당황하지 말고 에러 화면을 그대로 복사해 클로드에 다시 붙여넣으세요.</span></div></li>
+      </ol>
+    </div>
+
     <div class="block b1">
       <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
       <p class="prose">
@@ -1153,6 +1234,22 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   <div class="modal-card">
     <div class="modal-head"><h3>📂 참여자 자료실</h3><button class="x" data-close="resModal">×</button></div>
     <div class="modal-body">
+      <div class="guidebox">
+        <div class="gb-head">
+          <span class="gb-ico">🐣</span>
+          <div>
+            <b>클로드 코드(Claude Code) 처음 써 보는 분을 위한 5단계 따라하기 (Windows 기준)</b>
+            <small>참가자 79%가 처음 씁니다 · 85%가 Windows 노트북입니다. 4부 전에 이 5단계만 먼저 끝내세요.</small>
+          </div>
+        </div>
+        <ol class="gb-steps">
+          <li><div><b>작업 폴더 만들기</b><span>바탕화면에 팀 이름으로 새 폴더를 만듭니다. (예: <code>our-team</code>)</span></div></li>
+          <li><div><b>폴더에서 터미널 열기</b><span>VS Code에서 그 폴더를 엽니다. (또는 폴더 주소창에 <code>cmd</code>를 치고 엔터)</span></div></li>
+          <li><div><b><code>claude</code> 실행 &amp; 로그인</b><span>검은 창에 <code>claude</code>를 치고 엔터 → 안내받은 팀 계정으로 로그인합니다.</span></div></li>
+          <li><div><b>프롬프트 붙여넣기</b><span>이 작업대에서 복사한 프롬프트를 검은 창에 붙여넣고(<code>Ctrl+V</code> 또는 우클릭) 엔터 → 멈추지 말고 끝날 때까지 기다립니다.</span></div></li>
+          <li><div><b>결과 파일 확인</b><span>폴더에 생긴 <code>index.html</code>을 더블클릭해 Chrome/Edge로 열어 확인합니다. 오류가 나면 당황하지 말고 에러 화면을 그대로 복사해 클로드에 다시 붙여넣으세요.</span></div></li>
+        </ol>
+      </div>
       <div class="reslist">
         <div class="ri"><div class="rn">1</div><div><b>Claude Code 실행 확인</b><small>터미널(명령 프롬프트)에서 <code>claude</code>를 입력해 실행되는지 확인하세요. 실행이 안 되면 손을 들고 강사를 부르세요.</small></div></div>
         <div class="ri"><div class="rn">2</div><div><b>팀 계정 로그인</b><small>팀당 1대 원칙입니다. 다른 팀 계정으로 로그인하지 말고, 한도 메시지가 뜨면 화면을 캡처해 강사에게 보여 주세요.</small></div></div>
@@ -1160,7 +1257,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
         <div class="ri"><div class="rn">4</div><div><b>4부는 Claude Code에서</b><small>실제 파일(index.html)이 생겨야 하므로 Claude Code를 사용합니다. 5부는 4부 대화를 그대로 이어서 진행하세요.</small></div></div>
         <div class="ri"><div class="rn">5</div><div><b>네트워크가 끊길 때</b><small>복사한 프롬프트는 메모장(Windows)이나 텍스트편집기(Mac)에 임시로 붙여 두세요. 1~3부는 그 프롬프트로 이어서 진행할 수 있습니다.</small></div></div>
         <div class="ri"><div class="rn">6</div><div><b>기록 백업</b><small>설정(⚙) → <b>기록 내보내기(.json)</b>로 하루에 한 번 백업하세요. 기기가 바뀌면 <b>불러오기</b>로 5분 안에 복원됩니다.</small></div></div>
-        <div class="ri"><div class="rn">7</div><div><b>제출은 PDF로</b><small>5부 완료 후 [결과 기록지] → [인쇄 / PDF 저장] → 대상: 'PDF로 저장', 배경 그래픽 끔. 파일명은 <code>2026신산업_결과기록지_{팀명}.pdf</code>로 저장하세요.</small></div></div>
+        <div class="ri"><div class="rn">7</div><div><b>제출은 PDF로</b><small>5부 완료 후 [결과 기록지] → [인쇄 / PDF 저장] → 대상: 'PDF로 저장', 배경 그래픽 끔. 파일명은 <code>2026NI2.0_결과기록지_{팀명}.pdf</code>로 저장하세요.</small></div></div>
       </div>
     </div>
     <div class="modal-foot"><button class="btn" data-close="resModal">닫기</button></div>
@@ -1206,6 +1303,44 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 <div class="toasts" id="toasts"></div>
 
 <script>
+/* ============================================================
+   15개 팀 프리셋 (「팀별 과제(1팀 미정)」 기준 · 2026 NI2.0 AID 해커톤 대회)
+   track = 앱의 6개 분야 중 가장 맞는 값으로 자동 매핑한 값. 참가자가 직접 바꿀 수 있습니다.
+   mission = 배정 과제 원문에 구분(기업 연계·대학 제안·자율 주제)과 연계 기업을 붙인 문장.
+   ============================================================ */
+const TEAMS = [
+  {no:1, univ:'강원도립대학교', dept:'스마트건설토목과', team:'넥스톤(NEXTON)', track:'공간정보·건설',
+   mission:'[기업 연계 · ㈜동호엔지니어링] 안전관리 체크리스트 Q&A 챗봇'},
+  {no:2, univ:'계명문화대학교', dept:'디자인융합학부', team:'뭉치스', track:'AI·콘텐츠·디자인',
+   mission:'[기업 연계 · ㈜디엔비] 중소기업 브랜드 진단 AI — 로고·패키지를 올리면 개선 포인트 제안'},
+  {no:3, univ:'대구보건대학교', dept:'임상병리학과·치기공학과', team:'E.T', track:'바이오·보건',
+   mission:'[대학 제안 · ㈜인트인] AI 기반 자가검사 오류 원인 추적 및 제품 품질개선 지원 웹앱'},
+  {no:4, univ:'대림대학교', dept:'반도체학과', team:'고수빈과 아이들', track:'반도체·전자',
+   mission:'[기업 연계 · ㈜아이코어] 웨이퍼·칩 표면 불량 이미지 분류기'},
+  {no:5, univ:'동원과학기술대학교', dept:'냉동공조설비과', team:'냉동냥이', track:'에너지·냉동공조',
+   mission:'[기업 연계 · ㈜서번] 공조기 고장 증상 → 점검 순서 안내 챗봇'},
+  {no:6, univ:'부천대학교', dept:'전자공학과·스마트팩토리전공', team:'해커트리오', track:'제조·전자동화',
+   mission:'[대학 제안 · ㈜트윔] AI 물류분류 시스템 설계 및 비전 불량 감지 (Teachable Machine 물체인식 + 불량 판정 + 생산통계 대시보드)'},
+  {no:7, univ:'서일대학교', dept:'AI게임융합학과', team:'카페인 중독', track:'AI·콘텐츠·디자인',
+   mission:'[기업 연계 · ㈜에이블게임즈] 방치형 RPG 밸런스 시뮬레이터 — 성장 곡선·재화 소모를 숫자로 확인'},
+  {no:8, univ:'순천제일대학교', dept:'산업기술화공과', team:'혼돈즈', track:'제조·전자동화',
+   mission:'[기업 연계 · ㈜포스포] 배치(lot)별 품질검사 결과 추세 대시보드'},
+  {no:9, univ:'연성대학교', dept:'컴퓨터소프트웨어과', team:'AIM', track:'AI·콘텐츠·디자인',
+   mission:'[자율 주제] 문서 전용 비주얼 스크립팅 방식 워크플로 엔진'},
+  {no:10, univ:'영남이공대학교', dept:'소프트웨어융합과·스마트e-자동차과', team:'솔로이스트', track:'제조·전자동화',
+   mission:'[기업 연계 · ㈜아진엑스텍] 로봇 축 이동 궤적 시뮬레이터 (속도 프로파일을 그래프로 확인)'},
+  {no:11, univ:'오산대학교', dept:'반도체장비과·AI반도체계열', team:'드리미', track:'반도체·전자',
+   mission:'[기업 연계 · ㈜오로스테크놀로지] 장비 셋업 체크리스트·인수인계 앱(A주제)'},
+  {no:12, univ:'울산과학대학교', dept:'조선해양시스템공학과', team:'유메이크', track:'제조·전자동화',
+   mission:'[기업 연계 · 케이로드로보틱스㈜] 로봇 작업구역 안전수칙 Q&A 챗봇'},
+  {no:13, univ:'유한대학교', dept:'유한바이오제약학과·유한생명바이오학과', team:'풀어라민', track:'바이오·보건',
+   mission:'[기업 연계 · ㈜에스엘에스바이오] 품질시험 SOP 검색 챗봇'},
+  {no:14, univ:'전주비전대학교', dept:'신재생에너지과', team:'꾸미호', track:'에너지·냉동공조',
+   mission:'[기업 연계 · 비나텍㈜] 생산라인 신입 온보딩 Q&A — 공정·안전수칙'},
+  {no:15, univ:'조선이공대학교', dept:'자동화시스템공학부', team:'원픽(one pick)', track:'제조·전자동화',
+   mission:'[자율 주제] 현장 확정 예정'}
+];
+
 /* ============================================================
    2부 연습 데이터 (분야별 10줄) — 전부 가상 데이터입니다.
    실제 고객·회사 자료가 아니며, 개인정보는 학습용으로 일부러 남겨 두었습니다.
@@ -1572,6 +1707,59 @@ function syncInputs(){
     if(el.type==='checkbox'){ el.checked=!!v; }
     else { el.value = (v==null?'':v); }
   });
+  // 팀 프리셋 드롭다운을 현재 팀에 맞춰 둔다
+  const ps=$('teamPreset');
+  if(ps && S){
+    const t = presetByTeam(S.parts[1].team);
+    ps.value = t ? String(t.no) : '';
+    renderPresetInfo(t);
+  }
+}
+
+/* ---------------- 15팀 프리셋 ---------------- */
+function buildPresetSelect(sel, emptyLabel){
+  if(!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = '';
+  const ph = document.createElement('option'); ph.value=''; ph.textContent = emptyLabel || '— 직접 입력 —';
+  sel.appendChild(ph);
+  TEAMS.forEach(t=>{
+    const o = document.createElement('option');
+    o.value = String(t.no);
+    o.textContent = t.no+'. '+t.univ+' · '+t.team;
+    o.title = t.dept+' · '+t.mission;
+    sel.appendChild(o);
+  });
+  if(cur) sel.value = cur;
+}
+function presetByTeam(name){
+  const n = String(name||'').trim();
+  return n ? TEAMS.find(t=>t.team===n) : null;
+}
+function renderPresetInfo(t){
+  const box = $('teamPresetInfo'); if(!box) return;
+  if(!t){ box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = '<span class="pk">'+esc(t.univ)+'</span>'
+    + '<span class="pk">'+esc(t.dept)+'</span>'
+    + '<span class="pk">분야 · '+esc(t.track)+'</span>'
+    + '<div class="pmission">배정 과제 · '+esc(t.mission)+'</div>';
+}
+function applyTeamPreset(no){
+  if(!S) return;
+  const t = TEAMS.find(x=>String(x.no)===String(no));
+  const sel = $('teamPreset');
+  if(!t){ if(sel) sel.value=''; renderPresetInfo(null); return; }
+  const p1 = S.parts[1];
+  const changed = ['team','univ','track','mission'].some(k=>p1[k] && String(p1[k]).trim() && p1[k]!==t[k]);
+  if(changed && !window.confirm('지금 적힌 팀 정보를 '+t.no+'번 '+t.team+' 프리셋으로 바꿀까요?\n(팀명·소속 대학·분야·배정 미션을 덮어씁니다)')){
+    const cur = presetByTeam(p1.team); if(sel) sel.value = cur ? String(cur.no) : ''; renderPresetInfo(cur); return;
+  }
+  p1.team = t.team; p1.univ = t.univ; p1.track = t.track; p1.mission = t.mission;
+  S.team = t.team;
+  syncInputs();
+  afterChange();
+  toast(t.no+'번 '+t.team+' — 대학·분야·배정 과제를 채웠습니다.','good');
 }
 function afterChange(){
   autoFill();
@@ -2023,10 +2211,12 @@ function renderDoc(){
 <div class="pg">
   <div class="dhead">
     <div class="dl">
-      <h1>2026 신산업 경진대회 본선 · 팀 결과 기록지</h1>
-      <div class="ev">조선이공대학교 신산업 경진대회 · 2026. 11. 26.(목) ~ 11. 27.(금) · 해운대 마리안느 호텔 22층</div>
+      <div class="ev badge">신산업분야 특화 선도전문대학 2.0 · HACKATHON</div>
+      <h1>2026 NI2.0 AID 해커톤 대회 · 팀 결과 기록지</h1>
+      <div class="ev">2026. 11. 26.(목) ~ 27.(금) | 해운대 마리안느 호텔</div>
+      <div class="ev org">주최/주관: 교육부 · 한국연구재단(NRF) · 신산업특화사업 2.0 발전협의회 | 후원: 한국공학교육인증원(ABEEK)</div>
     </div>
-    <div class="stamp">출력일 ${today}</div>
+    <div class="stamp">5부 설계도 작업대<br>출력일 ${today}</div>
   </div>
 
   <table class="tinfo">
@@ -2061,7 +2251,7 @@ function renderDoc(){
     <tr><td class="k">지금 되는 것</td><td>${nl(p4.works||'')}</td></tr>
     <tr><td class="k">아직 안 되는 것</td><td>${nl(p4.notWorks||'')}</td></tr>
   </table>
-  <div class="pgfoot"><span>2026 신산업 경진대회 본선 · 팀 결과 기록지 · ${esc(team)}</span><span>1 / 3</span></div>
+  <div class="pgfoot"><span>2026 NI2.0 AID 해커톤 대회 · 팀 결과 기록지 · ${esc(team)}</span><span>1 / 3</span></div>
 </div>
 
 <div class="pg">
@@ -2089,7 +2279,7 @@ function renderDoc(){
     <tbody>${jobRows}</tbody>
   </table>
   <p class="note">※ 2부 자재 검수: ${dash((p2.sources[0]||{}).name)} · 마스킹 ${p2.mask.filter(m=>String(m).trim()).length}건 기록 · 데이터 오류 ${p2.err.filter(e=>e.item.trim()).length}건 정리</p>
-  <div class="pgfoot"><span>2026 신산업 경진대회 본선 · 팀 결과 기록지 · ${esc(team)}</span><span>2 / 3</span></div>
+  <div class="pgfoot"><span>2026 NI2.0 AID 해커톤 대회 · 팀 결과 기록지 · ${esc(team)}</span><span>2 / 3</span></div>
 </div>
 
 <div class="pg">
@@ -2124,7 +2314,7 @@ function renderDoc(){
     <div class="s"><span>${dash((p1.members[1]||{}).name)} (서명)</span></div>
     <div class="s"><span>${dash((p1.members[2]||{}).name)} (서명)</span></div>
   </div>
-  <div class="pgfoot"><span>2026 신산업 경진대회 본선 · 팀 결과 기록지 · ${esc(team)}</span><span>3 / 3</span></div>
+  <div class="pgfoot"><span>2026 NI2.0 AID 해커톤 대회 · 팀 결과 기록지 · ${esc(team)}</span><span>3 / 3</span></div>
 </div>`;
 
   const badge=$('docBlank');
@@ -2134,7 +2324,7 @@ function renderDoc(){
 /* ---------------- 내보내기 / 불러오기 / 초기화 ---------------- */
 function exportJSON(){
   if(!S) return;
-  const name = '2026신산업_'+(S.parts[1].team||'팀').replace(/[\\/:*?"<>|]/g,'')+'_기록.json';
+  const name = '2026NI2.0_'+(S.parts[1].team||'팀').replace(/[\\/:*?"<>|]/g,'')+'_기록.json';
   const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = name;
@@ -2192,6 +2382,13 @@ function startWithTeam(rawName){
     S = defaults(nm);
   }
   if(!S.parts[1].team) S.parts[1].team = nm;
+  // 팀 이름이 15팀 프리셋과 같으면 비어 있는 대학·분야·미션을 프리셋으로 채운다
+  const pt = presetByTeam(nm);
+  if(pt){
+    if(!S.parts[1].univ) S.parts[1].univ = pt.univ;
+    if(!S.parts[1].track) S.parts[1].track = pt.track;
+    if(!S.parts[1].mission) S.parts[1].mission = pt.mission;
+  }
   teamKey = key;
   $('startScreen').classList.remove('open');
   syncInputs(); refresh();
@@ -2214,6 +2411,19 @@ function init(){
     box.className='cnt'; box.dataset.for=el.dataset.f;
     el.insertAdjacentElement('afterend', box);
   });
+
+  // 팀 프리셋 드롭다운 (1부 · 시작 화면)
+  buildPresetSelect($('teamPreset'), '— 직접 입력 —');
+  buildPresetSelect($('startPreset'), '— 직접 입력 —');
+  const tps=$('teamPreset');
+  if(tps) tps.addEventListener('change', ()=>applyTeamPreset(tps.value));
+  const sps=$('startPreset');
+  if(sps){
+    sps.addEventListener('change', ()=>{
+      const t = TEAMS.find(x=>String(x.no)===sps.value);
+      if(t) $('startTeam').value = t.team;
+    });
+  }
 
   // 분야별 샘플 버튼
   const sb=$('sampleBtns');
