@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <title>해커톤 5부 설계도 작업대 v2 · 2026 신산업 경진대회</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%236366f1'/%3E%3Cpath%20d='M16%2019h24v5H16zM16%2029h32v5H16zM16%2039h32v5H16z'%20fill='%23fff'/%3E%3C/svg%3E">
 <style>
 /* ============================================================
    v2.0 / 2026 신산업 경진대회 본선 — 5부 설계도 작업대
@@ -1587,12 +1588,17 @@ function autoFill(){
     if(!p5.src[i].name && p2.sources[i] && p2.sources[i].name) p5.src[i].name = p2.sources[i].name;
     if(!p5.src[i].url && p2.sources[i] && p2.sources[i].url) p5.src[i].url = p2.sources[i].url;
   }
+  // 이름은 1부에서 글자를 칠 때마다 넘어오므로, 비어 있거나 아직 자라는 중(서로가 서로의 앞부분)일 때만 갱신한다.
+  // 한 번 첫 글자로 굳고 더 길어지지 않던 문제 수정.
+  const growing = (cur, next)=>!cur || next.startsWith(cur) || cur.startsWith(next);
   for(let i=0;i<3;i++){
-    if(!p5.contrib[i].name && p1.members[i] && p1.members[i].name) p5.contrib[i].name = p1.members[i].name;
+    const mName = p1.members[i] && p1.members[i].name ? p1.members[i].name.trim() : '';
+    if(mName && growing(String(p5.contrib[i].name||'').trim(), mName)) p5.contrib[i].name = mName;
   }
-  if(!p5.presenter){
-    const m = p1.members.find(x=>x.role==='검증·발표' && x.name.trim());
-    if(m) p5.presenter = m.name;
+  const m = p1.members.find(x=>x.role==='검증·발표' && x.name.trim());
+  if(m){
+    const mn = m.name.trim();
+    if(growing(String(p5.presenter||'').trim(), mn)) p5.presenter = mn;
   }
   ['src.0.name','src.0.url','src.1.name','src.1.url','contrib.0.name','contrib.1.name','contrib.2.name'].forEach(k=>{
     const el=document.querySelector('[data-f="p5.'+k+'"]');
