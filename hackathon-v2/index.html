@@ -320,12 +320,12 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 .pg td.k{background:#f6f8fb;font-weight:800;width:22%;font-size:8.8pt;color:#1a2233}
 .pg table.tinfo td.k{width:auto}
 .pg .blank{color:#9aa3b2}
-.pg .dhead{display:flex;align-items:flex-end;gap:8pt;border-bottom:2pt solid #111;padding-bottom:5pt;margin-bottom:7pt}
-.pg .dhead .dl{flex:1 1 auto;min-width:0}
+.pg .dhead{display:block;position:relative;border-bottom:2pt solid #111;padding:0 34mm 5pt 0;margin-bottom:7pt}
+.pg .dhead .dl{min-width:0}
 .pg .dhead .ev{font-size:7.8pt;color:#555;letter-spacing:.2px}
 .pg .dhead .ev.badge{font-weight:800;letter-spacing:.5px;color:#333;font-size:7.4pt;margin-bottom:1pt}
 .pg .dhead .ev.org{margin-top:1pt}
-.pg .stamp{font-size:7.8pt;color:#555;text-align:right;white-space:normal;flex:0 0 auto;max-width:36mm}
+.pg .stamp{position:absolute;right:0;bottom:5pt;font-size:7.8pt;color:#555;text-align:right;white-space:normal;max-width:32mm;line-height:1.35}
 .pg .pgfoot{margin-top:auto;padding-top:5pt;border-top:.5pt solid #c3cad6;font-size:7.5pt;color:#666;display:flex;justify-content:space-between;gap:8pt}
 .pg .sec{break-inside:avoid}
 .pg .note{font-size:7.8pt;color:#555;margin:1pt 0 4pt}
@@ -347,6 +347,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   .pg:last-child{break-after:auto;page-break-after:auto}
   .pg h2,.pg h3{break-after:avoid}
   .pg pre{white-space:pre-wrap}
+  .pg .dhead{padding-right:30mm}
   .pg .dhead .ev{font-size:7.1pt}
   .pg .dhead .ev.org{font-size:6.9pt;line-height:1.35}
 }
