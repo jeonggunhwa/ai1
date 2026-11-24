@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>해커톤 5부 설계도 작업대 v2 · 2026 신산업 경진대회</title>
+<style>
+/* ============================================================
+   v2.0 / 2026 신산업 경진대회 본선 — 5부 설계도 작업대
+   단일 HTML · 외부 CDN 0개 · 서버/로그인 없음 · localStorage 전용
+   ============================================================ */
+:root{
+  --bg:#070b16; --bg2:#0c1324; --card:#111a2e; --card2:#16213a; --card3:#0b1424;
+  --line:#243049; --line2:#2f3d59;
+  --txt:#e8edf7; --txt2:#c4cee2; --mut:#93a1bb; --mut2:#6c7a96;
+  --ind:#6366f1; --pur:#a855f7; --pink:#ec4899;
+  --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444; --lock:#5b6884;
+  --grad:linear-gradient(135deg,#6366f1 0%,#a855f7 55%,#ec4899 100%);
+  --r:16px;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; min-height:100vh; color:var(--txt);
+  font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  font-size:16px; line-height:1.65; letter-spacing:-0.1px;
+  background:
+    radial-gradient(1100px 620px at 8% -12%, rgba(79,70,229,.30) 0%, transparent 62%),
+    radial-gradient(900px 520px at 104% -6%, rgba(168,85,247,.22) 0%, transparent 58%),
+    radial-gradient(800px 600px at 50% 120%, rgba(236,72,153,.10) 0%, transparent 60%),
+    var(--bg);
+}
+h1,h2,h3,h4{margin:0;line-height:1.35;font-weight:800;letter-spacing:-.4px}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit;font-size:16px;color:var(--txt)}
+::selection{background:rgba(168,85,247,.45)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- 공통 ---------- */
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:44px;padding:10px 16px;border-radius:12px;border:1px solid var(--line2);
+  background:var(--card2);color:var(--txt);font-weight:700;font-size:15px;
+  transition:transform .08s ease, background .15s ease, border-color .15s ease, box-shadow .15s;
+  white-space:nowrap;
+}
+.btn:hover{background:#1c2942;border-color:#3a4b6d}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--grad);border:0;color:#fff;box-shadow:0 8px 22px rgba(124,58,237,.32)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:13.5px;border-radius:10px}
+.btn.ok{background:linear-gradient(135deg,#16a34a,#22c55e);border:0;color:#fff}
+.btn.warn{background:linear-gradient(135deg,#d97706,#f59e0b);border:0;color:#231602}
+.btn.gray{background:#1a2439;color:var(--mut);border-color:#28344c}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.4)}
+.btn.wide{width:100%}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid transparent;white-space:nowrap}
+.tag.ind{background:rgba(99,102,241,.16);color:#a5b4fc;border-color:rgba(99,102,241,.35)}
+.tag.pur{background:rgba(168,85,247,.16);color:#d8b4fe;border-color:rgba(168,85,247,.35)}
+.tag.ok{background:rgba(34,197,94,.14);color:#86efac;border-color:rgba(34,197,94,.35)}
+.tag.warn{background:rgba(245,158,11,.14);color:#fcd34d;border-color:rgba(245,158,11,.35)}
+.tag.lock{background:rgba(91,104,132,.16);color:#a8b4cc;border-color:rgba(91,104,132,.35)}
+.tag.bad{background:rgba(239,68,68,.14);color:#fca5a5;border-color:rgba(239,68,68,.35)}
+.tag.gray{background:#1a2439;color:var(--mut);border-color:#28344c}
+.divider{height:1px;background:var(--line);margin:18px 0}
+
+/* ---------- 헤더 ---------- */
+.topwrap{position:sticky;top:0;z-index:60;background:rgba(7,11,22,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hd{
+  position:relative;z-index:2;border-bottom:0;
+  background:rgba(7,11,22,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.hd-in{display:flex;align-items:center;gap:14px;padding:10px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{width:42px;height:42px;border-radius:13px;background:var(--grad);display:grid;place-items:center;font-size:20px;box-shadow:0 6px 18px rgba(124,58,237,.35);flex:none}
+.brand h1{font-size:16.5px;font-weight:900;background:linear-gradient(90deg,#a5b4fc,#e9d5ff,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.brand small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;letter-spacing:0}
+.hd-team{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);font-size:13.5px;font-weight:700;color:#c7d2fe;max-width:100%}
+.hd-team b{color:#fff;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:190px}
+.hd-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.timer{display:flex;align-items:center;gap:7px;background:#0a1220;border:1px solid rgba(99,102,241,.35);border-radius:12px;padding:5px 9px}
+.timer .tval{font-variant-numeric:tabular-nums;font-weight:800;font-size:16px;color:#c7d2fe;letter-spacing:.5px}
+.timer.due .tval{color:#fca5a5}
+.timer .tbtn{background:transparent;border:0;color:var(--mut);padding:3px 5px;border-radius:7px;font-size:13px;min-height:0;line-height:1}
+.timer .tbtn:hover{background:#182238;color:#fff}
+.preview-badge{display:none;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(245,158,11,.16);border:1px solid rgba(245,158,11,.45);color:#fcd34d;font-size:12.5px;font-weight:800}
+body.preview .preview-badge{display:inline-flex}
+
+/* ---------- 5부 레일 ---------- */
+.rail{position:relative;z-index:1;border-top:1px solid rgba(36,48,73,.6)}
+.rail-in{display:flex;gap:8px;overflow-x:auto;padding:9px 0;scrollbar-width:thin}
+.step{
+  flex:1 0 148px;display:flex;align-items:center;gap:9px;padding:8px 26px 8px 11px;border-radius:13px;
+  border:1px solid var(--line);background:var(--card3);color:var(--txt2);text-align:left;min-height:52px;
+  transition:.15s;position:relative;
+}
+.step .num{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;font-size:13px;font-weight:900;background:#1b2740;color:#93a1bb;flex:none}
+.step .sname{display:block;font-size:13.5px;font-weight:800;line-height:1.25;white-space:nowrap}
+.step .sstat{display:block;font-size:11px;color:var(--mut2);font-weight:700;line-height:1.25;margin-top:1px}
+.step.done{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)}
+.step.done .num{background:rgba(34,197,94,.2);color:#86efac}
+.step.done .sstat{color:#86efac}
+.step.active{border-color:rgba(168,85,247,.75);background:linear-gradient(180deg,rgba(168,85,247,.18),rgba(99,102,241,.08));box-shadow:0 0 0 1px rgba(168,85,247,.25),0 8px 22px rgba(124,58,237,.18)}
+.step.active .num{background:var(--grad);color:#fff}
+.step.active .sstat{color:#e9d5ff}
+.step.locked{opacity:.62;cursor:not-allowed}
+.step.locked .sstat{color:#7b87a1}
+.step:not(.locked):hover{border-color:#3d4f73;background:#131f36}
+.step .lockicon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;opacity:.75}
+
+/* ---------- 본문 ---------- */
+main{padding:22px 0 120px}
+.part{display:none;animation:fade .25s ease}
+.part.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.part-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:6px}
+.part-kicker{font-size:12.5px;font-weight:800;letter-spacing:1.4px;color:#a78bfa;text-transform:uppercase}
+.part-title{font-size:25px;font-weight:900;letter-spacing:-.6px}
+.part-title span{background:linear-gradient(90deg,#c4b5fd,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.part-sub{color:var(--mut);font-size:14.5px;margin-top:2px}
+.score-banner{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0 18px;padding:11px 14px;border-radius:13px;
+  background:linear-gradient(90deg,rgba(99,102,241,.18),rgba(168,85,247,.10),transparent);
+  border:1px solid rgba(99,102,241,.34);font-size:14px;
+}
+.score-banner b{color:#fff;font-weight:900}
+.score-banner .pts{margin-left:auto;background:var(--grad);color:#fff;font-weight:900;font-size:13px;padding:4px 11px;border-radius:999px}
+
+.block{background:linear-gradient(180deg,rgba(22,33,58,.92),rgba(13,21,37,.92));border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:var(--shadow)}
+.block > .bhead{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.bnum{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:14px;background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.45);color:#c7d2fe;flex:none}
+.block.b3 .bnum{background:rgba(168,85,247,.2);border-color:rgba(168,85,247,.45);color:#e9d5ff}
+.block.b4 .bnum{background:rgba(34,197,94,.16);border-color:rgba(34,197,94,.4);color:#86efac}
+.block h2{font-size:17.5px;font-weight:900}
+.block h2 small{display:block;font-size:12.5px;color:var(--mut);font-weight:600;letter-spacing:0;margin-top:1px}
+.prose{font-size:15.5px;line-height:1.8;color:var(--txt2)}
+.prose b{color:#fff}
+.prose .hl{background:linear-gradient(transparent 62%, rgba(168,85,247,.32) 62%);font-weight:800;color:#fff;padding:0 1px}
+.callout{margin-top:12px;padding:11px 13px;border-radius:11px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);font-size:13.5px;color:#fcd34d;font-weight:600}
+.callout.blue{background:rgba(99,102,241,.09);border-color:rgba(99,102,241,.32);color:#c7d2fe}
+.callout.pink{background:rgba(236,72,153,.09);border-color:rgba(236,72,153,.3);color:#f9a8d4}
+
+/* ---------- 입력 폼 ---------- */
+.form{display:grid;gap:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.field label,.flabel{display:flex;align-items:center;gap:6px;font-size:14.5px;font-weight:800;color:#dbe4f5;margin-bottom:6px}
+.req{color:#fb923c;font-weight:900;font-size:12px}
+.opt{font-size:11.5px;color:var(--mut2);font-weight:700;border:1px solid var(--line2);padding:1px 6px;border-radius:6px}
+.hint{font-size:12.5px;color:var(--mut);margin-bottom:7px;line-height:1.5}
+.inp,.ta,.sel{
+  width:100%;background:#0a1322;border:1px solid var(--line2);border-radius:11px;padding:11px 13px;
+  color:var(--txt);outline:none;transition:border-color .15s, box-shadow .15s;min-height:46px;
+}
+.inp::placeholder,.ta::placeholder{color:#5b6884}
+.inp:focus,.ta:focus,.sel:focus{border-color:#7c6cf5;box-shadow:0 0 0 3px rgba(124,108,245,.18);background:#0b1626}
+.ta{resize:vertical;min-height:76px;line-height:1.6}
+.ta.t2{min-height:64px}
+.ta.t3{min-height:92px}
+.sel{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%2393a1bb' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
+.cnt{font-size:11.5px;color:var(--mut2);margin-top:5px;display:flex;gap:8px;align-items:center;font-weight:600}
+.cnt .dot{width:7px;height:7px;border-radius:50%;background:#64748b}
+.cnt.ok .dot{background:var(--ok)} .cnt.ok{color:#86efac}
+.cnt.low .dot{background:#f59e0b} .cnt.low{color:#fcd34d}
+.cnt.over .dot{background:#94a3b8} .cnt.over{color:#94a3b8}
+.field.filled label::after{content:"✓";color:#22c55e;font-weight:900;font-size:12px}
+
+/* 체크박스 목록 */
+.checks{display:grid;gap:9px}
+.chk{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-radius:11px;background:#0a1322;border:1px solid var(--line2);cursor:pointer;font-size:14.5px;line-height:1.5;transition:.15s;min-height:46px}
+.chk:hover{border-color:#3d4f73}
+.chk input{appearance:none;width:21px;height:21px;border-radius:6px;border:2px solid #48587a;background:#0d1728;flex:none;margin-top:1px;position:relative;transition:.12s}
+.chk input:checked{background:linear-gradient(135deg,#6366f1,#a855f7);border-color:transparent}
+.chk input:checked::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:900}
+.chk:has(input:checked){background:rgba(99,102,241,.10);border-color:rgba(99,102,241,.45)}
+.chk span small{display:block;color:var(--mut);font-size:12.5px;font-weight:600;margin-top:2px}
+
+/* 표 입력 */
+.tablewrap{overflow-x:auto;border:1px solid var(--line2);border-radius:12px;background:#0a1322}
+table.tin{width:100%;border-collapse:collapse;min-width:640px}
+table.tin th{background:#101b2e;color:#a9b7d0;font-size:12.5px;font-weight:800;padding:9px 10px;text-align:left;border-bottom:1px solid var(--line2);white-space:nowrap}
+table.tin td{padding:6px;border-bottom:1px solid #1a2740;vertical-align:middle}
+table.tin tr:last-child td{border-bottom:0}
+table.tin .inp,table.tin .ta,table.tin .sel{min-height:40px;padding:8px 10px;font-size:14px;border-radius:9px;background:#0c1728}
+table.tin .rownum{font-size:12px;color:var(--mut2);font-weight:800;text-align:center;width:34px}
+table.tin .tagcell{width:62px;text-align:center}
+.auto{display:flex;flex-direction:column;gap:3px}
+.auto .a1{font-size:13.5px;font-weight:700;color:#dbe4f5}
+.auto .a2{font-size:11.5px;color:var(--mut)}
+.autotag{font-size:10.5px;color:#a78bfa;font-weight:800;border:1px solid rgba(168,85,247,.35);border-radius:5px;padding:0 4px;width:fit-content}
+
+/* 프롬프트 박스 */
+.pbox{position:relative;background:#060b15;border:1px solid rgba(168,85,247,.35);border-radius:14px;overflow:hidden}
+.pbox-top{display:flex;align-items:center;gap:10px;padding:10px 12px;background:linear-gradient(90deg,rgba(168,85,247,.16),rgba(99,102,241,.10));border-bottom:1px solid rgba(168,85,247,.22);flex-wrap:wrap}
+.pbox-top .pt{font-size:13px;font-weight:900;color:#e9d5ff}
+.pbox-top .meta{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pbox pre{
+  margin:0;padding:15px;font-family:"SFMono-Regular",Consolas,"D2Coding","Nanum Gothic Coding",monospace;
+  font-size:13px;line-height:1.72;white-space:pre-wrap;overflow-wrap:anywhere;color:#cbd5e1;
+  max-height:380px;overflow-y:auto;letter-spacing:0;
+}
+.pbox pre .blank{color:#fbbf24;font-weight:700}
+.pbox-foot{display:flex;gap:8px;padding:10px 12px;background:#080e1a;border-top:1px solid #16233a;flex-wrap:wrap;align-items:center}
+.pbox-foot .note{font-size:12px;color:var(--mut2);margin-left:auto}
+.pbox.open pre{max-height:none}
+.receipt{display:flex;gap:6px;align-items:center;font-size:12px;font-weight:800;color:var(--mut);background:#101b2e;border:1px solid var(--line2);padding:3px 9px;border-radius:999px}
+
+/* 안내/잠금 */
+.locknote{display:flex;gap:10px;align-items:flex-start;padding:13px 14px;border-radius:12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:13.5px;font-weight:600;margin-top:12px}
+.done-note{display:flex;gap:10px;align-items:center;padding:13px 14px;border-radius:12px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.35);color:#86efac;font-size:14px;font-weight:700}
+.missing{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.missing .m{font-size:12px;font-weight:700;color:#fbbf24;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);padding:2px 8px;border-radius:999px}
+
+/* 모달 */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 14px;background:rgba(3,7,15,.75);backdrop-filter:blur(6px);overflow-y:auto}
+.modal.open{display:flex}
+.modal-card{width:100%;max-width:680px;background:linear-gradient(180deg,#131d33,#0d1526);border:1px solid var(--line2);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden}
+.modal-head{display:flex;align-items:center;gap:10px;padding:15px 18px;border-bottom:1px solid var(--line)}
+.modal-head h3{font-size:17px}
+.modal-head .x{margin-left:auto;background:transparent;border:0;color:var(--mut);font-size:22px;line-height:1;padding:4px 8px;border-radius:8px}
+.modal-head .x:hover{background:#1b2740;color:#fff}
+.modal-body{padding:18px;display:grid;gap:14px;max-height:70vh;overflow-y:auto}
+.modal-foot{padding:14px 18px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;background:#0b1322}
+.reslist{display:grid;gap:10px}
+.reslist .ri{display:flex;gap:11px;padding:12px 13px;border-radius:11px;background:#0a1322;border:1px solid var(--line2);font-size:14px}
+.reslist .ri .rn{width:24px;height:24px;border-radius:8px;background:rgba(99,102,241,.2);color:#c7d2fe;display:grid;place-items:center;font-weight:900;font-size:12.5px;flex:none}
+.reslist .ri b{color:#fff}
+.reslist .ri small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px;line-height:1.5}
+
+/* 시작 화면 */
+.start{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(900px 500px at 50% -10%,rgba(124,58,237,.35),transparent 60%),var(--bg)}
+.start.open{display:flex}
+.start-card{width:100%;max-width:520px;background:linear-gradient(180deg,#141f36,#0b1322);border:1px solid var(--line2);border-radius:22px;padding:28px;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.start-card .logo{width:56px;height:56px;border-radius:17px;font-size:27px;margin-bottom:16px}
+.start-card h1{font-size:24px;margin-bottom:6px}
+.start-card p.lead{color:var(--mut);font-size:14.5px;margin-bottom:20px}
+.start-note{margin-top:16px;font-size:12.5px;color:var(--mut);line-height:1.6;display:grid;gap:6px}
+.start-note b{color:#fbbf24}
+
+/* 상태줄 */
+.statusbar{position:fixed;left:0;right:0;bottom:0;z-index:55;background:rgba(7,11,22,.94);border-top:1px solid var(--line);backdrop-filter:blur(10px)}
+.statusbar .in{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12px;color:var(--mut);flex-wrap:wrap}
+.statusbar b{color:#c7d2fe;font-weight:800}
+.statusbar .dotsep{opacity:.4}
+.statusbar .save{margin-left:auto;display:flex;align-items:center;gap:6px;font-weight:700;color:#86efac}
+.statusbar .save .sdot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}
+
+/* 토스트 */
+.toasts{position:fixed;right:16px;bottom:62px;z-index:400;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none;max-width:420px}
+.toast{padding:11px 18px;border-radius:999px;background:#1b2740;border:1px solid #3b4b6c;color:#fff;font-size:14px;font-weight:700;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:tin .25s ease;max-width:92vw;text-align:center}
+.toast.good{background:linear-gradient(135deg,#15803d,#22c55e);border-color:#4ade80}
+.toast.bad{background:linear-gradient(135deg,#b91c1c,#ef4444);border-color:#f87171}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- 결과 기록지 (화면=흰 종이 미리보기 / 인쇄=같은 DOM) ---------- */
+#printDoc{display:none}
+body.docmode{overflow:hidden}
+body.docmode #app,body.docmode .statusbar{display:none!important}
+body.docmode #printDoc{display:block;position:fixed;inset:52px 0 0 0;overflow:auto;background:#2a3244;padding:22px 10px 60px;z-index:150}
+body.docmode #printDoc .pg{margin:0 auto 18px;box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.doctoolbar{display:none}
+body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height:52px;align-items:center;gap:10px;padding:0 14px;background:#0b1322;border-bottom:1px solid var(--line);z-index:160;flex-wrap:nowrap}
+.doctoolbar .dt{font-weight:900;font-size:14.5px;color:#e9d5ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doctoolbar .sp{margin-left:auto;display:flex;gap:8px}
+.pg{
+  width:210mm;min-height:297mm;padding:14mm 14mm 16mm;background:#fff;color:#111;
+  font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  font-size:9.5pt;line-height:1.45;display:flex;flex-direction:column;position:relative;
+}
+.pg *{box-sizing:border-box}
+.pg h1{font-size:15pt;letter-spacing:-.5px;line-height:1.25}
+.pg h2{font-size:13pt;margin:10pt 0 4pt;padding-bottom:2.5pt;border-bottom:1.2pt solid #111;letter-spacing:-.3px;break-after:avoid}
+.pg h3{font-size:10pt;margin:7pt 0 3pt;color:#222;break-after:avoid}
+.pg table{width:100%;border-collapse:collapse;margin-bottom:4pt;table-layout:fixed}
+.pg th,.pg td{border:.6pt solid #9aa3b2;padding:3pt 4pt;vertical-align:top;font-size:9.2pt;line-height:1.4;overflow-wrap:anywhere}
+.pg thead{display:table-header-group}
+.pg tr{break-inside:avoid}
+.pg th{background:#eef1f6;font-weight:800;font-size:8.5pt;color:#1a2233;text-align:left}
+.pg td.k{background:#f6f8fb;font-weight:800;width:22%;font-size:8.8pt;color:#1a2233}
+.pg table.tinfo td.k{width:auto}
+.pg .blank{color:#9aa3b2}
+.pg .dhead{display:flex;align-items:flex-end;gap:10pt;border-bottom:2pt solid #111;padding-bottom:5pt;margin-bottom:7pt}
+.pg .dhead .dl{flex:1}
+.pg .dhead .ev{font-size:7.8pt;color:#555;letter-spacing:.2px}
+.pg .stamp{font-size:7.8pt;color:#555;text-align:right;white-space:nowrap}
+.pg .pgfoot{margin-top:auto;padding-top:5pt;border-top:.5pt solid #c3cad6;font-size:7.5pt;color:#666;display:flex;justify-content:space-between;gap:8pt}
+.pg .sec{break-inside:avoid}
+.pg .note{font-size:7.8pt;color:#555;margin:1pt 0 4pt}
+.pg .chips{display:flex;gap:4pt;flex-wrap:wrap;margin-top:2pt}
+.pg .chip{font-size:7.3pt;border:.6pt solid #9aa3b2;border-radius:8pt;padding:0 4pt;color:#333}
+.pg .sig{display:flex;gap:14pt;margin-top:8pt;align-items:flex-end}
+.pg .sig .s{flex:1;border-bottom:.6pt solid #555;height:18pt;position:relative}
+.pg .sig .s span{position:absolute;left:0;bottom:-9pt;font-size:7.5pt;color:#555}
+.pg .sigline{font-size:7.8pt;color:#333;margin-top:10pt}
+.pg .badge-inline{display:inline-block;font-size:7.2pt;border:.6pt solid #b91c1c;color:#b91c1c;border-radius:6pt;padding:0 3pt;margin-left:3pt}
+
+@media print{
+  @page{size:A4;margin:14mm 14mm 16mm}
+  html,body{background:#fff!important;color:#000!important}
+  body{font-size:9.5pt}
+  .hd,.rail,.statusbar,.toasts,.modal,.start,.doctoolbar,#app,.no-print{display:none!important}
+  #printDoc,body.docmode #printDoc{display:block!important;position:static!important;inset:auto!important;overflow:visible!important;background:#fff!important;padding:0!important}
+  .pg{width:auto;min-height:263mm;padding:0;margin:0!important;box-shadow:none!important;break-after:page;page-break-after:always}
+  .pg:last-child{break-after:auto;page-break-after:auto}
+  .pg h2,.pg h3{break-after:avoid}
+  .pg pre{white-space:pre-wrap}
+}
+
+/* ---------- 반응형 ---------- */
+@media (max-width:820px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .part-title{font-size:21px}
+  .block{padding:16px}
+  .brand h1{font-size:15px}
+  .brand small{display:none}
+  .hd-team{order:3;width:100%;justify-content:center}
+  .hd-right{order:2}
+  .btn{font-size:14px;padding:9px 12px}
+  .step{flex:0 0 132px}
+}
+@media (max-width:560px){
+  .toasts{left:12px;right:12px;align-items:center;max-width:none}
+  .btn .lbl{display:none}
+  .btn.icon-only{padding:10px}
+  main{padding-bottom:120px}
+  /* 헤더를 낮게 */
+  .hd-in{padding:6px 0;gap:8px}
+  .logo{width:34px;height:34px;border-radius:10px;font-size:16px}
+  .brand{gap:8px}
+  .brand h1{font-size:13.5px;white-space:normal;line-height:1.3}
+  .hd-right{gap:6px}
+  .btn.sm{min-height:34px;padding:6px 9px;font-size:13px;border-radius:10px}
+  .timer{padding:3px 7px;border-radius:10px}
+  .timer .tval{font-size:14px}
+  .timer .tbtn{font-size:12px;padding:2px 3px}
+  .hd-team{padding:4px 10px;font-size:12.5px}
+  .step{min-height:46px;padding:6px 24px 6px 9px;flex:0 0 132px}
+  .step .num{width:23px;height:23px;font-size:12px}
+  .step .sname{font-size:12.5px}
+  .rail-in{padding:7px 0}
+  /* 상태줄 한 줄 */
+  .statusbar .in{font-size:10.5px;flex-wrap:nowrap;gap:6px;padding:7px 0}
+  .statusbar .in > span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .statusbar .dotsep{display:none}
+  .statusbar .save{margin-left:auto;white-space:nowrap;font-size:10.5px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ 시작 화면 ============ -->
+<div class="start" id="startScreen">
+  <div class="start-card">
+    <div class="logo">🏗️</div>
+    <h1>5부 설계도 작업대</h1>
+    <p class="lead">2026 신산업 경진대회 본선 · 조선이공대학교<br>이틀 동안 웹앱 하나를 짓습니다. 팀 이름을 넣고 시작하세요.</p>
+    <label class="flabel" for="startTeam">팀 이름</label>
+    <input class="inp" id="startTeam" data-f="team" placeholder="예: 3조 · 냉동정비단" autocomplete="off" maxlength="40">
+    <div class="divider"></div>
+    <button class="btn primary wide" id="startBtn">이 팀으로 시작하기 →</button>
+    <div class="start-note">
+      <div>🔒 입력한 내용은 <b>이 브라우저에만</b> 저장되고 서버로 전송되지 않습니다.</div>
+      <div>⚠️ <b>시크릿(비공개) 창은 쓰지 마세요.</b> 창을 닫으면 기록이 사라집니다.</div>
+      <div>💾 같은 팀 이름을 다시 입력하면 이 브라우저에 저장된 기록으로 이어집니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 앱 ============ -->
+<div id="app">
+
+  <div class="topwrap">
+  <header class="hd">
+    <div class="wrap hd-in">
+      <div class="brand">
+        <div class="logo">🏗️</div>
+        <div>
+          <h1>해커톤 퀘스트보드 · 5부 설계도 작업대</h1>
+          <small>2026 신산업 경진대회 본선 · 16팀 · 50분 × 5부</small>
+        </div>
+      </div>
+      <div class="hd-team">👥 <b id="hdTeam">팀 미지정</b></div>
+      <div class="hd-right">
+        <div class="timer" id="timerBox" title="이 부의 남은 시간">
+          <span>⏱</span><span class="tval" id="timerVal">50:00</span>
+          <button class="tbtn" id="timerToggle" title="시작/일시정지">▶</button>
+          <button class="tbtn" id="timerReset" title="이 부 타이머 초기화">⟲</button>
+        </div>
+        <span class="preview-badge" title="강사 미리보기: 모든 부가 열려 있습니다">🔓 강사 미리보기</span>
+        <button class="btn sm" id="openRes">📂 <span class="lbl">참여자 자료실</span></button>
+        <button class="btn sm" id="openDoc">🖨 <span class="lbl">결과 기록지</span></button>
+        <button class="btn sm ghost" id="openSet" title="설정">⚙ <span class="lbl">설정</span></button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="rail" aria-label="5부 진행 레일">
+    <div class="wrap rail-in" id="rail"></div>
+  </nav>
+  </div>
+
+  <main class="wrap" id="main">
+
+  <div id="verWarn" style="display:none">
+    <div class="callout blue">🔄 <b>프롬프트가 개정되었습니다</b> — 저장된 기록은 그대로 두고, 아래 프롬프트 상자는 현재 버전(v2.0)으로 다시 조립됩니다.</div>
+  </div>
+
+  <!-- ================= 1부 ================= -->
+  <section class="part active" data-part="1" id="part1">
+    <div class="part-head">
+      <div>
+        <div class="part-kicker">PART 1 · 현장 답사</div>
+        <h2 class="part-title"><span>1부</span> — 우리가 무엇을 만드는지 우리 전공 말로 이해한다</h2>
+        <p class="part-sub">OT·기초 · 50분 · 팀 정보와 미션 해석, 문제 후보 2개까지</p>
+      </div>
+    </div>
+    <div class="score-banner">
+      <span>🎯 이 부에서 챙기는 배점</span><b>협업 및 학습 과정</b>
+      <span class="pts">10점</span>
+    </div>
+
+    <div class="block b1">
+      <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
+      <p class="prose">
+        오늘 우리는 2일 동안 웹앱 하나를 만듭니다. 1부는 벽돌을 쌓기 전에 <span class="hl">땅을 보는 시간</span>입니다.
+        먼저 우리 팀이 누구인지 적고, 우리에게 주어진 미션을 우리 전공 말로 다시 풀어 봅니다.
+        그다음 Claude에게 "우리 분야에서 이 미션과 붙는 실제 문제가 뭐가 있나"를 물어 후보를 받습니다.
+        <b>오늘 고르는 문제 하나가 이틀 전체의 방향을 정합니다.</b> 아직 결정하지 않아도 됩니다. 후보만 모아 두세요.
+      </p>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 <small>필수 항목을 채우면 아래 프롬프트가 조립됩니다 · 자동 저장</small></h2></div>
+      <div class="form">
+        <div class="grid3">
+          <div class="field">
+            <label for="f-team">팀명 <span class="req">필수</span></label>
+            <div class="hint">배정된 이름 그대로</div>
+            <input class="inp" id="f-team" data-f="p1.team" placeholder="예: 7조 · 조선냉각" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="f-univ">소속 대학 <span class="req">필수</span></label>
+            <div class="hint">학교 이름</div>
+            <input class="inp" id="f-univ" data-f="p1.univ" placeholder="예: 조선이공대학교" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="f-track">분야 <span class="req">필수</span></label>
+            <div class="hint">6개 중 하나</div>
+            <select class="sel" id="f-track" data-f="p1.track">
+              <option value="">— 선택 —</option>
+              <option>반도체·전자</option>
+              <option>제조·전자동화</option>
+              <option>에너지·냉동공조</option>
+              <option>바이오·보건</option>
+              <option>AI·콘텐츠·디자인</option>
+              <option>공간정보·건설</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-mission">배정 미션 <span class="req">필수</span></label>
+          <div class="hint">받은 미션 문장 그대로 옮겨 적으세요. 요약하지 마세요.</div>
+          <textarea class="ta t2" id="f-mission" data-f="p1.mission" placeholder="예: 우리 지역의 냉동·공조 설비 유지관리 현장에서 발생하는 문제를 데이터로 줄이는 웹앱을 만들어라."></textarea>
+        </div>
+
+        <div>
+          <div class="flabel">팀원 3인 <span class="req">필수</span></div>
+          <div class="hint">역할은 기본값으로 자동 배정됩니다. 실제 분담이 다르면 바꾸세요.</div>
+          <div class="grid3">
+            <div class="field">
+              <label for="f-m0">팀원 1 (기본: 빌더)</label>
+              <input class="inp" id="f-m0" data-f="p1.members.0.name" placeholder="이름">
+            </div>
+            <div class="field">
+              <label for="f-m1">팀원 2 (기본: 데이터·기획)</label>
+              <input class="inp" id="f-m1" data-f="p1.members.1.name" placeholder="이름">
+            </div>
+            <div class="field">
+              <label for="f-m2">팀원 3 (기본: 검증·발표)</label>
+              <input class="inp" id="f-m2" data-f="p1.members.2.name" placeholder="이름">
+            </div>
+          </div>
+          <div class="grid3" style="margin-top:8px">
+            <select class="sel" data-f="p1.members.0.role" aria-label="팀원1 역할"><option>빌더</option><option>데이터·기획</option><option>검증·발표</option></select>
+            <select class="sel" data-f="p1.members.1.role" aria-label="팀원2 역할"><option>빌더</option><option>데이터·기획</option><option>검증·발표</option></select>
+            <select class="sel" data-f="p1.members.2.role" aria-label="팀원3 역할"><option>빌더</option><option>데이터·기획</option><option>검증·발표</option></select>
+          </div>
+        </div>
+
+        <div>
+          <div class="flabel">계정·도구 확인 <span class="req">필수</span></div>
+          <div class="checks">
+            <label class="chk"><input type="checkbox" data-f="p1.chk.c1"><span>Claude Code가 내 컴퓨터에서 실행됨 <small>실행이 안 되면 손을 들고 강사를 부르세요</small></span></label>
+            <label class="chk"><input type="checkbox" data-f="p1.chk.c2"><span>팀 계정으로 로그인됨 <small>팀당 1대 원칙 · 다른 팀 계정 쓰지 않기</small></span></label>
+            <label class="chk"><input type="checkbox" data-f="p1.chk.c3"><span>참여자 자료실 링크가 열림 <small>헤더의 📂 참여자 자료실 버튼</small></span></label>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="f-under">우리 팀이 이해한 미션 <span class="opt">선택 · 프롬프트① 결과를 보고</span></label>
+            <div class="hint">Claude가 3줄로 풀어 준 설명을 보고, 우리 말로 다시 한 줄</div>
+            <input class="inp" id="f-under" data-f="p1.understand" placeholder="예: 점검이 빠진 설비를 빨리 찾아주는 점검판 만들기">
+          </div>
+          <div class="field">
+            <label for="f-c1">눈여겨본 문제 후보 1 <span class="opt">3부에서 필수</span></label>
+            <div class="hint">프롬프트①의 5개 후보 중에서</div>
+            <input class="inp" id="f-c1" data-f="p1.cand1" placeholder="예: 3일 넘게 점검이 누락된 설비를 못 찾는다">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-c2">눈여겨본 문제 후보 2 <span class="opt">3부에서 필수</span></label>
+          <input class="inp" id="f-c2" data-f="p1.cand2" placeholder="예: 점검 기록이 종이에 흩어져 월별 집계가 안 된다">
+        </div>
+      </div>
+    </div>
+
+    <div class="block b3">
+      <div class="bhead"><div class="bnum">3</div><h2>Claude에 붙여넣을 프롬프트 ① <small>미션 해석 · 문제 후보 5개</small></h2></div>
+      <div class="pbox">
+        <div class="pbox-top">
+          <span class="pt">프롬프트 ① · 미션 해석과 문제 후보</span>
+          <div class="meta">
+            <span class="receipt" id="rec1">재료 0/5</span>
+            <span class="tag warn" id="blank1" style="display:none">빈 칸 0개</span>
+          </div>
+        </div>
+        <pre id="pre1"></pre>
+        <div class="pbox-foot">
+          <button class="btn primary sm copybtn" data-copy="1">📋 전체 복사</button>
+          <button class="btn sm ghost" data-expand="1">펼쳐 보기</button>
+          <span class="note">복사 → 팀 Claude 대화 창에 붙여넣기</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block b4">
+      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인할 것 <small>3개를 확인하고 2부를 엽니다</small></h2></div>
+      <div class="checks">
+        <label class="chk"><input type="checkbox" data-f="p1.conf.c1"><span>Claude가 우리 분야 언어로 미션을 <b>3줄로 설명</b>했는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p1.conf.c2"><span>현장 문제 후보 <b>5개가 출처와 함께</b> 나왔는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p1.conf.c3"><span>후보 중 <b>2개를 골라</b> 위 칸(눈여겨본 후보 1·2)에 적었다</span></label>
+      </div>
+      <div id="miss1" class="missing"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn ok" id="done1">✓ 1부 완료 · 2부 열기</button>
+        <span class="tag gray" id="state1">아직 완료 전</span>
+      </div>
+    </div>
+  </section>
+  <!-- ================= 2부 ================= -->
+  <section class="part" data-part="2" id="part2">
+    <div class="part-head">
+      <div>
+        <div class="part-kicker">PART 2 · 자재 검수</div>
+        <h2 class="part-title"><span>2부</span> — 쓸 자료를 정하고, 개인정보를 가리고, 오류 3건을 찾는다</h2>
+        <p class="part-sub">데이터 분석·마스킹·데이터 오류 점검 · 50분</p>
+      </div>
+    </div>
+    <div class="score-banner">
+      <span>🎯 이 부에서 챙기는 배점</span><b>AI·자료 활용 책임성</b>
+      <span class="pts">10점</span>
+    </div>
+
+    <div class="block b1">
+      <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
+      <p class="prose">
+        집을 지으려면 자재가 필요합니다. 우리 앱의 자재는 <span class="hl">데이터</span>입니다. 그런데 아무 데이터나 쓰면 안 됩니다.
+        첫째, 남의 개인정보가 들어 있으면 그대로 쓰면 안 되고 <b>가려야</b> 합니다(마스킹).
+        둘째, 빠진 값·말이 안 되는 값·중복된 값이 섞여 있으면 앱이 엉뚱하게 동작합니다(오류 점검).
+        오늘은 강사가 나눠 준 연습용 데이터 10줄로 이 두 가지를 15분 안에 끝냅니다.
+        <b>실제 고객 정보·실제 회사 자료는 절대 쓰지 않습니다.</b>
+      </p>
+      <div class="callout blue">🔎 연습 데이터가 없어도 됩니다 — 아래 5번 칸의 <b>[샘플 불러오기]</b>를 누르면 우리 분야 연습 데이터 10줄이 들어갑니다. 그 안에서 개인정보와 오류 3건을 찾으세요.</div>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 <small>출처 1개 + 마스킹 + 오류 3건이면 3부가 열립니다</small></h2></div>
+      <div class="form">
+
+        <div class="field">
+          <label>1. 자료 출처 <span class="req">필수 (1행 이상)</span></label>
+          <div class="hint">공개 자료·합성 자료·승인 자료만. 연습 데이터는 "강사 제공 연습 데이터"라고 적으세요.</div>
+          <div class="tablewrap">
+            <table class="tin">
+              <thead><tr><th style="width:34px"></th><th>자료명</th><th>URL 또는 파일명</th></tr></thead>
+              <tbody>
+                <tr><td class="rownum">1</td><td><input class="inp" data-f="p2.sources.0.name" placeholder="예: 강사 제공 연습 데이터(냉동공조)"></td><td><input class="inp" data-f="p2.sources.0.url" placeholder="예: 연습데이터_냉동공조.csv"></td></tr>
+                <tr><td class="rownum">2</td><td><input class="inp" data-f="p2.sources.1.name" placeholder="(선택)"></td><td><input class="inp" data-f="p2.sources.1.url" placeholder="(선택)"></td></tr>
+                <tr><td class="rownum">3</td><td><input class="inp" data-f="p2.sources.2.name" placeholder="(선택)"></td><td><input class="inp" data-f="p2.sources.2.url" placeholder="(선택)"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>2. 마스킹 기록 <span class="req">필수 · 3줄</span></label>
+          <div class="hint">무엇을 어떻게 가렸는지. 원본은 고치지 말고, 앱에 넣을 사본에서만 가립니다.</div>
+          <input class="inp" data-f="p2.mask.0" placeholder="예: 이름 김민수 → 김○○">
+          <input class="inp" data-f="p2.mask.1" placeholder="예: 연락처 010-2345-6789 → 010-****-6789" style="margin-top:8px">
+          <input class="inp" data-f="p2.mask.2" placeholder="예: 주소 부산광역시 해운대구 우동 1234 → 부산광역시 해운대구" style="margin-top:8px">
+        </div>
+
+        <div>
+          <div class="flabel">3. 마스킹 체크 <span class="req">필수</span>
+            <span class="tag gray" id="maskCount" style="margin-left:6px">확인 0/6</span>
+          </div>
+          <div class="hint">개인정보로 보이는 항목을 전부 확인하세요. 해당 항목이 없으면 맨 아래 '해당 항목 없음'을 체크합니다. (6개 중 5개 이상 또는 '해당 없음')</div>
+          <div class="checks" style="grid-template-columns:1fr 1fr" id="maskChecks">
+            <label class="chk"><input type="checkbox" data-f="p2.mc.name"><span>이름</span></label>
+            <label class="chk"><input type="checkbox" data-f="p2.mc.phone"><span>연락처</span></label>
+            <label class="chk"><input type="checkbox" data-f="p2.mc.addr"><span>주소</span></label>
+            <label class="chk"><input type="checkbox" data-f="p2.mc.face"><span>얼굴·사진</span></label>
+            <label class="chk"><input type="checkbox" data-f="p2.mc.biz"><span>사업자·계좌번호</span></label>
+            <label class="chk"><input type="checkbox" data-f="p2.mc.etc"><span>그 밖의 개인 식별 정보</span></label>
+          </div>
+          <label class="chk" style="margin-top:8px"><input type="checkbox" data-f="p2.mc.none"><span>해당 항목 없음 <small>이 데이터에는 개인정보가 들어 있지 않다고 확인했습니다</small></span></label>
+        </div>
+
+        <div class="field">
+          <label>4. 데이터 오류 <span class="req">필수 · 3건 이상</span>
+            <button class="btn sm ghost" id="addErrRow" style="margin-left:auto;font-size:12.5px;min-height:30px;padding:3px 9px">+ 2행 더</button>
+          </label>
+          <div class="hint">열: 자료 항목 / 이상 유형 / 발견한 내용 / 어떻게 처리. <b>결측(빈 값) · 이상치(말이 안 되는 값) · 중복 · 형식오류</b> 네 가지로 찾습니다.</div>
+          <div class="tablewrap">
+            <table class="tin">
+              <thead><tr><th style="width:34px"></th><th style="width:24%">자료 항목</th><th style="width:20%">이상 유형</th><th>발견한 내용</th><th style="width:26%">어떻게 처리</th></tr></thead>
+              <tbody id="errBody">
+                <tr><td class="rownum">1</td><td><input class="inp" data-f="p2.err.0.item" placeholder="예: 점검일"></td><td><select class="sel" data-f="p2.err.0.type"><option value="">선택</option><option>결측</option><option>이상치</option><option>중복</option><option>형식오류</option></select></td><td><textarea class="ta t2" data-f="p2.err.0.found" style="min-height:40px" placeholder="예: 3행의 점검일이 비어 있음"></textarea></td><td><input class="inp" data-f="p2.err.0.fix" placeholder="예: 원본 확인 후 제외"></td></tr>
+                <tr><td class="rownum">2</td><td><input class="inp" data-f="p2.err.1.item" placeholder="예: 냉매온도"></td><td><select class="sel" data-f="p2.err.1.type"><option value="">선택</option><option>결측</option><option>이상치</option><option>중복</option><option>형식오류</option></select></td><td><textarea class="ta t2" data-f="p2.err.1.found" style="min-height:40px" placeholder="예: -120℃ (실내기 기준 범위를 벗어남)"></textarea></td><td><input class="inp" data-f="p2.err.1.fix" placeholder="예: 강사에게 확인"></td></tr>
+                <tr><td class="rownum">3</td><td><input class="inp" data-f="p2.err.2.item" placeholder="예: 설비번호"></td><td><select class="sel" data-f="p2.err.2.type"><option value="">선택</option><option>결측</option><option>이상치</option><option>중복</option><option>형식오류</option></select></td><td><textarea class="ta t2" data-f="p2.err.2.found" style="min-height:40px" placeholder="예: RC-004 행이 두 번 나옴"></textarea></td><td><input class="inp" data-f="p2.err.2.fix" placeholder="예: 한 행만 남김"></td></tr>
+                <tr class="extra" data-extra="1"><td class="rownum">4</td><td><input class="inp" data-f="p2.err.3.item"></td><td><select class="sel" data-f="p2.err.3.type"><option value="">선택</option><option>결측</option><option>이상치</option><option>중복</option><option>형식오류</option></select></td><td><textarea class="ta t2" data-f="p2.err.3.found" style="min-height:40px"></textarea></td><td><input class="inp" data-f="p2.err.3.fix"></td></tr>
+                <tr class="extra" data-extra="1"><td class="rownum">5</td><td><input class="inp" data-f="p2.err.4.item"></td><td><select class="sel" data-f="p2.err.4.type"><option value="">선택</option><option>결측</option><option>이상치</option><option>중복</option><option>형식오류</option></select></td><td><textarea class="ta t2" data-f="p2.err.4.found" style="min-height:40px"></textarea></td><td><input class="inp" data-f="p2.err.4.fix"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-p2sum">5. 정리된 자료 요약 <span class="req">필수 · 2줄</span></label>
+          <div class="hint">4부에서 코드에 넣을 데이터가 무엇인지 한눈에 보이게</div>
+          <textarea class="ta t2" id="f-p2sum" data-f="p2.summary" placeholder="예: 설비 10대의 설비번호·점검일·담당자(가림)·냉매온도·압력. 점검일 누락 1건과 중복 1건을 빼고 9행만 사용."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="f-p2data">연습 데이터 10줄 <span class="opt">프롬프트②에 함께 들어갑니다</span></label>
+          <div class="hint">강사가 나눠 준 데이터를 붙여넣거나, 우리 분야 샘플을 불러오세요. 여기 붙인 내용은 이 브라우저에만 저장됩니다.</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px" id="sampleBtns"></div>
+          <textarea class="ta" id="f-p2data" data-f="p2.data" style="min-height:150px;font-family:Consolas,'D2Coding',monospace;font-size:13px;line-height:1.6" placeholder="자료명,항목1,항목2 …&#10;(첫 줄은 머리글, 그 아래 10줄)"></textarea>
+          <div class="cnt" id="dataCnt" style="margin-top:6px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block b3">
+      <div class="bhead"><div class="bnum">3</div><h2>Claude에 붙여넣을 프롬프트 ② <small>데이터 검사 · 마스킹 제안 · 오류 찾기</small></h2></div>
+      <div class="pbox">
+        <div class="pbox-top">
+          <span class="pt">프롬프트 ② · 데이터 검수</span>
+          <div class="meta">
+            <span class="receipt" id="rec2">재료 0/3</span>
+            <span class="tag warn" id="blank2" style="display:none">빈 칸 0개</span>
+          </div>
+        </div>
+        <pre id="pre2"></pre>
+        <div class="pbox-foot">
+          <button class="btn primary sm copybtn" data-copy="2">📋 전체 복사</button>
+          <button class="btn sm ghost" data-expand="2">펼쳐 보기</button>
+          <span class="note">연습 데이터 10줄까지 함께 복사됩니다</span>
+        </div>
+      </div>
+      <div class="callout">⚠️ Claude가 제안한 마스킹은 <b>제안</b>입니다. 원본 파일은 고치지 말고, 앱에 넣을 사본에서만 가리세요.</div>
+    </div>
+
+    <div class="block b4">
+      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인할 것</h2></div>
+      <div class="checks">
+        <label class="chk"><input type="checkbox" data-f="p2.conf.c1"><span>개인정보로 보이는 <b>칸 목록</b>이 나왔는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p2.conf.c2"><span>마스킹 방법이 <b>원본을 고치지 않는 제안</b>으로 나왔는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p2.conf.c3"><span>오류가 <b>3건 이상, 표로</b> 나왔는가</span></label>
+      </div>
+      <div id="miss2" class="missing"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn ok" id="done2">✓ 2부 완료 · 3부 열기</button>
+        <span class="tag gray" id="state2">아직 완료 전</span>
+      </div>
+    </div>
+  </section>
+  <!-- ================= 3부 ================= -->
+  <section class="part" data-part="3" id="part3">
+    <div class="part-head">
+      <div>
+        <div class="part-kicker">PART 3 · 설계도</div>
+        <h2 class="part-title"><span>3부</span> — 문제를 한 문장으로 자르고 화면 3칸을 그린다</h2>
+        <p class="part-sub">문제해결·웹사이트 기획 · 50분 · 여기서 채운 칸이 그대로 4부의 제작 지시문이 됩니다</p>
+      </div>
+    </div>
+    <div class="score-banner">
+      <span>🎯 이 부에서 챙기는 배점</span><b>문제이해 및 요구 충족</b>
+      <span class="pts">20점</span>
+    </div>
+
+    <div class="block b1">
+      <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
+      <p class="prose">
+        이제 도면을 그립니다. 도면은 멋있게 그리는 게 아니라 <span class="hl">자를 대고 정확히 긋는 것</span>입니다.
+        문제를 딱 한 문장으로 자르고, 그 문제를 겪는 사람이 누구인지, 지금은 어떻게 처리하는지, 무엇이 나아지면 성공인지 적습니다.
+        그다음 화면을 딱 세 칸으로 그립니다 — <b>사용자가 넣는 것 / 누르는 버튼 / 화면에 나오는 결과</b>. 이 세 칸이 우리 앱의 전부입니다.
+        50분에 다 만들 수 없으니, <b>만들지 않을 것도</b> 여기에 적어 둡니다.
+      </p>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 — 문제정의서 1매 <small>글자수는 막지 않고 색으로만 알려 줍니다 (초록=권장, 주황=조금 짧음, 회색=김)</small></h2></div>
+      <div class="form">
+
+        <div class="grid2">
+          <div class="field">
+            <label for="f-problem">1. 현장의 문제 (한 문장) <span class="req">필수</span></label>
+            <div class="hint">권장 40~80자 · 한 문장으로 자르기</div>
+            <textarea class="ta t2" id="f-problem" data-f="p3.problem" data-min="40" data-max="80" placeholder="예: 냉동설비 점검 기록이 종이에 흩어져 있어 3일 넘게 점검이 빠진 설비를 아무도 모른다."></textarea>
+          </div>
+          <div class="field">
+            <label for="f-user">2. 누가 겪는가 (사용자) <span class="req">필수</span></label>
+            <div class="hint">권장 20~60자 · 직업·상황까지</div>
+            <input class="inp" id="f-user" data-f="p3.user" data-min="20" data-max="60" placeholder="예: 편의점·식당 냉장설비를 점검하는 협력업체 기사 2명">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-current">3. 지금 어떻게 처리하는가 (현재 절차) <span class="req">필수</span></label>
+          <div class="hint">권장 60~150자 · 지금 쓰는 방식과 그 불편</div>
+          <textarea class="ta t3" id="f-current" data-f="p3.current" data-min="60" data-max="150" placeholder="예: 점검 후 종이 점검표에 손으로 적고, 월말에 엑셀로 옮긴다. 급한 수리는 전화로 받아 메모지에 적어 두어 누가 언제 갔는지 남지 않는다."></textarea>
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="f-effect">4. 개선 후 기대효과 <span class="req">필수</span></label>
+            <div class="hint">권장 40~100자</div>
+            <textarea class="ta t2" id="f-effect" data-f="p3.effect" data-min="40" data-max="100" placeholder="예: 점검이 빠진 설비를 바로 보게 되어 월 2~3건의 누락과 그로 인한 긴급 수리 출동이 줄어든다."></textarea>
+          </div>
+          <div class="field">
+            <label for="f-success">5. 성공 판정 기준 (수치나 명확한 조건) <span class="req">필수</span></label>
+            <div class="hint">권장 30~80자 · "좋아졌다"가 아니라 숫자로</div>
+            <textarea class="ta t2" id="f-success" data-f="p3.success" data-min="30" data-max="80" placeholder="예: 점검일이 3일 넘은 설비가 5초 안에 목록으로 뜨면 성공."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-exclude">6. 범위에서 뺀 것 (한계·전제) <span class="req">필수</span> <span class="tag warn" style="margin-left:4px">못 채우면 4부에서 범위가 커집니다</span></label>
+          <div class="hint">권장 30~80자 · 이번에 만들지 않을 것을 분명히</div>
+          <textarea class="ta t2" id="f-exclude" data-f="p3.exclude" data-min="30" data-max="80" placeholder="예: 로그인, 알림 문자, 실시간 센서 연동, 사진 첨부는 만들지 않는다."></textarea>
+        </div>
+
+        <div>
+          <div class="flabel">7. 화면 1 — 입력 / 버튼 / 결과 <span class="req">필수</span></div>
+          <div class="hint">각 20자 내외. 이 세 칸이 우리 앱의 전부입니다.</div>
+          <div class="grid3">
+            <div class="field"><label for="s1i">사용자가 넣는 것</label><input class="inp" id="s1i" data-f="p3.s1.input" data-min="5" data-max="25" placeholder="설비번호·점검일"></div>
+            <div class="field"><label for="s1b">누르는 버튼</label><input class="inp" id="s1b" data-f="p3.s1.btn" data-min="3" data-max="20" placeholder="확인"></div>
+            <div class="field"><label for="s1o">화면에 나오는 결과</label><input class="inp" id="s1o" data-f="p3.s1.out" data-min="5" data-max="25" placeholder="3일 넘은 설비 목록(빨강)"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flabel">8. 화면 2 <span class="opt">없으면 비움</span></div>
+          <div class="hint">두 번째 화면이 꼭 필요할 때만. 대부분은 화면 1개로 충분합니다.</div>
+          <div class="grid3">
+            <div class="field"><label for="s2i">입력</label><input class="inp" id="s2i" data-f="p3.s2.input" placeholder="(선택)"></div>
+            <div class="field"><label for="s2b">버튼</label><input class="inp" id="s2b" data-f="p3.s2.btn" placeholder="(선택)"></div>
+            <div class="field"><label for="s2o">결과</label><input class="inp" id="s2o" data-f="p3.s2.out" placeholder="(선택)"></div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="f-fname">9. 핵심 기능 1개 — 기능명 <span class="req">필수</span></label>
+            <div class="hint">권장 15자 내외 · 딱 하나만</div>
+            <input class="inp" id="f-fname" data-f="p3.funcName" data-min="5" data-max="20" placeholder="예: 점검 누락 설비 한눈에 보기">
+          </div>
+          <div class="field">
+            <label for="f-why">12. 왜 이 기능을 골랐나 <span class="req">필수</span></label>
+            <div class="hint">권장 40자 내외 · 우리 힘으로 쓴 문장</div>
+            <input class="inp" id="f-why" data-f="p3.why" data-min="20" data-max="60" placeholder="예: 심사에서도 현장에서도 가장 먼저 물어보는 것이 '빠진 점검'이기 때문.">
+          </div>
+        </div>
+
+        <div>
+          <div class="flabel">10. 핵심 기능 — 입력 / 처리 / 출력 <span class="req">필수</span></div>
+          <div class="hint">각 30자 내외</div>
+          <div class="grid3">
+            <div class="field"><label for="fi">입력</label><input class="inp" id="fi" data-f="p3.func.in" placeholder="설비번호·점검일·담당자"></div>
+            <div class="field"><label for="fp">처리</label><input class="inp" id="fp" data-f="p3.func.proc" placeholder="오늘 기준 3일 초과 계산"></div>
+            <div class="field"><label for="fo">출력</label><input class="inp" id="fo" data-f="p3.func.out" placeholder="미점검 설비 목록(빨강)"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flabel">11. 사용 흐름 3단계 <span class="req">필수</span></div>
+          <div class="hint">각 20자 내외 · 사용자가 실제로 하는 순서</div>
+          <div class="grid3">
+            <div class="field"><label for="fl0">1)</label><input class="inp" id="fl0" data-f="p3.flow.0" placeholder="점검 뒤 번호·날짜 입력"></div>
+            <div class="field"><label for="fl1">2)</label><input class="inp" id="fl1" data-f="p3.flow.1" placeholder="'확인' 누르기"></div>
+            <div class="field"><label for="fl2">3)</label><input class="inp" id="fl2" data-f="p3.flow.2" placeholder="빨간 설비부터 출동"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block b3">
+      <div class="bhead"><div class="bnum">3</div><h2>Claude에 붙여넣을 프롬프트 ③ <small>문제정의 → 화면 설계 (이 앱의 심장)</small></h2></div>
+      <div class="pbox">
+        <div class="pbox-top">
+          <span class="pt">프롬프트 ③ · 문제정의 → 화면 설계</span>
+          <div class="meta">
+            <span class="receipt" id="stage3">1차 조립 · 재료 0/9</span>
+            <span class="tag warn" id="blank3" style="display:none">빈 칸 0개</span>
+          </div>
+        </div>
+        <pre id="pre3"></pre>
+        <div class="pbox-foot">
+          <button class="btn primary sm copybtn" data-copy="3">📋 전체 복사</button>
+          <button class="btn sm ghost" data-expand="3">펼쳐 보기</button>
+          <span class="note">먼저 붙여넣고, Claude가 1)·2)만 하고 멈추는지 보세요</span>
+        </div>
+      </div>
+      <div class="callout">🧠 이 프롬프트의 핵심은 <b>"너는 우리 대신 결정하지 마"</b>입니다. Claude가 보기 좋게 정리해 주면, 그건 우리 기획이 아닙니다. 선택지는 받고 <b>고르는 것은 우리가</b> 합니다.</div>
+    </div>
+
+    <div class="block b4">
+      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인할 것</h2></div>
+      <div class="checks">
+        <label class="chk"><input type="checkbox" data-f="p3.conf.c1"><span>Claude가 <b>우리 대신 결정하지 않고</b> 선택지만 줬는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p3.conf.c2"><span>화면 3칸(입력·버튼·결과)이 <b>우리 말로</b> 다시 적혔는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p3.conf.c3"><span>핵심 기능 <b>1개</b>가 정해졌고, 뺄 것을 뺐는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p3.conf.c4"><span>12번 '왜 이 기능인가'를 <b>우리 힘으로</b> 채웠는가</span></label>
+      </div>
+      <div id="miss3" class="missing"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn ok" id="done3">✓ 3부 완료 · 4부 열기</button>
+        <span class="tag gray" id="state3">아직 완료 전</span>
+      </div>
+    </div>
+  </section>
+  <!-- ================= 4부 ================= -->
+  <section class="part" data-part="4" id="part4">
+    <div class="part-head">
+      <div>
+        <div class="part-kicker">PART 4 · 시공</div>
+        <h2 class="part-title"><span>4부</span> — 설계도대로 핵심 기능 1개를 내 손으로 세운다</h2>
+        <p class="part-sub">사이트 만들기 · 50~90분 · 한 단계 만들고 멈추고 확인합니다</p>
+      </div>
+    </div>
+    <div class="score-banner">
+      <span>🎯 이 부에서 챙기는 배점</span><b>시제품 구현 및 시연</b>
+      <span class="pts">25점</span>
+    </div>
+
+    <div class="block b1">
+      <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
+      <p class="prose">
+        이제 짓습니다. 중요한 규칙이 하나 있습니다. <span class="hl">한 번에 다 짓지 마세요.</span>
+        Claude에게 "1단계, 화면 뼈대만"이라고 시키고, 내 컴퓨터에서 열어 확인하고, 괜찮으면 "좋아, 2단계"라고 말합니다.
+        이렇게 세 번 나눠서 짓습니다. 이렇게 하면 잘못 지었을 때 무너지는 게 아니라 한 칸만 고치면 됩니다.
+        코딩을 몰라도 됩니다. 우리가 할 일은 <b>화면을 열어 보고, 눌러 보고, 이상하면 Claude에게 그대로 말하는 것</b>입니다.
+      </p>
+      <div class="callout blue">💡 4부는 <b>Claude Code</b>에서 진행합니다(팀당 1대 원칙). 같은 프롬프트를 반복해서 보내지 말고, 막히면 아래 4번 칸에 상황을 적어 <b>같은 상자에서 다시 복사</b>하세요.</div>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 <small>파일 이름 + 1단계 체크만 있으면 5부가 열립니다</small></h2></div>
+      <div class="form">
+        <div class="field">
+          <label for="f-file">1. 만든 파일 이름 / 위치 <span class="req">필수</span></label>
+          <div class="hint">예: 바탕화면/우리팀/index.html</div>
+          <input class="inp" id="f-file" data-f="p4.file" placeholder="바탕화면/우리팀/index.html">
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="f-works">2. 지금 되는 것 <span class="req">필수 · 3줄</span></label>
+            <div class="hint">한 줄에 하나. "화면이 열린다"도 됩니다.</div>
+            <textarea class="ta t3" id="f-works" data-f="p4.works" placeholder="예: 제목과 입력칸이 보인다&#10;버튼을 누르면 목록이 나온다&#10;3일 넘은 설비가 빨갛게 표시된다"></textarea>
+          </div>
+          <div class="field">
+            <label for="f-notworks">3. 지금 안 되는 것 <span class="opt">선택 · 2줄</span></label>
+            <div class="hint">없으면 비워 두세요</div>
+            <textarea class="ta t3" id="f-notworks" data-f="p4.notWorks" placeholder="예: 날짜를 지우면 오류가 난다"></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-blocked">4. 막힌 점 (에러 문구 그대로) <span class="opt">선택 · 3줄</span></label>
+          <div class="hint">에러 메시지가 있으면 <b>그대로</b> 복사해 붙이세요. 고쳐 쓰면 Claude가 못 찾습니다.</div>
+          <textarea class="ta t3" id="f-blocked" data-f="p4.blocked" placeholder="예: Uncaught TypeError: Cannot read properties of null (reading 'value') at index.html:42"></textarea>
+        </div>
+
+        <div>
+          <div class="flabel">5. 단계 확인 <span class="req">필수 · 1단계는 꼭</span></div>
+          <div class="hint">1단계(뼈대)만 있어도 5부로 갈 수 있습니다. 다만 기록지에 '미완성'으로 표시됩니다.</div>
+          <div class="checks">
+            <label class="chk"><input type="checkbox" data-f="p4.step.s1"><span><b>1단계 완료</b> — 화면 뼈대가 보인다 <small>제목·입력칸·버튼·결과 영역까지</small></span></label>
+            <label class="chk"><input type="checkbox" data-f="p4.step.s2"><span><b>2단계 완료</b> — 버튼을 누르면 결과가 나온다</span></label>
+            <label class="chk"><input type="checkbox" data-f="p4.step.s3"><span><b>3단계 완료</b> — 예시 데이터와 결과 표시가 다듬어졌다</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block b3">
+      <div class="bhead"><div class="bnum">3</div><h2>Claude에 붙여넣을 프롬프트 ④ <small>제작 지시문 — 단계별로 멈추게 하는 문장</small></h2></div>
+      <div class="pbox">
+        <div class="pbox-top">
+          <span class="pt">프롬프트 ④ · 제작 지시문</span>
+          <div class="meta">
+            <span class="receipt" id="rec4">재료 0/6</span>
+            <span class="tag warn" id="blank4" style="display:none">빈 칸 0개</span>
+          </div>
+        </div>
+        <pre id="pre4"></pre>
+        <div class="pbox-foot">
+          <button class="btn primary sm copybtn" data-copy="4">📋 전체 복사</button>
+          <button class="btn sm ghost" data-expand="4">펼쳐 보기</button>
+          <span class="note" id="p4mode">1단계부터 시작합니다</span>
+        </div>
+      </div>
+      <div class="callout">🛑 Claude가 1단계를 넘어 2·3단계까지 만들려 하면 <b>"1단계에서 멈춰"</b>라고 그대로 말하세요. 한 번에 만들면 어디가 틀렸는지 우리가 알 수 없습니다.</div>
+    </div>
+
+    <div class="block b4">
+      <div class="bhead"><div class="bnum">4</div><h2>확인할 것</h2></div>
+      <div class="checks">
+        <label class="chk"><input type="checkbox" data-f="p4.conf.c1"><span>index.html을 열면 <b>화면 뼈대</b>가 보인다</span></label>
+        <label class="chk"><input type="checkbox" data-f="p4.conf.c2"><span>버튼을 누르면 <b>결과 영역에 값</b>이 나온다</span></label>
+        <label class="chk"><input type="checkbox" data-f="p4.conf.c3"><span>예시 데이터를 넣었을 때 결과가 말이 된다</span></label>
+        <label class="chk"><input type="checkbox" data-f="p4.conf.c4"><span>외부 인터넷을 끊어도 열린다 <small>CDN을 쓰지 않았는지 확인</small></span></label>
+      </div>
+      <div id="miss4" class="missing"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn ok" id="done4">✓ 4부 완료 · 5부 열기</button>
+        <span class="tag gray" id="state4">아직 완료 전</span>
+      </div>
+    </div>
+  </section>
+  <!-- ================= 5부 ================= -->
+  <section class="part" data-part="5" id="part5">
+    <div class="part-head">
+      <div>
+        <div class="part-kicker">PART 5 · 준공 검사</div>
+        <h2 class="part-title"><span>5부</span> — 기능을 동결하고, 시험 5건·사용자 2인으로 검사한다</h2>
+        <p class="part-sub">검수·수정 · 50분+α · 새 기능 없이, 고장 난 곳만 최소로</p>
+      </div>
+    </div>
+    <div class="score-banner">
+      <span>🎯 이 부에서 챙기는 배점</span><b>검증 및 개선 20점 + 현장 적용 가능성 15점</b>
+      <span class="pts">35점</span>
+    </div>
+
+    <div class="block b1">
+      <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
+      <p class="prose">
+        마지막입니다. 여기서 가장 중요한 규칙은 <span class="hl">새 기능을 넣지 않는 것</span>입니다(기능 동결).
+        지금 있는 기능을 시험하고, 고장 난 곳만 최소로 고칩니다. 시험은 다섯 번 합니다 — <b>잘 되는 경우 3번, 일부러 이상한 값을 넣는 경우 2번</b>.
+        그리고 우리 팀이 아닌 사람 2명에게 직접 써 보게 하고 그 말을 적습니다. 마지막에 기록지를 뽑아 제출합니다.
+      </p>
+      <div class="callout pink">📌 <b>순서를 지키세요.</b> 시험표를 먼저 채우고, 그다음 프롬프트⑤를 복사합니다. 시험표의 '실제 결과·판정'이 그대로 수정 지시문이 됩니다.</div>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 <small>동결 확인을 먼저 체크해야 시험표가 열립니다</small></h2></div>
+
+      <label class="chk" style="margin-bottom:16px">
+        <input type="checkbox" data-f="p5.freeze" id="freezeChk">
+        <span>1. <b>기능 동결 확인</b> — 지금부터 새 기능은 넣지 않습니다 <small>시험 중 "이것도 넣자"가 나오면 다음 버전으로 미룹니다</small></span>
+      </label>
+
+      <div id="gate5" class="locknote" style="display:none">
+        <span>🔒</span><div>기능 동결을 체크해야 시험표가 열립니다. 5부의 목적은 <b>더 만드는 것</b>이 아니라 <b>검사하는 것</b>입니다.</div>
+      </div>
+
+      <div id="p5form" class="form" style="opacity:.45;pointer-events:none" aria-disabled="true">
+
+        <div class="field">
+          <div class="flabel">2. 시험 5건 <span class="req">필수 · 5행</span></div>
+          <div class="hint">1~3행은 <b>잘 되는 경우</b>, 4~5행은 <b>일부러 이상한 값</b>(빈 값·글자·아주 큰 숫자 등). 판정은 합격/불합격으로만.</div>
+          <div class="tablewrap">
+            <table class="tin">
+              <thead><tr><th style="width:64px">구분</th><th style="width:18%">시험 항목</th><th style="width:15%">입력값</th><th style="width:17%">기대 결과</th><th style="width:17%">실제 결과</th><th style="width:96px">판정</th><th>수정 내용</th></tr></thead>
+              <tbody>
+                <tr><td class="tagcell"><span class="tag ok">정상</span></td><td><input class="inp" data-f="p5.test.0.item" placeholder="설비 3대 점검 입력"></td><td><input class="inp" data-f="p5.test.0.input" placeholder="RC-001 / 11-26"></td><td><input class="inp" data-f="p5.test.0.expect" placeholder="3대 모두 목록에 뜸"></td><td><input class="inp" data-f="p5.test.0.actual" placeholder="3대 모두 떴음"></td><td><select class="sel" data-f="p5.test.0.verdict"><option value="">선택</option><option>합격</option><option>불합격</option></select></td><td><input class="inp" data-f="p5.test.0.fix" placeholder="—"></td></tr>
+                <tr><td class="tagcell"><span class="tag ok">정상</span></td><td><input class="inp" data-f="p5.test.1.item" placeholder="3일 지난 설비 표시"></td><td><input class="inp" data-f="p5.test.1.input" placeholder="11-20 점검 / 오늘 11-26"></td><td><input class="inp" data-f="p5.test.1.expect" placeholder="빨간색으로 표시"></td><td><input class="inp" data-f="p5.test.1.actual" placeholder=""></td><td><select class="sel" data-f="p5.test.1.verdict"><option value="">선택</option><option>합격</option><option>불합격</option></select></td><td><input class="inp" data-f="p5.test.1.fix" placeholder="—"></td></tr>
+                <tr><td class="tagcell"><span class="tag ok">정상</span></td><td><input class="inp" data-f="p5.test.2.item" placeholder="전체 목록 초기화"></td><td><input class="inp" data-f="p5.test.2.input" placeholder="새로고침"></td><td><input class="inp" data-f="p5.test.2.expect" placeholder="기존 기록 유지"></td><td><input class="inp" data-f="p5.test.2.actual" placeholder=""></td><td><select class="sel" data-f="p5.test.2.verdict"><option value="">선택</option><option>합격</option><option>불합격</option></select></td><td><input class="inp" data-f="p5.test.2.fix" placeholder="—"></td></tr>
+                <tr><td class="tagcell"><span class="tag bad">에러</span></td><td><input class="inp" data-f="p5.test.3.item" placeholder="빈 값으로 확인"></td><td><input class="inp" data-f="p5.test.3.input" placeholder="(아무것도 입력 안 함)"></td><td><input class="inp" data-f="p5.test.3.expect" placeholder="'설비번호를 입력하세요' 안내"></td><td><input class="inp" data-f="p5.test.3.actual" placeholder=""></td><td><select class="sel" data-f="p5.test.3.verdict"><option value="">선택</option><option>합격</option><option>불합격</option></select></td><td><input class="inp" data-f="p5.test.3.fix" placeholder=""></td></tr>
+                <tr><td class="tagcell"><span class="tag bad">에러</span></td><td><input class="inp" data-f="p5.test.4.item" placeholder="말이 안 되는 날짜"></td><td><input class="inp" data-f="p5.test.4.input" placeholder="2026-13-45"></td><td><input class="inp" data-f="p5.test.4.expect" placeholder="오류 안내, 계산 안 함"></td><td><input class="inp" data-f="p5.test.4.actual" placeholder=""></td><td><select class="sel" data-f="p5.test.4.verdict"><option value="">선택</option><option>합격</option><option>불합격</option></select></td><td><input class="inp" data-f="p5.test.4.fix" placeholder=""></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cnt" id="verdictCnt" style="margin-top:6px"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel">3. 사용자 검증 2인 <span class="req">필수 · 2행</span></div>
+          <div class="hint">우리 팀이 아닌 사람 2명(강사가 배정). <b>소감은 그 사람이 한 말 그대로</b> 인용하세요.</div>
+          <div class="tablewrap">
+            <table class="tin">
+              <thead><tr><th style="width:34px"></th><th style="width:26%">검증자 소속(전공·업무)</th><th>사용 소감 (그대로)</th><th style="width:28%">반영한 수정</th></tr></thead>
+              <tbody>
+                <tr><td class="rownum">1</td><td><input class="inp" data-f="p5.user.0.who" placeholder="예: 임상병리 1학년"></td><td><input class="inp" data-f="p5.user.0.voice" placeholder="예: '글씨가 작아서 뭘 눌러야 할지 모르겠어요'"></td><td><input class="inp" data-f="p5.user.0.fix" placeholder="예: 버튼 글씨 키움"></td></tr>
+                <tr><td class="rownum">2</td><td><input class="inp" data-f="p5.user.1.who" placeholder="예: 냉동공조 1학년"></td><td><input class="inp" data-f="p5.user.1.voice" placeholder=""></td><td><input class="inp" data-f="p5.user.1.fix" placeholder=""></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="flabel">4. AI·자료 출처 <span class="req">필수 · 2행</span>
+            <button class="btn sm ghost" id="addClaudeSrc" style="margin-left:auto;font-size:12.5px;min-height:30px;padding:3px 9px">🤖 Claude 한 줄</button>
+            <button class="btn sm ghost" id="addSrcRow" style="font-size:12.5px;min-height:30px;padding:3px 9px">+ 2행 더</button>
+          </div>
+          <div class="hint">자료명·출처는 2부에서 <b>자동으로 채워집니다</b>. 라이선스만 적으면 됩니다. AI 도구도 한 줄 넣으세요(예: Claude — Anthropic 이용약관).</div>
+          <div class="tablewrap">
+            <table class="tin">
+              <thead><tr><th style="width:34px"></th><th style="width:30%">자료명</th><th style="width:34%">출처</th><th>라이선스</th></tr></thead>
+              <tbody>
+                <tr><td class="rownum">1</td><td><input class="inp" data-f="p5.src.0.name" id="srcName0"></td><td><input class="inp" data-f="p5.src.0.url" id="srcUrl0"></td><td><input class="inp" data-f="p5.src.0.lic" placeholder="예: 공공누리 1유형"></td></tr>
+                <tr><td class="rownum">2</td><td><input class="inp" data-f="p5.src.1.name" id="srcName1"></td><td><input class="inp" data-f="p5.src.1.url" id="srcUrl1"></td><td><input class="inp" data-f="p5.src.1.lic" placeholder="예: Claude (Anthropic 이용약관)"></td></tr>
+                <tr class="extra" data-extra="1"><td class="rownum">3</td><td><input class="inp" data-f="p5.src.2.name"></td><td><input class="inp" data-f="p5.src.2.url"></td><td><input class="inp" data-f="p5.src.2.lic"></td></tr>
+                <tr class="extra" data-extra="1"><td class="rownum">4</td><td><input class="inp" data-f="p5.src.3.name"></td><td><input class="inp" data-f="p5.src.3.url"></td><td><input class="inp" data-f="p5.src.3.lic"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="flabel">5. 팀원별 기여 <span class="req">필수 · 3행</span></div>
+          <div class="hint">이름은 1부에서 자동으로 채워집니다. 시간(h)은 3인 합 8~12시간이 자연스럽습니다.</div>
+          <div class="tablewrap">
+            <table class="tin">
+              <thead><tr><th style="width:34px"></th><th style="width:24%">이름</th><th>한 일</th><th style="width:96px">시간(h)</th></tr></thead>
+              <tbody>
+                <tr><td class="rownum">1</td><td><input class="inp" data-f="p5.contrib.0.name" id="contrib0"></td><td><input class="inp" data-f="p5.contrib.0.work" placeholder="예: 화면 만들기, 오류 수정"></td><td><input class="inp" data-f="p5.contrib.0.h" placeholder="4"></td></tr>
+                <tr><td class="rownum">2</td><td><input class="inp" data-f="p5.contrib.1.name" id="contrib1"></td><td><input class="inp" data-f="p5.contrib.1.work" placeholder="예: 데이터 정리·마스킹, 문제정의"></td><td><input class="inp" data-f="p5.contrib.1.h" placeholder="3"></td></tr>
+                <tr><td class="rownum">3</td><td><input class="inp" data-f="p5.contrib.2.name" id="contrib2"></td><td><input class="inp" data-f="p5.contrib.2.work" placeholder="예: 사용자 검증, 발표 준비"></td><td><input class="inp" data-f="p5.contrib.2.h" placeholder="3"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-limits">6. 현장 적용 시 한계·전제 <span class="req">필수 · 3줄</span></label>
+          <div class="hint">실제 업무에 붙일 때 무엇이 아직 필요한지 솔직하게</div>
+          <textarea class="ta t3" id="f-limits" data-f="p5.limits" placeholder="예: 실제 설비 대장과 연동되지 않아 손으로 입력해야 함&#10;검사자별 계정 구분이 없어 누가 입력했는지는 남지 않음&#10;태블릿 화면 기준으로 만들어 PC에서는 글씨가 큼"></textarea>
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="f-presenter">7. 발표자 <span class="req">필수</span></label>
+            <div class="hint">기본값: 검증·발표 역할</div>
+            <input class="inp" id="f-presenter" data-f="p5.presenter" placeholder="이름">
+          </div>
+          <div class="field">
+            <label for="f-demo1">8-1. 시연 순서 1</label>
+            <div class="hint">30초 안에 끝나는 동작</div>
+            <input class="inp" id="f-demo1" data-f="p5.demo.0" placeholder="예: 점검 3대를 입력하고 '확인'을 누른다">
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="f-demo2">8-2. 시연 순서 2</label><input class="inp" id="f-demo2" data-f="p5.demo.1" placeholder="예: 3일 지난 설비가 빨갛게 뜨는 것을 보여준다"></div>
+          <div class="field"><label for="f-demo3">8-3. 시연 순서 3</label><input class="inp" id="f-demo3" data-f="p5.demo.2" placeholder="예: 빈 값으로 눌러 안내 문구를 보여준다"></div>
+        </div>
+        <div class="field">
+          <label for="f-q1">8-4. 예상질문 1 <span class="opt">프롬프트⑤ 결과 반영</span></label>
+          <input class="inp" id="f-q1" data-f="p5.demoQ.0" placeholder="예: 실제 설비 대장이랑은 어떻게 연결하나요?">
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="f-q2">8-5. 예상질문 2</label><input class="inp" id="f-q2" data-f="p5.demoQ.1" placeholder=""></div>
+          <div class="field"><label for="f-q3">8-6. 예상질문 3</label><input class="inp" id="f-q3" data-f="p5.demoQ.2" placeholder=""></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block b3">
+      <div class="bhead"><div class="bnum">3</div><h2>Claude에 붙여넣을 프롬프트 ⑤ <small>검수·수정·발표 지시문 — 4부와 같은 대화에서 이어서</small></h2></div>
+      <div class="pbox">
+        <div class="pbox-top">
+          <span class="pt">프롬프트 ⑤ · 준공 검사</span>
+          <div class="meta">
+            <span class="receipt" id="rec5">시험 0/5 기록</span>
+            <span class="tag warn" id="blank5" style="display:none">빈 칸 0개</span>
+          </div>
+        </div>
+        <pre id="pre5"></pre>
+        <div class="pbox-foot">
+          <button class="btn primary sm copybtn" data-copy="5">📋 전체 복사</button>
+          <button class="btn sm ghost" data-expand="5">펼쳐 보기</button>
+          <span class="note">시험표가 채워질수록 지시문이 정확해집니다</span>
+        </div>
+      </div>
+      <div class="callout">🆕 Claude가 새 기능을 제안하면 <b>"새 기능은 넣지 마. 오늘 고칠 것과 발표에서 말할 것만 나눠 줘"</b>라고 답하세요.</div>
+    </div>
+
+    <div class="block b4">
+      <div class="bhead"><div class="bnum">4</div><h2>확인할 것 <small>4개를 확인하면 기록지 버튼이 켜집니다</small></h2></div>
+      <div class="checks">
+        <label class="chk"><input type="checkbox" data-f="p5.conf.c1"><span>시험 5건 중 <b>불합격 항목에 수정 내용</b>이 적혀 있는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p5.conf.c2"><span>사용자 2인의 말이 <b>그대로 인용</b>되어 있는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p5.conf.c3"><span>출처에 <b>라이선스</b>가 적혀 있는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p5.conf.c4"><span>기여 시간 합계가 대략 맞는가 <small>3인 합 8~12시간</small></span></label>
+      </div>
+      <div id="miss5" class="missing"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn ok" id="done5">✓ 5부 완료 · 결과 기록지 출력</button>
+        <span class="tag gray" id="state5">아직 완료 전</span>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <div class="statusbar">
+    <div class="wrap in">
+      <span>🔒 이 화면의 입력은 <b>이 브라우저에만</b> 저장되며 서버로 전송되지 않습니다.</span>
+      <span class="dotsep">·</span>
+      <span id="sbSave" class="save"><span class="sdot"></span><span id="sbSaveTxt">저장 준비됨</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 결과 기록지 (화면 미리보기 = 인쇄 DOM) ============ -->
+<div class="doctoolbar no-print">
+  <span class="dt">🖨 결과 기록지 미리보기</span>
+  <span class="tag warn" id="docBlank">미기입 0항목</span>
+  <div class="sp">
+    <button class="btn sm primary" id="doPrint">🖨 인쇄 / PDF 저장</button>
+    <button class="btn sm" id="closeDoc">닫기</button>
+  </div>
+</div>
+<div id="printDoc"></div>
+
+<!-- ============ 모달: 자료실 ============ -->
+<div class="modal" id="resModal">
+  <div class="modal-card">
+    <div class="modal-head"><h3>📂 참여자 자료실</h3><button class="x" data-close="resModal">×</button></div>
+    <div class="modal-body">
+      <div class="reslist">
+        <div class="ri"><div class="rn">1</div><div><b>Claude Code 실행 확인</b><small>터미널(명령 프롬프트)에서 <code>claude</code>를 입력해 실행되는지 확인하세요. 실행이 안 되면 손을 들고 강사를 부르세요.</small></div></div>
+        <div class="ri"><div class="rn">2</div><div><b>팀 계정 로그인</b><small>팀당 1대 원칙입니다. 다른 팀 계정으로 로그인하지 말고, 한도 메시지가 뜨면 화면을 캡처해 강사에게 보여 주세요.</small></div></div>
+        <div class="ri"><div class="rn">3</div><div><b>1~3부는 Claude 대화 창에서</b><small>표·목록·문장을 주고받는 작업입니다. 앱을 Aside(분할 화면) 옆에 띄우면 복사·붙여넣기가 한 화면에서 끝납니다.</small></div></div>
+        <div class="ri"><div class="rn">4</div><div><b>4부는 Claude Code에서</b><small>실제 파일(index.html)이 생겨야 하므로 Claude Code를 사용합니다. 5부는 4부 대화를 그대로 이어서 진행하세요.</small></div></div>
+        <div class="ri"><div class="rn">5</div><div><b>네트워크가 끊길 때</b><small>복사한 프롬프트는 메모장(Windows)이나 텍스트편집기(Mac)에 임시로 붙여 두세요. 1~3부는 그 프롬프트로 이어서 진행할 수 있습니다.</small></div></div>
+        <div class="ri"><div class="rn">6</div><div><b>기록 백업</b><small>설정(⚙) → <b>기록 내보내기(.json)</b>로 하루에 한 번 백업하세요. 기기가 바뀌면 <b>불러오기</b>로 5분 안에 복원됩니다.</small></div></div>
+        <div class="ri"><div class="rn">7</div><div><b>제출은 PDF로</b><small>5부 완료 후 [결과 기록지] → [인쇄 / PDF 저장] → 대상: 'PDF로 저장', 배경 그래픽 끔. 파일명은 <code>2026신산업_결과기록지_{팀명}.pdf</code>로 저장하세요.</small></div></div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close="resModal">닫기</button></div>
+  </div>
+</div>
+
+<!-- ============ 모달: 설정 ============ -->
+<div class="modal" id="setModal">
+  <div class="modal-card">
+    <div class="modal-head"><h3>⚙ 설정 · 백업 · 강사 도구</h3><button class="x" data-close="setModal">×</button></div>
+    <div class="modal-body">
+      <div class="field">
+        <div class="flabel">팀</div>
+        <div class="hint">현재 팀: <b id="setTeamName">—</b></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn sm" id="btnSwitchTeam">👥 팀 바꾸기 / 새 팀</button>
+          <button class="btn sm" id="btnExport">⬇ 기록 내보내기(.json)</button>
+          <label class="btn sm" style="margin:0">⬆ 불러오기<input type="file" id="importFile" accept=".json,application/json" style="display:none"></label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field">
+        <div class="flabel">강사 미리보기</div>
+        <div class="hint">현장 시연용입니다. 켜면 5부가 모두 열립니다. <b>기본값은 꺼짐</b> — 학생은 순서대로 진행해야 합니다.</div>
+        <label class="chk"><input type="checkbox" id="previewToggle"><span>🔓 잠금 해제 (강사 미리보기)</span></label>
+      </div>
+      <div class="divider"></div>
+      <div class="field">
+        <div class="flabel">기록 초기화</div>
+        <div class="hint">이 브라우저에 저장된 <b>이 팀의 기록만</b> 지웁니다. 되돌릴 수 없으니 먼저 내보내기로 백업하세요.</div>
+        <button class="btn sm" id="btnReset" style="background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.4);color:#fca5a5">🗑 이 팀 기록 전체 초기화</button>
+      </div>
+      <div class="divider"></div>
+      <div style="font-size:12px;color:var(--mut2);line-height:1.7">
+        프롬프트 템플릿 <b style="color:#a78bfa">v2.0</b> · 앱 버전 2.0 · 저장 위치: 이 브라우저 localStorage<br>
+        서버·로그인 없음 · 외부 CDN 0개(오프라인에서 열림)
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close="setModal">닫기</button></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+/* ============================================================
+   2부 연습 데이터 (분야별 10줄) — 전부 가상 데이터입니다.
+   실제 고객·회사 자료가 아니며, 개인정보는 학습용으로 일부러 남겨 두었습니다.
+   각 세트에는 결측·이상치·중복·형식오류가 섞여 있습니다.
+   ============================================================ */
+const SAMPLES = {
+  '반도체·전자': `검사일,라인,제품코드,검사자,연락처,불량수량,불량유형
+2026-11-20,A1,SE-1024,김민수,010-0000-1011,3,납땜
+2026-11-20,A1,SE-1025,김민수,010-0000-1011,0,
+2026-11-20,A2,SE-1026,이서연,010-0000-1012,,이물
+2026-11-21,A1,SE-1024,김민수,010-0000-1011,3,납땜
+2026-11-21,A3,SE-1030,박지훈,010-0000-1013,-2,스크래치
+2026-11-21,A2,SE-1031,이서연,010-0000-1012,1,이물
+2026/11/22,A1,SE-1032,최유진,010-0000-1014,2,납땜
+2026-11-22,A2,SE-1033,이서연,010-0000-1012,0,
+2026-11-22,A3,SE-1034,박지훈,010-0000-1013,4,크랙
+2026-11-23,A1,,최유진,010-0000-1014,1,납땜`,
+
+  '제조·전자동화': `정비일,설비ID,담당자,연락처,가동시간(h),정지사유,부품교체
+2026-11-19,PL-01,정하늘,010-0000-2021,18.5,,없음
+2026-11-19,PL-02,정하늘,010-0000-2021,19.0,자재대기,없음
+2026-11-20,PL-01,오세훈,010-0000-2022,20.0,,베어링
+2026-11-20,PL-02,정하늘,010-0000-2021,99.0,센서오류,센서
+2026-11-21,PL-03,임다인,010-0000-2023,,정전,없음
+2026-11-21,PL-01,오세훈,010-0000-2022,17.5,,없음
+2026-11-31,PL-03,임다인,010-0000-2023,16.0,정기점검,필터
+2026-11-22,PL-02,정하늘,010-0000-2021,19.5,,없음
+2026-11-23,PL-01,오세훈,010-0000-2022,18.0,자재대기,없음
+2026-11-23,PL-01,오세훈,010-0000-2022,18.0,자재대기,없음`,
+
+  '에너지·냉동공조': `점검일,설비번호,점검자,연락처,냉매온도,압력,비고
+2026-11-20,RC-001,김민수,010-0000-3031,7.2,4.1,
+2026-11-20,RC-002,김민수,010-0000-3031,7.4,4.0,필터 교체
+2026-11-20,RC-003,이서연,010-0000-3032,,3.9,
+2026-11-21,RC-004,박지훈,010-0000-3033,7.1,4.2,
+2026-11-21,RC-004,박지훈,010-0000-3033,7.1,4.2,
+2026-11-21,RC-005,박지훈,010-0000-3033,-120,4.1,
+2026-11-22,RC-006,최유진,010-0000-3034,7.0,4.0,실외기 청소
+2026/11/22,RC-007,최유진,010-0000-3034,7.3,4.1,
+2026-11-22,RC-008,최유진,010-0000-3034,7.2,4.1,
+2026-11-23,,김민수,010-0000-3031,7.5,4.0,`,
+
+  '바이오·보건': `측정일,대상자,연락처,나이,수축기,이완기,체온
+2026-11-20,B-01,010-0000-4041,67,138,86,36.6
+2026-11-20,B-02,010-0000-4042,54,121,78,36.5
+2026-11-21,B-03,010-0000-4043,,135,88,36.7
+2026-11-21,B-04,010-0000-4044,72,145,,36.8
+2026-11-22,B-01,010-0000-4041,67,142,90,36.6
+2026-11-22,B-05,010-0000-4045,49,310,95,36.9
+2026-11-22,B-05,010-0000-4045,49,132,84,36.9
+2026.11.23,B-06,010-0000-4046,58,128,80,36.4
+2026-11-23,B-07,010-0000-4047,63,119,76,42.5
+2026-11-23,B-08,010-0000-4048,44,126,82,`,
+
+  'AI·콘텐츠·디자인': `게시일,채널,담당자,연락처,콘텐츠ID,조회수,좋아요
+2026-11-18,인스타,한지우,010-0000-5051,C-001,1240,86
+2026-11-18,인스타,한지우,010-0000-5051,C-002,980,45
+2026-11-19,블로그,윤서준,010-0000-5052,C-003,,12
+2026-11-19,유튜브,윤서준,010-0000-5052,C-004,3400,180
+2026-11-20,인스타,한지우,010-0000-5051,C-001,1240,86
+2026-11-20,유튜브,윤서준,010-0000-5052,C-005,-50,0
+2026/11/21,블로그,서민아,010-0000-5053,C-006,760,33
+2026-11-21,유튜브,서민아,010-0000-5053,C-007,2100,150
+2026-11-21,인스타,서민아,010-0000-5053,C-008,1500,2400
+2026-11-22,블로그,한지우,010-0000-5051,C-009,540,`,
+
+  '공간정보·건설': `점검일,현장명,점검자,연락처,위도,경도,안전점수,지적사항
+2026-11-20,해운대A,김민수,010-0000-6061,35.1631,129.1632,88,안전난간
+2026-11-20,해운대B,이서연,010-0000-6062,35.1602,129.1701,92,없음
+2026-11-21,기장C,박지훈,010-0000-6063,,,75,전선노출
+2026-11-21,기장C,박지훈,010-0000-6063,35.2441,129.2122,,-
+2026-11-22,해운대A,김민수,010-0000-6061,35.1631,129.1632,88,안전난간
+2026-11-22,사상D,최유진,010-0000-6064,35.1520,128.9800,140,없음
+2026/11/23,해운대B,이서연,010-0000-6062,35.1602,129.1701,90,적치물
+2026-11-23,사상D,최유진,010-0000-6064,35.1520,128.9800,86,없음
+2026-11-23,영도E,한지우,010-0000-6065,35.0780,129.0670,79,안전모
+2026-11-24,기장C,박지훈,010-0000-6063,35.2441,129.2122,81,없음`
+};
+
+/* ============================================================
+   프롬프트 템플릿 v2.0 (기획서 §4.2~4.6 원문)
+   {{키}} 자리에 참가자 입력값이 치환됩니다.
+   ============================================================ */
+const TEMPLATES = {
+
+1: `너는 오늘 우리 팀의 '현장 안내자'야. 우리는 이틀 동안 5단계로 웹앱 하나를 만든다.
+
+[팀] {{팀명}} / {{소속대학}} / 분야: {{분야}}
+[우리에게 주어진 미션] {{배정미션}}
+[팀 구성] {{팀원1}}({{역할1}}), {{팀원2}}({{역할2}}), {{팀원3}}({{역할3}})
+
+규칙:
+- 설명은 대학 1학년이 읽어도 바로 이해되는 말로 써. 어려운 말은 괄호 안에 풀어 써.
+- 우리 대신 결정하지 마. 선택지와 기준만 줘.
+- 확인되지 않은 사실을 지어내지 마. 출처를 모르면 '출처 확인 필요'라고 써.
+
+1) 이 미션을 우리 전공({{분야}}) 언어로 3줄로 다시 설명해 줘. 첫 줄은 '무엇을 만들라는 것인지'야.
+2) 우리 분야에서 이 미션과 붙는 실제 현장 문제 후보 5개를 골라 줘. 공개된 자료(뉴스, 공공데이터, 제조사 매뉴얼, 협회 자료)를 근거로 하고, 각 후보마다 ① 누가 겪는지 ② 지금은 어떻게 처리하는지 ③ 왜 불편한지 한 줄씩, 그리고 출처 주소를 적어 줘.
+3) 5개를 우리가 고를 수 있게, '공개 데이터로 확인할 수 있는가'와 '50분 안에 웹앱 하나로 보여 줄 수 있는가' 두 기준으로 O/X만 표시해 줘. 이유는 세 줄 이내로.
+4) 오늘 1단계 50분 동안 우리 3명이 무엇을 어떤 순서로 할지, 분 단위로 5줄로 알려 줘.
+
+마지막에 "5개 중 2개를 골라 나에게 말해 주면, 그 2개를 더 좁혀 줄 준비가 되었다"고 물어봐.`,
+
+2: `너는 데이터 검수 담당이야. 우리는 대학 1학년 3명이고, 아래 10줄짜리 연습 데이터를 웹앱 재료로 쓰려고 해.
+
+[자료] {{자료명}} / 출처: {{출처}}
+[데이터 10줄]
+{{연습데이터}}
+
+규칙:
+- 원본 데이터는 절대 고치지 마. 제안만 해. 실제로 바꾸는 것은 우리가 확인한 뒤에 해.
+- 개인정보로 보이는 것은 '가려야 한다'고만 하지 말고, 어떤 규칙으로 가릴지 예시를 하나씩 보여 줘.
+
+1) 이 데이터에서 개인정보로 보이는 칸을 모두 찾아 목록으로 만들어 줘. (이름, 연락처, 주소, 생년월일, 사업자번호, 계좌번호, 사진 등)
+2) 칸마다 가리는 방법을 제안해 줘. 예: 홍길동 → 홍○○, 010-1234-5678 → 010-****-5678, 주소는 시·구까지만.
+3) 이 데이터에서 오류를 찾아 표로 만들어 줘. 열은 [자료 항목 / 이상 유형(결측·이상치·중복·형식오류) / 발견한 내용 / 어떻게 처리할지]. 3건 이상, 최대 6건.
+4) 3번에서 '이건 원본을 다시 확인해야 한다'고 판단한 항목을 따로 표시해 줘. 우리가 강사에게 물어볼 목록이야.
+5) 마지막에, 가린 뒤에도 앱을 만들기에 충분한 데이터인지 한 줄로 판단해 줘. 부족하면 무엇이 더 필요한지 말해 줘.
+
+아직 코드는 쓰지 마. 표와 목록까지만.`,
+
+3: `너는 대학 1학년 3명과 함께 웹앱을 기획하는 기획 코치야. 우리가 정한 내용은 아래와 같아.
+
+[팀] {{팀명}} / {{소속대학}} / 분야: {{분야}}
+[배정 미션] {{배정미션}}
+[우리가 눈여겨본 문제 후보] {{후보1}} / {{후보2}}
+
+[현장의 문제] {{문제}}
+[이 문제를 겪는 사람] {{사용자}}
+[지금 이 사람이 처리하는 방식] {{현재절차}}
+[개선 후 기대효과] {{기대효과}}
+[성공 판정 기준] {{성공기준}}
+[이번에 만들지 않을 것] {{제외범위}}
+[2부에서 정리한 자료] {{자료요약}}
+
+규칙:
+- 너는 우리 대신 결정하지 마. 선택지와 기준을 주고, 고르는 것은 우리가 해.
+- 우리가 쓴 문장을 네 마음대로 바꿔 쓰지 마. 고칠 게 있으면 '이렇게 바꾸면 어떠냐'고 물어봐.
+- 50분 안에 만들 수 없는 크기면 반드시 줄여서 말해. 우리를 기분 좋게 해 주려고 크게 잡지 마.
+
+1) 우리 문제 정의에서 '너무 넓어서 이틀 안에 못 만드는 부분'을 1개 짚고, 잘라내는 방법을 2가지 제안해 줘. 각각 무엇을 포기하는지도 적어 줘.
+2) 이 문제를 웹앱으로 풀 때 필요한 화면을 3개 이하로 정리해 줘. 각 화면은 [사용자가 넣는 것] / [누르는 버튼] / [화면에 나오는 결과] 세 칸으로만 써. 그 외 설명은 쓰지 마.
+3) 그중 '핵심 기능 1개'를 고르는 기준 3가지를 먼저 알려 주고, 후보 3개를 장점·단점·걸리는 시간과 함께 보여 줘. 우리가 고를 거야.
+4) 우리 기획에서 심사위원이 물을 만한 질문 5개를, '우리가 답해야 할 질문' 형태로 바꿔 줘. 답은 쓰지 마. 우리가 답할 거야.
+5) 우리가 3번에서 고른 기능을 알려 주면, 그 기능만 남긴 화면 설계 1장([입력]·[버튼]·[결과]·[예시 데이터])을 확정해 주고, 4단계에서 만들 때 쓸 '만들 것 목록'을 5줄로 정리해 줘.
+
+먼저 1)과 2)만 하고 멈춰. 우리가 읽고 답하면 3)으로 넘어가.`,
+
+4: `너는 나와 함께 웹앱을 만드는 개발 파트너야. 나는 코딩을 거의 모르는 대학 1학년이고, 우리 3명이 오늘 안에 '핵심 기능 1개'가 실제로 동작하는 시제품을 만들어야 해. 아래는 우리가 3단계에서 확정한 설계야.
+
+[팀] {{팀명}} — {{분야}}
+[서비스 한 줄] {{서비스}}
+[핵심 기능] {{기능명}}
+[입력] {{입력}} / [처리] {{처리}} / [출력] {{출력}}
+[사용 흐름] 1) {{흐름1}} 2) {{흐름2}} 3) {{흐름3}}
+[화면] {{화면}}
+[데이터] {{자료요약}} — 2부(자재 검수)에서 가린 연습 데이터 10줄을 코드 안에 예시로 넣어. 실제 개인정보, 실제 회사 자료는 절대 넣지 마.
+[범위] 화면 1~2개, 버튼 3개 이하. 로그인·결제·서버·DB·외부 API 없이 브라우저에서만 돌아가게. 인터넷을 끊어도 열려야 하니 외부 CDN은 쓰지 마.
+[지금 상태] 되는 것: {{되는것}} / 안 되는 것: {{안되는것}}
+[막힌 점] {{막힌점}}
+
+진행 방식 — 이 순서를 꼭 지켜:
+- 한 번에 다 만들지 마. 먼저 '1단계: 화면 뼈대'만 만들어. 제목, 입력칸, 버튼, 결과가 나올 빈 영역까지. 동작은 아직 넣지 마. 만들고 나서 멈춰.
+- 내가 "좋아"라고 하면 '2단계: 버튼을 누르면 결과가 나오는 동작'만 붙여. 그리고 멈춰.
+- 내가 "좋아"라고 하면 '3단계: 예시 데이터 넣기와 결과 표시 다듬기'만 해. 그리고 멈춰.
+- 각 단계가 끝나면 ① 무엇을 바꿨는지 ② 어떻게 확인하는지(어느 파일을 열고 어느 버튼을 누르는지) ③ 안 되면 나에게 무엇을 알려 주면 되는지, 세 줄로 알려 줘.
+- 파일은 index.html 하나로 만들어. 내가 내 컴퓨터 폴더에 저장할 수 있게 전체 코드를 한 블록으로 보여 줘.
+- 디자인은 흰 배경, 큰 글씨, 휴대폰에서도 보이게. 색은 두 가지 이하.
+- 내가 이해하지 못할 코드는 그대로 두지 말고, 왜 그렇게 썼는지 한 줄 주석으로 설명해 줘.
+- 내가 "막혔다"고 하면, 새로 만들지 말고 ① 원인 후보 3개 ② 확인 방법 ③ 가장 작은 수정 하나, 이 순서로만 답해 줘.
+
+시작하기 전에, 우리 설계에서 애매한 점이 있으면 3개까지만 질문해. 그다음 1단계만 시작해.`,
+
+5: `너는 지금부터 '준공 검사 담당'이야. 새 기능은 더 만들지 않아. 오늘은 검사와 최소 수정만 해.
+
+[우리 앱] {{파일명}}
+[핵심 기능] {{기능명}} — 입력: {{입력}} / 처리: {{처리}} / 출력: {{출력}}
+[우리가 돌려 본 결과]
+{{시험표}}
+[사용자 검증 의견]
+{{검증1}} / {{검증2}}
+[발표 조건] 5분 발표 + 3분 질의응답, 심사 배점 100점
+
+규칙:
+- 기능을 새로 제안하지 마. 오늘 고칠 수 있는 것과 발표에서 말로 설명할 것으로만 나눠.
+- 한 번에 한 건만 고쳐. 여러 개를 한꺼번에 바꾸면 우리가 확인할 수 없어.
+- 우리 시험표에 없는 것을 '고장'이라고 단정하지 마.
+
+1) 우리 시험표를 보고, 판정이 '불합격'인 항목을 심각한 순서로 줄 세워 줘. 각 항목마다 원인 후보 3개와, 우리가 1분 안에 확인할 수 있는 방법을 알려 줘.
+2) 내가 "1번 고쳐"라고 하면, 그 한 건만 가장 작은 수정으로 고쳐 줘. ① 원인 ② 바꾼 부분 ③ 다시 시험하는 방법 3줄로 알려 줘. 그리고 멈춰.
+3) 사용자 검증 의견을 ① 오늘 고칠 수 있는 것 ② 다음 버전으로 미룰 것 ③ 말로 설명할 것으로 나눠 줘. 미루는 것은 화면에 '다음 버전'이라고 적을 수 있게 문구를 만들어 줘.
+4) 발표 5분과 질의 3분에 맞춰 '시연 순서 3단계'를 만들어 줘. 각 단계는 30초 안에 끝나야 하고, 누가 무엇을 누르는지 적어 줘.
+5) 심사위원이 물을 만한 질문 3개와, 우리가 쓴 기록(문제정의서·시험표)에 있는 내용만 근거로 한 답을 만들어 줘. 근거가 없는 질문은 '근거 없음 — 발표에서 언급하지 말 것'이라고 표시해 줘.
+
+먼저 1)만 해. 우리가 확인하고 "고쳐"라고 할 때까지 코드는 건드리지 마.`
+};
+
+/* 3부 2차 조립(화면 확정 요청) — 화면 3칸·핵심 기능이 채워졌을 때 덧붙습니다 */
+const P3_STAGE2 = `
+
+[2차 요청 — 이제 우리가 고른 기능으로 확정해 줘]
+우리가 고른 핵심 기능은 '{{기능명}}'이고, 화면은 [입력] {{입력}} / [버튼] {{버튼}} / [결과] {{결과}} 이야.
+이 기능만 남긴 화면 설계 1장([입력]·[버튼]·[결과]·[예시 데이터])을 확정해 주고, 4단계에서 만들 때 쓸 '만들 것 목록'을 5줄로 정리해 줘. 새 화면은 추가하지 마.`;
+
+/* 빈 칸 이름 표시용 */
+const LABELS = {
+  '팀명':'팀명','소속대학':'소속 대학','분야':'분야','배정미션':'배정 미션',
+  '팀원1':'팀원 1','팀원2':'팀원 2','팀원3':'팀원 3',
+  '자료명':'자료명','출처':'출처','연습데이터':'연습 데이터 10줄',
+  '문제':'현장의 문제','사용자':'사용자','현재절차':'현재 절차','기대효과':'기대효과',
+  '성공기준':'성공 기준','제외범위':'뺀 것','자료요약':'정리된 자료 요약',
+  '기능명':'핵심 기능','입력':'입력','처리':'처리','출력':'출력','버튼':'버튼','결과':'결과',
+  '흐름1':'사용 흐름 1','흐름2':'사용 흐름 2','흐름3':'사용 흐름 3',
+  '서비스':'서비스 한 줄','화면':'화면 구성','되는것':'되는 것','안되는것':'안 되는 것','막힌점':'막힌 점',
+  '파일명':'파일 이름','시험표':'시험표','검증1':'검증자 1','검증2':'검증자 2',
+  '후보1':'문제 후보 1','후보2':'문제 후보 2'
+};
+
+</script>
+<script>
+/* ============================================================
+   5부 설계도 작업대 v2.0 — 애플리케이션 로직
+   ============================================================ */
+(function(){
+'use strict';
+
+const LS_KEY = k => 'hq2:team:' + k;
+const LS_LAST = 'hq2:last';
+const BLANKTXT = '(아직 비어 있음 — 우리가 채울 것)';
+const PART_NAMES = {1:'현장 답사',2:'자재 검수',3:'설계도',4:'시공',5:'준공 검사'};
+
+const P1_EXTRA = `
+
+[우리가 지금까지 적은 것]
+[우리가 이해한 미션] {{이해}}
+[눈여겨본 문제 후보] {{후보1}} / {{후보2}}`;
+
+/* ---------------- 상태 ---------------- */
+function defaults(team){
+  return {
+    v:2, template:'v2.0', team:team||'', savedAt:null,
+    done:{1:false,2:false,3:false,4:false,5:false},
+    partial:{1:false,2:false,3:false,4:false,5:false},
+    copied:{},
+    preview:false,
+    timer:{remain:3000,running:false,endAt:null},
+    parts:{
+      1:{team:team||'',univ:'',track:'',mission:'',
+         members:[{name:'',role:'빌더'},{name:'',role:'데이터·기획'},{name:'',role:'검증·발표'}],
+         chk:{c1:false,c2:false,c3:false},understand:'',cand1:'',cand2:'',
+         conf:{c1:false,c2:false,c3:false}},
+      2:{sources:[{name:'',url:''},{name:'',url:''},{name:'',url:''}],
+         mask:['','',''],mc:{name:false,phone:false,addr:false,face:false,biz:false,etc:false,none:false},
+         err:[{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''}],
+         summary:'',data:'',conf:{c1:false,c2:false,c3:false}},
+      3:{problem:'',user:'',current:'',effect:'',success:'',exclude:'',
+         s1:{input:'',btn:'',out:''},s2:{input:'',btn:'',out:''},
+         funcName:'',func:{in:'',proc:'',out:''},flow:['','',''],why:'',
+         conf:{c1:false,c2:false,c3:false,c4:false}},
+      4:{file:'',works:'',notWorks:'',blocked:'',step:{s1:false,s2:false,s3:false},
+         conf:{c1:false,c2:false,c3:false,c4:false}},
+      5:{freeze:false,
+         test:[0,1,2,3,4].map(()=>({item:'',input:'',expect:'',actual:'',verdict:'',fix:''})),
+         user:[{who:'',voice:'',fix:''},{who:'',voice:'',fix:''}],
+         src:[0,1,2,3].map(()=>({name:'',url:'',lic:''})),
+         contrib:[0,1,2].map(()=>({name:'',work:'',h:''})),
+         limits:'',presenter:'',demo:['','',''],demoQ:['','',''],
+         conf:{c1:false,c2:false,c3:false,c4:false}}
+    }
+  };
+}
+
+function fillDefaults(def, val){
+  if(Array.isArray(def)){
+    if(!Array.isArray(val)) return JSON.parse(JSON.stringify(def));
+    return def.map((d,i)=> i<val.length ? fillDefaults(d, val[i]) : JSON.parse(JSON.stringify(d)));
+  }
+  if(def && typeof def==='object'){
+    if(!val || typeof val!=='object') return JSON.parse(JSON.stringify(def));
+    const out={};
+    for(const k of Object.keys(def)) out[k] = (k in val) ? fillDefaults(def[k], val[k]) : JSON.parse(JSON.stringify(def[k]));
+    return out;
+  }
+  return (val===undefined||val===null) ? def : val;
+}
+
+let S = null;
+let teamKey = '';
+let activePart = 1;
+let saveTimer = null, docTimer = null, lastTickWarn = 0;
+const lastPrompt = {};
+
+/* ---------------- 유틸 ---------------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const dash = v => (v && String(v).trim()) ? esc(String(v).trim()) : '<span class="blank">—</span>';
+const nl = v => esc(String(v==null?'':v)).replace(/\n/g,'<br>');
+function toast(msg, kind){
+  const box=$('toasts'); if(!box) return;
+  const d=document.createElement('div'); d.className='toast'+(kind?' '+kind:''); d.textContent=msg;
+  box.appendChild(d); setTimeout(()=>{d.style.opacity='0';d.style.transition='opacity .3s';},2600);
+  setTimeout(()=>d.remove(),3000);
+}
+function teamKeyOf(name){
+  return String(name||'').toLowerCase().replace(/[\s\u00a0·・.,!?()\[\]{}'"`~@#$%^&*/\\|:;+\-—_]/g,'');
+}
+function normPath(path){ return String(path).replace(/^p([1-5])\./,'parts.$1.'); }
+function getPath(path){
+  const segs=normPath(path).split('.');
+  let o=S; for(const p of segs){ if(o==null) return undefined; o=o[p]; }
+  return o;
+}
+function setPath(path, v){
+  const parts=normPath(path).split('.'); let o=S;
+  for(let i=0;i<parts.length-1;i++){
+    const k=parts[i];
+    if(o[k]==null || typeof o[k]!=='object') o[k] = /^\d+$/.test(parts[i+1]) ? [] : {};
+    o=o[k];
+  }
+  o[parts[parts.length-1]]=v;
+}
+
+/* ---------------- 저장 ---------------- */
+function setSaveStatus(txt, saving){
+  const e=$('sbSaveTxt'); if(!e) return;
+  e.textContent=txt;
+  const box=$('sbSave');
+  if(box){ box.style.color = saving ? '#fcd34d' : '#86efac'; const d=box.querySelector('.sdot'); if(d) d.style.background = saving?'#f59e0b':'#22c55e'; }
+}
+function nowHHMM(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function save(){
+  if(!S || !teamKey) return;
+  S.savedAt = new Date().toISOString();
+  try{
+    localStorage.setItem(LS_KEY(teamKey), JSON.stringify(S));
+    localStorage.setItem(LS_LAST, teamKey);
+  }catch(err){
+    toast('저장 공간이 부족하거나 차단되었습니다. 설정의 [기록 내보내기]로 백업하세요.','bad');
+  }
+  setSaveStatus('저장됨 '+nowHHMM(), false);
+}
+function scheduleSave(){
+  setSaveStatus('저장 중…', true);
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 400);
+  clearTimeout(docTimer);
+  docTimer = setTimeout(()=>{ renderDoc(); }, 700);
+}
+
+/* ---------------- 입력 바인딩 ---------------- */
+function handleField(el){
+  if(!S) return;
+  const f = el.dataset.f; if(!f) return;
+  let v;
+  if(el.type==='checkbox') v = el.checked;
+  else v = el.value;
+  setPath(f, v);
+  afterChange();
+}
+function syncInputs(){
+  document.querySelectorAll('[data-f]').forEach(el=>{
+    const f=el.dataset.f; if(!f || f==='team') return;   // 시작 화면 입력은 제외
+    const v=getPath(f);
+    if(el.type==='checkbox'){ el.checked=!!v; }
+    else { el.value = (v==null?'':v); }
+  });
+}
+function afterChange(){
+  autoFill();
+  refresh();
+  scheduleSave();
+}
+
+/* 2부·1부 → 5부 자동 채움 */
+function autoFill(){
+  if(!S) return;
+  const p1=S.parts[1], p2=S.parts[2], p5=S.parts[5];
+  if(p1.team && S.team!==p1.team){ S.team=p1.team; }
+  for(let i=0;i<2;i++){
+    if(!p5.src[i].name && p2.sources[i] && p2.sources[i].name) p5.src[i].name = p2.sources[i].name;
+    if(!p5.src[i].url && p2.sources[i] && p2.sources[i].url) p5.src[i].url = p2.sources[i].url;
+  }
+  for(let i=0;i<3;i++){
+    if(!p5.contrib[i].name && p1.members[i] && p1.members[i].name) p5.contrib[i].name = p1.members[i].name;
+  }
+  if(!p5.presenter){
+    const m = p1.members.find(x=>x.role==='검증·발표' && x.name.trim());
+    if(m) p5.presenter = m.name;
+  }
+  ['src.0.name','src.0.url','src.1.name','src.1.url','contrib.0.name','contrib.1.name','contrib.2.name'].forEach(k=>{
+    const el=document.querySelector('[data-f="p5.'+k+'"]');
+    if(el){ const v=getPath('p5.'+k); if(v && el.value!==v) el.value=v; }
+  });
+  const pe=document.querySelector('[data-f="p5.presenter"]');
+  if(pe && p5.presenter && pe.value!==p5.presenter) pe.value=p5.presenter;
+}
+
+/* ---------------- 프롬프트 조립 ---------------- */
+function valsFor(n){
+  const p1=S.parts[1], p2=S.parts[2], p3=S.parts[3], p4=S.parts[4], p5=S.parts[5];
+  if(n===1){
+    return {'팀명':p1.team,'소속대학':p1.univ,'분야':p1.track,'배정미션':p1.mission,
+      '팀원1':p1.members[0].name,'역할1':p1.members[0].role,
+      '팀원2':p1.members[1].name,'역할2':p1.members[1].role,
+      '팀원3':p1.members[2].name,'역할3':p1.members[2].role,
+      '이해':p1.understand,'후보1':p1.cand1,'후보2':p1.cand2};
+  }
+  if(n===2){
+    return {'자료명':(p2.sources[0]||{}).name,'출처':(p2.sources[0]||{}).url,'연습데이터':p2.data};
+  }
+  if(n===3){
+    return {'팀명':p1.team,'소속대학':p1.univ,'분야':p1.track,'배정미션':p1.mission,
+      '후보1':p1.cand1,'후보2':p1.cand2,
+      '문제':p3.problem,'사용자':p3.user,'현재절차':p3.current,'기대효과':p3.effect,
+      '성공기준':p3.success,'제외범위':p3.exclude,'자료요약':p2.summary,
+      '기능명':p3.funcName,'입력':p3.s1.input,'버튼':p3.s1.btn,'결과':p3.s1.out,
+      '처리':p3.func.proc,'출력':p3.func.out};
+  }
+  if(n===4){
+    let screen = '';
+    if(p3.s1.input||p3.s1.btn||p3.s1.out) screen += '화면1 — [입력] '+(p3.s1.input||'?')+' / [버튼] '+(p3.s1.btn||'?')+' / [결과] '+(p3.s1.out||'?');
+    if(p3.s2.input||p3.s2.btn||p3.s2.out) screen += (screen?' · ':'')+'화면2 — [입력] '+(p3.s2.input||'?')+' / [버튼] '+(p3.s2.btn||'?')+' / [결과] '+(p3.s2.out||'?');
+    return {'팀명':p1.team,'분야':p1.track,'서비스':p1.mission,
+      '기능명':p3.funcName,'입력':p3.func.in,'처리':p3.func.proc,'출력':p3.func.out,
+      '흐름1':p3.flow[0],'흐름2':p3.flow[1],'흐름3':p3.flow[2],
+      '화면':screen,'자료요약':p2.summary,
+      '되는것':p4.works,'안되는것':p4.notWorks,'막힌점':p4.blocked};
+  }
+  if(n===5){
+    const tests = p5.test.map((t,i)=>{
+      const kind = i<3 ? '정상' : '에러';
+      return (i+1)+'. ['+kind+'] '+(t.item||'—')+' / 입력: '+(t.input||'—')+' / 기대: '+(t.expect||'—')+' / 실제: '+(t.actual||'—')+' / 판정: '+(t.verdict||'미실시');
+    }).join('\n');
+    const v1 = p5.user[0].who||p5.user[0].voice ? ((p5.user[0].who||'검증자1')+': "'+(p5.user[0].voice||'—')+'"') : '';
+    const v2 = p5.user[1].who||p5.user[1].voice ? ((p5.user[1].who||'검증자2')+': "'+(p5.user[1].voice||'—')+'"') : '';
+    return {'파일명':p4.file,'기능명':p3.funcName,'입력':p3.func.in,'처리':p3.func.proc,'출력':p3.func.out,
+      '시험표':tests,'검증1':v1,'검증2':v2};
+  }
+  return {};
+}
+function templateFor(n){
+  const p1=S.parts[1], p3=S.parts[3];
+  if(n===1){
+    const any = p1.understand || p1.cand1 || p1.cand2;
+    return TEMPLATES[1] + (any ? P1_EXTRA : '');
+  }
+  if(n===3){
+    const stage2 = p3.s1.input.trim() && p3.s1.btn.trim() && p3.s1.out.trim() && p3.funcName.trim();
+    return TEMPLATES[3] + (stage2 ? P3_STAGE2 : '');
+  }
+  return TEMPLATES[n];
+}
+function assemble(n){
+  const tpl = templateFor(n);
+  const vals = valsFor(n);
+  let blanks = 0; const missing = [];
+  const plain = tpl.replace(/\{\{([^{}]+)\}\}/g, (m,k)=>{
+    const v = (vals[k]==null?'':String(vals[k])).trim();
+    if(!v){ blanks++; const lb = LABELS[k]||k; if(missing.indexOf(lb)<0) missing.push(lb); return BLANKTXT; }
+    return v;
+  });
+  let html = esc(plain);
+  html = html.split(BLANKTXT).join('<span class="blank">'+BLANKTXT+'</span>');
+  lastPrompt[n] = plain;
+  return {html, plain, blanks, missing, len: plain.length};
+}
+function refreshPrompt(n){
+  const r = assemble(n);
+  const pre = $('pre'+n); if(pre) pre.innerHTML = r.html;
+  const blank = $('blank'+n);
+  if(blank){
+    if(r.blanks>0){ blank.style.display=''; blank.className='tag warn'; blank.textContent='빈 칸 '+r.blanks+'개 · '+r.missing.slice(0,3).join(', ')+(r.missing.length>3?' 외':''); }
+    else { blank.style.display='none'; }
+  }
+  const p=S.parts;
+  if(n===1){
+    const filled = [p[1].team,p[1].univ,p[1].track,p[1].mission].filter(x=>String(x||'').trim()).length
+      + (p[1].members.every(m=>m.name.trim())?1:0);
+    const rec=$('rec1'); if(rec) rec.textContent='재료 '+filled+'/5';
+  }
+  if(n===2){
+    const filled=[p[2].sources[0].name,p[2].mask[0],p[2].mask[1],p[2].mask[2],p[2].data].filter(x=>String(x||'').trim()).length;
+    const rec=$('rec2'); if(rec) rec.textContent='재료 '+filled+'/5';
+  }
+  if(n===3){
+    const base=[p[3].problem,p[3].user,p[3].current,p[3].effect,p[3].success,p[3].exclude,p[1].cand1,p[1].cand2,p[2].summary];
+    const c=base.filter(x=>String(x||'').trim()).length;
+    const st2 = p[3].s1.input.trim() && p[3].s1.btn.trim() && p[3].s1.out.trim() && p[3].funcName.trim();
+    const rec=$('stage3'); if(rec) rec.textContent=(st2?'2차 조립':'1차 조립')+' · 재료 '+c+'/9';
+  }
+  if(n===4){
+    const base=[p[3].funcName,p[3].func.in,p[3].func.proc,p[3].func.out,p[3].flow.every(f=>f.trim()),p[3].s1.input];
+    const c=base.filter(Boolean).length;
+    const rec=$('rec4'); if(rec) rec.textContent='재료 '+c+'/6';
+    const mode=$('p4mode');
+    if(mode) mode.textContent = p[4].blocked.trim() ? '🔧 막힘 도움 요청 모드 — 같은 상자에서 다시 복사' : '1단계부터 시작합니다';
+  }
+  if(n===5){
+    const c=p[5].test.filter(t=>t.verdict).length;
+    const rec=$('rec5'); if(rec) rec.textContent='시험 '+c+'/5 기록';
+  }
+}
+
+/* ---------------- 완료 조건 ---------------- */
+function partStatus(n){
+  const p=S.parts, missing=[];
+  let ok=true, partialOk=false, warn='';
+  const need=(label, cond, soft)=>{ if(!cond){ if(soft) return; missing.push(label); ok=false; } };
+  if(n===1){
+    const a=p[1];
+    need('팀명', !!a.team.trim());
+    need('소속 대학', !!a.univ.trim());
+    need('분야', !!a.track);
+    need('배정 미션', !!a.mission.trim());
+    need('팀원 3인 이름', a.members.every(m=>m.name.trim()));
+    need('계정·도구 확인 3개', !!(a.chk.c1&&a.chk.c2&&a.chk.c3));
+    need('확인 3개', !!(a.conf.c1&&a.conf.c2&&a.conf.c3));
+    partialOk = false;
+  }
+  if(n===2){
+    const b=p[2];
+    const maskOn = ['name','phone','addr','face','biz','etc'].filter(k=>b.mc[k]).length;
+    const errs = b.err.slice(0,3).every(e=>e.item.trim()&&e.type&&e.found.trim()&&e.fix.trim());
+    need('자료 출처 1행', !!(b.sources[0]||{}).name.trim());
+    need('마스킹 기록 3줄', b.mask.every(x=>x.trim()));
+    need('마스킹 체크(6개 중 5개 또는 해당 없음)', maskOn>=5 || b.mc.none);
+    need('데이터 오류 3행', errs);
+    need('정리된 자료 요약', !!b.summary.trim());
+    need('확인 3개', !!(b.conf.c1&&b.conf.c2&&b.conf.c3));
+    partialOk = false;
+  }
+  if(n===3){
+    const c=p[3];
+    const core = [c.problem,c.user,c.current,c.effect,c.success].every(x=>x.trim());
+    const screenOk = !!(c.s1.input.trim() && c.s1.btn.trim() && c.s1.out.trim());
+    const funcCore = [c.funcName,c.func.in,c.func.proc,c.func.out,c.why].every(x=>x.trim())
+      && c.flow.every(f=>f.trim());
+    const conf = !!(c.conf.c1&&c.conf.c2&&c.conf.c3&&c.conf.c4);
+    need('현장의 문제', !!c.problem.trim());
+    need('사용자', !!c.user.trim());
+    need('현재 절차', !!c.current.trim());
+    need('기대효과', !!c.effect.trim());
+    need('성공 판정 기준', !!c.success.trim());
+    need('뺀 것(범위)', !!c.exclude.trim());
+    need('화면 3칸(입력·버튼·결과)', screenOk);
+    need('핵심 기능(기능명·입출력)', !!(c.funcName.trim()&&c.func.in.trim()&&c.func.proc.trim()&&c.func.out.trim()));
+    need('사용 흐름 3단계', c.flow.every(f=>f.trim()));
+    need('왜 이 기능인가', !!c.why.trim());
+    need('확인 4개', conf);
+    partialOk = core && funcCore && conf && !ok;
+    warn = '뺀 것과 화면 3칸이 비어 있습니다. 비운 채로 열면 4부에서 범위가 커집니다.';
+  }
+  if(n===4){
+    const d=p[4];
+    const steps = d.step.s1&&d.step.s2&&d.step.s3;
+    const conf = !!(d.conf.c1&&d.conf.c2&&d.conf.c3&&d.conf.c4);
+    need('만든 파일 이름/위치', !!d.file.trim());
+    need('지금 되는 것', !!d.works.trim());
+    need('단계 확인 3개', steps);
+    need('확인 4개', conf);
+    partialOk = !!d.file.trim() && d.step.s1 && conf && !ok;
+    warn = '1단계(화면 뼈대)까지만 된 상태입니다. 5부는 열리지만 기록지 ②에 \'미완성\'으로 표시됩니다.';
+  }
+  if(n===5){
+    const e=p[5];
+    const tests = e.test.every(t=>t.item.trim()&&t.input.trim()&&t.expect.trim()&&t.actual.trim()&&t.verdict);
+    const users = e.user.every(u=>u.who.trim()&&u.voice.trim());
+    const contrib = e.contrib.every(c=>c.name.trim()&&c.work.trim()&&c.h.trim());
+    need('기능 동결 확인', !!e.freeze);
+    need('시험 5건(항목·입력·기대·실제·판정)', tests);
+    need('사용자 검증 2인', users);
+    need('팀원별 기여 3행', contrib);
+    need('현장 적용 한계·전제', !!e.limits.trim());
+    need('발표자', !!e.presenter.trim());
+    need('확인 4개', !!(e.conf.c1&&e.conf.c2&&e.conf.c3&&e.conf.c4));
+    partialOk = false;
+  }
+  return {ok, partialOk, missing, warn};
+}
+
+/* ---------------- 화면 갱신 ---------------- */
+function refresh(){
+  if(!S) return;
+  autoFill();
+  $('hdTeam').textContent = S.parts[1].team || S.team || '팀 미지정';
+  document.body.classList.toggle('preview', !!S.preview);
+  renderRail();
+  for(let n=1;n<=5;n++){ refreshPrompt(n); refreshPartState(n); }
+  // 글자수 안내
+  document.querySelectorAll('[data-min]').forEach(el=>{
+    const box = el.parentElement.querySelector('.cnt[data-for="'+el.dataset.f+'"]');
+    if(!box) return;
+    const len = (el.value||'').trim().length, min=+el.dataset.min, max=+el.dataset.max;
+    let cls='', txt=len+'자 · 권장 '+min+'~'+max+'자';
+    if(len===0) cls='';
+    else if(len<min) cls='low';
+    else if(len>max*1.2) cls='over';
+    else cls='ok';
+    box.className='cnt '+cls;
+    box.innerHTML='<span class="dot"></span>'+txt;
+  });
+  // 마스킹 체크 수
+  const mc=S.parts[2].mc;
+  const mcnt=['name','phone','addr','face','biz','etc'].filter(k=>mc[k]).length;
+  const mt=$('maskCount'); if(mt){ mt.textContent='확인 '+mcnt+'/6'; mt.className = (mcnt>=5||mc.none)?'tag ok':'tag gray'; }
+  // 시험 판정 수
+  const tc=$('verdictCnt');
+  if(tc){
+    const t=S.parts[5].test;
+    const pass=t.filter(x=>x.verdict==='합격').length, fail=t.filter(x=>x.verdict==='불합격').length;
+    tc.className='cnt'; tc.innerHTML='<span class="dot"></span>합격 '+pass+' · 불합격 '+fail+' · 미판정 '+(5-pass-fail);
+  }
+  // 데이터 줄수
+  const dc=$('dataCnt');
+  if(dc){
+    const lines=(S.parts[2].data||'').trim().split('\n').filter(x=>x.trim()).length;
+    dc.className='cnt '+(lines>=11?'ok':(lines>0?'low':''));
+    dc.innerHTML='<span class="dot"></span>'+(lines? (lines-1)+'줄 (머리글 포함 '+lines+'행)' : '아직 붙이지 않았습니다');
+  }
+  // 5부 게이트
+  const gate=$('gate5'), form=$('p5form');
+  if(gate&&form){
+    gate.style.display = S.parts[5].freeze ? 'none':'flex';
+    form.style.opacity = S.parts[5].freeze ? '1':'0.45';
+    form.style.pointerEvents = S.parts[5].freeze ? 'auto':'none';
+    if(S.parts[5].freeze) form.removeAttribute('aria-disabled');
+    else form.setAttribute('aria-disabled','true');
+  }
+  // 기록지 버튼 강조
+  $('openDoc').classList.toggle('primary', !!S.done[5]);
+}
+
+function refreshPartState(n){
+  const st = partStatus(n);
+  const miss = $('miss'+n);
+  if(miss) miss.innerHTML = st.missing.length ? st.missing.map(m=>'<span class="m">'+esc(m)+'</span>').join('') : '';
+  const tag = $('state'+n);
+  if(tag){
+    if(S.done[n] && st.ok){ tag.className='tag ok'; tag.textContent='완료 ✓'; }
+    else if(S.done[n]){ tag.className='tag warn'; tag.textContent='완료 처리됨 · 일부 칸 비어 있음'; }
+    else if(st.ok){ tag.className='tag pur'; tag.textContent='모든 칸이 찼습니다 — 완료 버튼을 누르세요'; }
+    else if(st.partialOk){ tag.className='tag warn'; tag.textContent='일부 칸 비어 있음 · 경고 후 열 수 있습니다'; }
+    else { tag.className='tag gray'; tag.textContent='아직 완료 전'; }
+  }
+}
+
+function renderRail(){
+  const rail=$('rail'); if(!rail) return;
+  let html='';
+  for(let n=1;n<=5;n++){
+    const accessible = n===1 || S.done[n-1] || S.preview;
+    let cls='step';
+    if(S.done[n]) cls+=' done';
+    if(n===activePart) cls+=' active';
+    if(!accessible) cls+=' locked';
+    let stat;
+    if(!accessible) stat='잠김';
+    else if(S.done[n]) stat='완료 ✓';
+    else if(n===activePart) stat='진행 중';
+    else stat='열림';
+    html += '<button class="'+cls+'" data-goto="'+n+'" '+(accessible?'':'aria-disabled="true"')+'>'
+      + '<span class="num">'+(S.done[n]?'✓':n)+'</span>'
+      + '<span><span class="sname">'+n+'부 '+PART_NAMES[n]+'</span><span class="sstat">'+stat+'</span></span>'
+      + (!accessible?'<span class="lockicon">🔒</span>':'')
+      + '</button>';
+  }
+  rail.innerHTML=html;
+  rail.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>goTo(+b.dataset.goto)));
+}
+
+function goTo(n){
+  if(!S) return;
+  const accessible = n===1 || S.done[n-1] || S.preview;
+  if(!accessible){
+    const st = partStatus(n-1);
+    toast((n-1)+'부를 먼저 완료해야 '+n+'부가 열립니다'+(st.missing.length?' ('+st.missing.slice(0,2).join(', ')+' 등)':''), 'bad');
+    return;
+  }
+  activePart=n;
+  document.querySelectorAll('.part').forEach(sec=>sec.classList.toggle('active', +sec.dataset.part===n));
+  renderRail();
+  refreshPrompt(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------------- 완료 버튼 ---------------- */
+function completePart(n){
+  const st = partStatus(n);
+  if(!st.ok && !st.partialOk){
+    toast('아직 덜 찬 칸이 있습니다: '+st.missing.slice(0,4).join(', '), 'bad');
+    return;
+  }
+  if(!st.ok && st.partialOk){
+    if(!window.confirm(st.warn+'\n\n그래도 '+n+'부를 완료하고 다음 부를 열까요?')) return;
+  }
+  S.done[n]=true;
+  S.partial[n] = !st.ok;
+  // 타이머는 다음 부를 위해 초기화
+  S.timer={remain:3000,running:false,endAt:null};
+  save();
+  refresh();
+  renderDoc();
+  if(n<5){
+    const next=n+1;
+    goTo(next);
+    toast(n+'부 완료! '+next+'부가 열렸습니다. 타이머는 50:00으로 다시 맞춰졌습니다.','good');
+    setTimeout(()=>{ const el=document.querySelector('.part.active .block.b2'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); },300);
+  } else {
+    toast('5부 완료! 결과 기록지를 출력해 제출하세요.','good');
+    openDoc();
+  }
+}
+
+/* ---------------- 타이머 ---------------- */
+function timerRemain(){
+  if(!S) return 3000;
+  if(S.timer.running && S.timer.endAt) return Math.max(0, Math.round((S.timer.endAt - Date.now())/1000));
+  return S.timer.remain;
+}
+function fmt(sec){
+  sec=Math.max(0,Math.floor(sec));
+  return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
+}
+function tickTimer(){
+  if(!S) return;
+  const r = timerRemain();
+  const e=$('timerVal'); if(e) e.textContent = fmt(r);
+  const box=$('timerBox'); if(box) box.classList.toggle('due', r<=300);
+  if(S.timer.running){
+    const btn=$('timerToggle'); if(btn) btn.textContent='❚❚';
+    if(r<=0){
+      S.timer={remain:0,running:false,endAt:null}; save();
+      toast('이 부의 시간(50분)이 끝났습니다. 완료 체크를 누르고 다음 부로 넘어가세요.','bad');
+    } else if(r<=300 && lastTickWarn!==300){
+      lastTickWarn=300;
+      toast('5분 남았습니다. '+PART_NAMES[activePart]+' 단계에서 멈출 곳을 정하세요.','');
+    }
+  } else {
+    const btn=$('timerToggle'); if(btn) btn.textContent='▶';
+  }
+}
+function toggleTimer(){
+  if(!S) return;
+  if(S.timer.running){
+    S.timer.remain = timerRemain();
+    S.timer.running=false; S.timer.endAt=null;
+  } else {
+    if(S.timer.remain<=0) S.timer.remain=3000;
+    S.timer.running=true; S.timer.endAt=Date.now()+S.timer.remain*1000;
+    lastTickWarn=0;
+  }
+  save(); tickTimer();
+}
+function resetTimer(){
+  if(!S) return;
+  S.timer={remain:3000,running:false,endAt:null}; lastTickWarn=0; save(); tickTimer();
+  toast('타이머를 50:00으로 초기화했습니다.');
+}
+
+/* ---------------- 결과 기록지 ---------------- */
+function openDoc(){
+  if(!S) return;
+  renderDoc();
+  document.body.classList.add('docmode');
+  if(!S.done[5]) toast('아직 5부가 완료되지 않았습니다. 빈 칸은 —로 표시됩니다.','');
+  const el=$('printDoc'); if(el) el.scrollTop=0;
+}
+function closeDoc(){ document.body.classList.remove('docmode'); }
+
+function renderDoc(){
+  if(!S) return;
+  const el=$('printDoc'); if(!el) return;
+  const p1=S.parts[1], p2=S.parts[2], p3=S.parts[3], p4=S.parts[4], p5=S.parts[5];
+  const team = p1.team || S.team || '팀명 미기입';
+  const now = new Date();
+  const today = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const members = p1.members.filter(m=>m.name.trim()||m.role).map(m=>(m.name.trim()||'이름 미기입')+'('+m.role+')').join(' · ');
+  const stepDone = p4.step.s1&&p4.step.s2&&p4.step.s3;
+
+  // 미기입 수
+  let blanks=0;
+  for(let n=1;n<=5;n++) blanks += partStatus(n).missing.length;
+
+  const jobs = p5.contrib.filter(c=>c.name.trim()||c.work.trim()||c.h.trim());
+  const srcs = p5.src.filter(s=>s.name.trim()||s.url.trim()||s.lic.trim());
+
+  const tests = p5.test.map((t,i)=>{
+    const kind=i<3?'정상':'에러';
+    return '<tr><td>'+kind+'</td><td>'+dash(t.item)+'</td><td>'+dash(t.input)+'</td><td>'+dash(t.expect)+'</td><td>'+dash(t.actual)+'</td><td><b>'+dash(t.verdict)+'</b></td><td>'+dash(t.fix)+'</td></tr>';
+  }).join('');
+
+  const users = p5.user.map(u=>'<tr><td>'+dash(u.who)+'</td><td>'+dash(u.voice)+'</td><td>'+dash(u.fix)+'</td></tr>').join('');
+
+  const srcRows = (srcs.length?srcs:[{name:'',url:'',lic:''}]).map(s=>
+    '<tr><td>'+dash(s.name)+'</td><td>'+dash(s.url)+'</td><td>'+dash(s.lic)+'</td></tr>').join('');
+  const jobRows = (jobs.length?jobs:[{name:'',work:'',h:''}]).map(c=>
+    '<tr><td>'+dash(c.name)+'</td><td>'+dash(c.work)+'</td><td>'+dash(c.h)+'</td></tr>').join('');
+
+  const p3rows = [
+    ['현장의 문제', p3.problem],['누가 겪는가 (사용자)', p3.user],['지금 어떻게 처리하는가', p3.current],
+    ['개선 후 기대효과', p3.effect],['성공 판정 기준', p3.success],['범위에서 뺀 것', p3.exclude]
+  ].map(r=>'<tr><td class="k">'+r[0]+'</td><td>'+nl(r[1]||'')+'</td></tr>').join('');
+
+  const flow = p3.flow.map((f,i)=>'<tr><td class="k" style="width:14%">'+(i+1)+'단계</td><td>'+dash(f)+'</td></tr>').join('');
+  const demo = p5.demo.map((d,i)=>'<tr><td class="k" style="width:14%">시연 '+(i+1)+'</td><td>'+dash(d)+'</td></tr>').join('');
+  const qs = p5.demoQ.filter(q=>String(q).trim());
+  const qHtml = qs.length ? qs.map((q,i)=>'<li>'+esc(q)+'</li>').join('') : '<li><span class="blank">예상질문 미기입</span></li>';
+
+  el.innerHTML = `
+<div class="pg">
+  <div class="dhead">
+    <div class="dl">
+      <h1>2026 신산업 경진대회 본선 · 팀 결과 기록지</h1>
+      <div class="ev">조선이공대학교 신산업 경진대회 · 2026. 11. 26.(목) ~ 11. 27.(금) · 해운대 마리안느 호텔 22층</div>
+    </div>
+    <div class="stamp">출력일 ${today}</div>
+  </div>
+
+  <table class="tinfo">
+    <colgroup><col style="width:11%"><col style="width:23%"><col style="width:12%"><col style="width:18%"><col style="width:9%"><col style="width:27%"></colgroup>
+    <tr><td class="k">팀명</td><td>${dash(p1.team)}</td><td class="k">소속 대학</td><td>${dash(p1.univ)}</td><td class="k">분야</td><td>${dash(p1.track)}</td></tr>
+    <tr><td class="k">배정 미션</td><td colspan="5">${nl(p1.mission||'')}</td></tr>
+    <tr><td class="k">팀원</td><td colspan="3">${members?esc(members):'<span class="blank">—</span>'}</td><td class="k">5부 완료</td><td>${S.done[5]?'예':'아니오 — 진행 중 기록'}</td></tr>
+  </table>
+
+  <h2>① 문제정의서 <span style="font-weight:400;font-size:8pt;color:#555">(3부 설계도)</span></h2>
+  <table>
+    ${p3rows}
+    <tr><td class="k">화면 1 · 입력/버튼/결과</td><td>${dash(p3.s1.input)} / ${dash(p3.s1.btn)} / ${dash(p3.s1.out)}</td></tr>
+    ${(p3.s2.input||p3.s2.btn||p3.s2.out)?'<tr><td class="k">화면 2 · 입력/버튼/결과</td><td>'+dash(p3.s2.input)+' / '+dash(p3.s2.btn)+' / '+dash(p3.s2.out)+'</td></tr>':''}
+  </table>
+
+  <h2>② 시제품${stepDone?'':' <span class="badge-inline">미완성 — 1·2단계까지만 구현</span>'}</h2>
+  <table>
+    <tr><td class="k">핵심 기능</td><td colspan="3">${dash(p3.funcName)}</td></tr>
+    <tr><td class="k">입력</td><td>${dash(p3.func.in)}</td><td class="k">처리</td><td>${dash(p3.func.proc)}</td></tr>
+    <tr><td class="k">출력</td><td>${dash(p3.func.out)}</td><td class="k">기능 선정 이유</td><td>${dash(p3.why)}</td></tr>
+    <tr><td class="k">파일 / 주소</td><td colspan="3">${dash(p4.file)}</td></tr>
+  </table>
+  <h3>사용 흐름</h3>
+  <table>${flow}</table>
+  <h3>화면 구성</h3>
+  <table>
+    <tr><td class="k">화면 1</td><td>[입력] ${dash(p3.s1.input)} · [버튼] ${dash(p3.s1.btn)} · [결과] ${dash(p3.s1.out)}</td></tr>
+  </table>
+  <h3>4부 시공 기록</h3>
+  <table>
+    <tr><td class="k">지금 되는 것</td><td>${nl(p4.works||'')}</td></tr>
+    <tr><td class="k">아직 안 되는 것</td><td>${nl(p4.notWorks||'')}</td></tr>
+  </table>
+  <div class="pgfoot"><span>2026 신산업 경진대회 본선 · 팀 결과 기록지 · ${esc(team)}</span><span>1 / 3</span></div>
+</div>
+
+<div class="pg">
+  <h2>③ 시험·검증 <span style="font-weight:400;font-size:8pt;color:#555">(5부 준공 검사 · 정상 3건 / 에러 2건)</span></h2>
+  <table>
+    <thead><tr><th style="width:9%">구분</th><th style="width:17%">시험 항목</th><th style="width:15%">입력값</th><th style="width:17%">기대 결과</th><th style="width:17%">실제 결과</th><th style="width:9%">판정</th><th>수정 내용</th></tr></thead>
+    <tbody>${tests}</tbody>
+  </table>
+  <h3>사용자 검증 (팀 외 2인)</h3>
+  <table>
+    <thead><tr><th style="width:24%">검증자 소속(전공·업무)</th><th>사용 소감</th><th style="width:26%">반영한 수정</th></tr></thead>
+    <tbody>${users}</tbody>
+  </table>
+  <p class="note">※ 검증자 2인은 운영계획서의 전공·업무 적합 검증자 풀에서 강사가 배정한 인원입니다.</p>
+
+  <h2 style="margin-top:14pt">④ 출처·기여</h2>
+  <h3>AI·자료 출처</h3>
+  <table>
+    <thead><tr><th style="width:32%">자료명</th><th style="width:36%">출처</th><th>라이선스</th></tr></thead>
+    <tbody>${srcRows}</tbody>
+  </table>
+  <h3>팀원별 기여</h3>
+  <table>
+    <thead><tr><th style="width:22%">이름</th><th>한 일</th><th style="width:12%">시간(h)</th></tr></thead>
+    <tbody>${jobRows}</tbody>
+  </table>
+  <p class="note">※ 2부 자재 검수: ${dash((p2.sources[0]||{}).name)} · 마스킹 ${p2.mask.filter(m=>String(m).trim()).length}건 기록 · 데이터 오류 ${p2.err.filter(e=>e.item.trim()).length}건 정리</p>
+  <div class="pgfoot"><span>2026 신산업 경진대회 본선 · 팀 결과 기록지 · ${esc(team)}</span><span>2 / 3</span></div>
+</div>
+
+<div class="pg">
+  <h2>⑤ 성과발표 <span style="font-weight:400;font-size:8pt;color:#555">(5분 발표 + 3분 질의응답)</span></h2>
+  <table>
+    <tr><td class="k">발표자</td><td>${dash(p5.presenter)}</td><td class="k">발표 시간 배분</td><td>발표 5분 · 질의 3분</td></tr>
+    ${demo}
+  </table>
+  <h3>예상질문</h3>
+  <ol style="margin:2pt 0 0 14pt;padding:0;font-size:9.2pt;line-height:1.5">${qHtml}</ol>
+
+  <h3>현장 적용 시 한계·전제</h3>
+  <table><tr><td>${nl(p5.limits||'')}</td></tr></table>
+
+  <h2>심사 배점 자체점검 <span style="font-weight:400;font-size:8pt;color:#555">(점수는 쓰지 않고, 근거 위치만 표시)</span></h2>
+  <table>
+    <thead><tr><th style="width:28%">배점 항목</th><th style="width:10%">배점</th><th>우리 근거가 기록지 어디에 있는가</th></tr></thead>
+    <tbody>
+      <tr><td>문제이해 및 요구 충족</td><td>20</td><td>① 문제정의서 — 문제·사용자·현재 절차·성공기준·뺀 것</td></tr>
+      <tr><td>시제품 구현 및 시연</td><td>25</td><td>② 시제품 — 핵심 기능 1개, 사용 흐름 3단계, 파일</td></tr>
+      <tr><td>검증 및 개선</td><td>20</td><td>③ 시험 5건과 사용자 2인 — 불합격 → 수정 흔적</td></tr>
+      <tr><td>현장 적용 가능성</td><td>15</td><td>⑤ 한계·전제, ① 기대효과</td></tr>
+      <tr><td>AI·자료 활용 책임성</td><td>10</td><td>④ 출처·라이선스, 2부 마스킹 기록</td></tr>
+      <tr><td>협업 및 학습 과정</td><td>10</td><td>머리(팀원·역할) + ④ 팀원별 기여</td></tr>
+    </tbody>
+  </table>
+
+  <h2>서명</h2>
+  <p class="sigline">위 기록은 우리 팀이 직접 작성·검수하였으며, 제작과 검증 과정을 사실대로 적었습니다.</p>
+  <div class="sig">
+    <div class="s"><span>${dash((p1.members[0]||{}).name)} (서명)</span></div>
+    <div class="s"><span>${dash((p1.members[1]||{}).name)} (서명)</span></div>
+    <div class="s"><span>${dash((p1.members[2]||{}).name)} (서명)</span></div>
+  </div>
+  <div class="pgfoot"><span>2026 신산업 경진대회 본선 · 팀 결과 기록지 · ${esc(team)}</span><span>3 / 3</span></div>
+</div>`;
+
+  const badge=$('docBlank');
+  if(badge) badge.textContent = '미기입 '+blanks+'항목';
+}
+
+/* ---------------- 내보내기 / 불러오기 / 초기화 ---------------- */
+function exportJSON(){
+  if(!S) return;
+  const name = '2026신산업_'+(S.parts[1].team||'팀').replace(/[\\/:*?"<>|]/g,'')+'_기록.json';
+  const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  toast('기록을 내보냈습니다: '+name,'good');
+}
+function importJSON(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const obj = JSON.parse(String(reader.result));
+      if(!obj || typeof obj!=='object' || !obj.parts) throw new Error('형식이 다릅니다');
+      if(!window.confirm('지금 화면의 기록을 불러온 파일의 기록으로 바꿉니다. 계속할까요?')) return;
+      const nm = (obj.parts[1] && obj.parts[1].team) || obj.team || '불러온 팀';
+      S = fillDefaults(defaults(nm), obj);
+      teamKey = teamKeyOf(S.parts[1].team || nm) || 'team';
+      syncInputs(); refresh(); save(); renderDoc();
+      toast('기록을 불러왔습니다.','good');
+      goTo(1);
+    }catch(e){
+      toast('불러오지 못했습니다: '+e.message,'bad');
+    }
+  };
+  reader.readAsText(file);
+}
+function resetTeam(){
+  if(!S) return;
+  if(!window.confirm('이 팀의 기록을 모두 지웁니다. 되돌릴 수 없습니다. 계속할까요?')) return;
+  const typed = window.prompt('확인을 위해 팀 이름을 그대로 입력하세요:\n\n'+(S.parts[1].team||S.team));
+  if(typed===null) return;
+  if(teamKeyOf(typed)!==teamKey){ toast('팀 이름이 일치하지 않아 취소했습니다.','bad'); return; }
+  try{ localStorage.removeItem(LS_KEY(teamKey)); }catch(e){}
+  S = defaults(''); teamKey=''; activePart=1;
+  syncInputs(); closeDoc(); $('setModal').classList.remove('open');
+  $('startTeam').value=''; $('startScreen').classList.add('open');
+  toast('기록을 초기화했습니다.');
+}
+
+/* ---------------- 시작 ---------------- */
+function startWithTeam(rawName){
+  const nm = String(rawName||'').trim();
+  if(!nm){ toast('팀 이름을 입력하세요.','bad'); $('startTeam').focus(); return; }
+  const key = teamKeyOf(nm) || 'team';
+  let loaded=null;
+  try{
+    const raw = localStorage.getItem(LS_KEY(key));
+    if(raw) loaded = JSON.parse(raw);
+  }catch(e){}
+  if(loaded && loaded.parts){
+    S = fillDefaults(defaults(nm), loaded);
+    if(loaded.template && loaded.template!=='v2.0'){ const w=$('verWarn'); if(w) w.style.display='block'; }
+    toast('저장된 기록을 불러왔습니다 · '+nm,'good');
+  } else {
+    S = defaults(nm);
+  }
+  if(!S.parts[1].team) S.parts[1].team = nm;
+  teamKey = key;
+  $('startScreen').classList.remove('open');
+  syncInputs(); refresh();
+  document.body.classList.toggle('preview', !!S.preview);
+  // 이어서 할 부: 완료 안 된 첫 부
+  let start=1;
+  for(let n=1;n<=5;n++){ if(!S.done[n]){ start=n; break; } }
+  if(S.done[1]&&S.done[2]&&S.done[3]&&S.done[4]&&S.done[5]) start=5;
+  goTo(start);
+  renderDoc();
+  save();
+  tickTimer();
+}
+
+/* ---------------- 초기화 ---------------- */
+function init(){
+  // 글자수 카운터 삽입
+  document.querySelectorAll('[data-min]').forEach(el=>{
+    const box=document.createElement('div');
+    box.className='cnt'; box.dataset.for=el.dataset.f;
+    el.insertAdjacentElement('afterend', box);
+  });
+
+  // 분야별 샘플 버튼
+  const sb=$('sampleBtns');
+  if(sb){
+    Object.keys(SAMPLES).forEach(k=>{
+      const b=document.createElement('button');
+      b.className='btn sm ghost'; b.type='button'; b.textContent='📄 '+k;
+      b.addEventListener('click',()=>{
+        if(!S) return;
+        if(S.parts[2].data.trim() && !window.confirm('지금 붙여넣은 데이터를 '+k+' 샘플로 바꿀까요?')) return;
+        S.parts[2].data = SAMPLES[k];
+        const ta=$('f-p2data'); if(ta) ta.value=SAMPLES[k];
+        afterChange();
+        toast(k+' 연습 데이터 10줄을 불러왔습니다. 개인정보와 오류 3건을 찾아보세요.','good');
+      });
+      sb.appendChild(b);
+    });
+  }
+
+  // 입력 이벤트 (위임)
+  document.addEventListener('input', e=>{ if(e.target && e.target.dataset && e.target.dataset.f) handleField(e.target); });
+  document.addEventListener('change', e=>{ if(e.target && e.target.dataset && e.target.dataset.f) handleField(e.target); });
+
+  // 레일
+  // 완료 버튼
+  for(let n=1;n<=5;n++){
+    const b=$('done'+n);
+    if(b) b.addEventListener('click', ()=>completePart(n));
+  }
+  // 복사 버튼
+  document.querySelectorAll('.copybtn').forEach(b=>{
+    b.addEventListener('click', ()=>copyPrompt(+b.dataset.copy, b));
+  });
+  // 프롬프트 펼쳐 보기
+  document.querySelectorAll('[data-expand]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const box=b.closest('.pbox');
+      if(!box) return;
+      const openNow=box.classList.toggle('open');
+      b.textContent = openNow ? '접기' : '펼쳐 보기';
+    });
+  });
+  // 타이머
+  $('timerToggle').addEventListener('click', toggleTimer);
+  $('timerReset').addEventListener('click', resetTimer);
+  tickTimer();
+  setInterval(tickTimer, 1000);
+
+  // 모달
+  $('openRes').addEventListener('click', ()=>$('resModal').classList.add('open'));
+  $('openSet').addEventListener('click', ()=>{
+    $('setTeamName').textContent = S ? (S.parts[1].team||S.team||'—') : '—';
+    $('previewToggle').checked = S ? !!S.preview : false;
+    $('setModal').classList.add('open');
+  });
+  document.querySelectorAll('[data-close]').forEach(b=>{
+    b.addEventListener('click', ()=>$(b.dataset.close).classList.remove('open'));
+  });
+  document.querySelectorAll('.modal').forEach(m=>{
+    m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){
+      document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'));
+      if(document.body.classList.contains('docmode')) closeDoc();
+    }
+  });
+
+  // 설정 동작
+  $('previewToggle').addEventListener('change', e=>{
+    if(!S) return;
+    S.preview = e.target.checked; save(); refresh();
+    toast(e.target.checked ? '강사 미리보기: 5부가 모두 열렸습니다. (학생 배포 시에는 끄세요)' : '잠금을 다시 켰습니다. 진행 순서대로만 열립니다.', e.target.checked?'':'good');
+  });
+  $('btnExport').addEventListener('click', exportJSON);
+  $('importFile').addEventListener('change', e=>{ const f=e.target.files[0]; if(f) importJSON(f); e.target.value=''; });
+  $('btnReset').addEventListener('click', resetTeam);
+  $('btnSwitchTeam').addEventListener('click', ()=>{
+    $('setModal').classList.remove('open');
+    $('startTeam').value = S ? (S.parts[1].team||'') : '';
+    $('startScreen').classList.add('open');
+    setTimeout(()=>$('startTeam').focus(),100);
+  });
+
+  // 시작 화면
+  $('startBtn').addEventListener('click', ()=>startWithTeam($('startTeam').value));
+  $('startTeam').addEventListener('keydown', e=>{ if(e.key==='Enter') startWithTeam($('startTeam').value); });
+
+  // 2부 여분 행 / 5부 여분 행
+  $('addErrRow').addEventListener('click', ()=>{
+    document.querySelectorAll('#errBody tr.extra').forEach(tr=>{ tr.style.display=''; });
+    $('addErrRow').style.display='none';
+    toast('오류 행 2개를 추가했습니다.');
+  });
+  $('addClaudeSrc').addEventListener('click', ()=>{
+    if(!S) return;
+    const i = (S.parts[5].src[1] && (S.parts[5].src[1].name||S.parts[5].src[1].url)) ? 2 : 1;
+    const row = S.parts[5].src[i] || S.parts[5].src[1];
+    if(!row.name) row.name='Claude (Anthropic)';
+    if(!row.url) row.url='claude.ai';
+    if(!row.lic) row.lic='Anthropic 이용약관';
+    document.querySelectorAll('#part5 tr.extra').forEach(tr=>{ tr.style.display=''; });
+    const b=$('addSrcRow'); if(b) b.style.display='none';
+    ['name','url','lic'].forEach(k=>{
+      const el=document.querySelector('[data-f="p5.src.'+i+'.'+k+'"]');
+      if(el) el.value = S.parts[5].src[i][k]||'';
+    });
+    afterChange();
+    toast('AI 도구 출처를 넣었습니다. 실제로 쓴 도구 이름으로 고쳐도 됩니다.');
+  });
+  $('addSrcRow').addEventListener('click', ()=>{
+    document.querySelectorAll('#part5 tr.extra').forEach(tr=>{ tr.style.display=''; });
+    $('addSrcRow').style.display='none';
+  });
+
+  // 기록지
+  $('openDoc').addEventListener('click', openDoc);
+  $('closeDoc').addEventListener('click', closeDoc);
+  $('doPrint').addEventListener('click', ()=>{ renderDoc(); setTimeout(()=>window.print(), 120); });
+  window.addEventListener('beforeprint', renderDoc);
+
+  // 저장 전 경고(입력이 있는데 저장 전이면)
+  window.addEventListener('beforeunload', ()=>{ if(S && teamKey){ save(); } });
+
+  // 이전 팀 자동 복원
+  let last=null;
+  try{ last = localStorage.getItem(LS_LAST); }catch(e){}
+  if(last){
+    try{
+      const raw = localStorage.getItem(LS_KEY(last));
+      if(raw){
+        const obj=JSON.parse(raw);
+        const nm=(obj.parts&&obj.parts[1]&&obj.parts[1].team)||obj.team||last;
+        S = fillDefaults(defaults(nm), obj);
+        if(obj.template && obj.template!=='v2.0'){ const w=$('verWarn'); if(w) w.style.display='block'; }
+        teamKey = last;
+        syncInputs(); refresh();
+        let start=1; for(let n=1;n<=5;n++){ if(!S.done[n]){ start=n; break; } }
+        if(S.done[1]&&S.done[2]&&S.done[3]&&S.done[4]&&S.done[5]) start=5;
+        goTo(start); renderDoc(); tickTimer();
+        return;
+      }
+    }catch(e){}
+  }
+  $('startScreen').classList.add('open');
+  setTimeout(()=>$('startTeam').focus(),150);
+}
+
+/* ---------------- 복사 ---------------- */
+function copyPrompt(n, btn){
+  const text = lastPrompt[n] || '';
+  const done = ()=>{
+    if(btn){ const old=btn.textContent; btn.textContent='✓ 복사됨'; setTimeout(()=>{btn.textContent=old;},1600); }
+    S.copied[n]=true; save();
+    refreshPrompt(n);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>{
+      toast('프롬프트 '+n+'을 복사했습니다. Claude에 붙여넣으세요.','good'); done();
+    }).catch(()=>fallback());
+  } else fallback();
+  function fallback(){
+    const pre=$('pre'+n);
+    try{
+      const r=document.createRange(); r.selectNodeContents(pre);
+      const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      pre.focus();
+    }catch(e){}
+    toast('복사가 막혀 있습니다. 프롬프트가 선택되었으니 Ctrl+C(⌘+C)를 눌러 주세요.','bad');
+    done();
+  }
+}
+
+/* 콘솔·현장 지원용 읽기 핸들 (강사가 F12에서 상태를 확인할 때 사용) */
+window.HQ = {
+  get S(){ return S; },
+  get part(){ return activePart; },
+  partStatus: n=>partStatus(n),
+  prompt: n=>lastPrompt[n]||'',
+  get: p=>getPath(p),
+  goTo: n=>goTo(n),
+  completePart: n=>completePart(n)
+};
+
+/* ---------------- 시작 ---------------- */
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+
+})();
+
+</script>
+</body>
+</html>
