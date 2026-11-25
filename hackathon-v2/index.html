@@ -146,7 +146,7 @@ body.preview .preview-badge{display:inline-flex}
 .step .lockicon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;opacity:.75}
 
 /* ---------- 본문 ---------- */
-main{padding:22px 0 120px}
+main{padding:22px 0 170px}
 .part{display:none;animation:fade .25s ease}
 .part.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -2783,15 +2783,15 @@ function payloadFor(n){
   const base={stage:n+'부', team, deadline:S.rounds[n]||'', client:new Date().toISOString()};
   if(n===0) return Object.assign(base,{person:(p0.name||'').trim(), result:(p0.mini||'').trim(),
     note:'Aside 익힘 '+missionDone()+'/6 · 세팅 '+setupDone()+'/4'+(p0.mode?' · '+p0.mode:'')+(p0.model?' · '+p0.model:'')});
-  if(n===1) return Object.assign(base,{person:'', result:'기획: '+(p1.plan||'').trim(),
+  if(n===1) return Object.assign(base,{person:'팀', result:'기획: '+(p1.plan||'').trim(),
     note:'역할: '+p1.members.map(m=>(m.name||'').trim()+'('+m.role+')').join(' / ')+' | 과제: '+(p1.mission||'').trim()});
-  if(n===2) return Object.assign(base,{person:'', result:'자료: '+(p2.summary||'').trim(),
+  if(n===2) return Object.assign(base,{person:'팀', result:'자료: '+(p2.summary||'').trim(),
     note:'출처: '+((p2.sources[0]||{}).name||'')+' | 오류 '+(p2.err||[]).filter(e=>e.item).length+'건'});
-  if(n===3) return Object.assign(base,{person:'', result:'핵심기능: '+(p3.funcName||'').trim()+' — 입력 '+(p3.s1.input||'-')+' / 버튼 '+(p3.s1.btn||'-')+' / 결과 '+(p3.s1.out||'-'),
+  if(n===3) return Object.assign(base,{person:'팀', result:'핵심기능: '+(p3.funcName||'').trim()+' — 입력 '+(p3.s1.input||'-')+' / 버튼 '+(p3.s1.btn||'-')+' / 결과 '+(p3.s1.out||'-'),
     note:'왜: '+(p3.why||'').trim()});
-  if(n===4) return Object.assign(base,{person:'', result:'파일: '+(p4.file||'').trim()+' | 되는 것: '+((p4.works||'').trim().split('\n')[0]||''),
+  if(n===4) return Object.assign(base,{person:'팀', result:'파일: '+(p4.file||'').trim()+' | 되는 것: '+((p4.works||'').trim().split('\n')[0]||''),
     note:'안 되는 것: '+((p4.notWorks||'').trim().split('\n')[0]||'-')});
-  if(n===5) return Object.assign(base,{person:'', result:'한 줄: '+(p5.oneLine||'').trim(),
+  if(n===5) return Object.assign(base,{person:'팀', result:'한 줄: '+(p5.oneLine||'').trim(),
     demoUrl:(p5.demoUrl||'').trim(), note:'저장소: '+(p5.repo||'').trim()});
   return base;
 }
