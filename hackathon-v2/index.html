@@ -2273,10 +2273,11 @@ function renderPresetInfo(t){
   const box = $('teamPresetInfo'); if(!box) return;
   if(!t){ box.hidden = true; box.innerHTML = ''; return; }
   box.hidden = false;
+  const cur = (S && S.parts[1].mission ? String(S.parts[1].mission).trim() : '');
   box.innerHTML = '<span class="pk">'+esc(t.univ)+'</span>'
     + '<span class="pk">'+esc(t.dept)+'</span>'
     + '<span class="pk">분야 · '+esc(t.track)+'</span>'
-    + '<div class="pmission">배정 과제 · '+esc(t.mission||'현장 확정 전 — 아래 후보 A/B/C에서 고르세요')+'</div>';
+    + '<div class="pmission">배정 과제 · '+esc(cur || t.mission || '현장 확정 전 — 아래 후보 A/B/C에서 고르세요')+'</div>';
 }
 function refcardHTML(t, interactive){
   const mission = (S && S.parts[1].mission) ? String(S.parts[1].mission) : '';
