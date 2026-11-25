@@ -537,7 +537,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <span>주최/주관: 교육부 · 한국연구재단(NRF) · 신산업특화사업 2.0 발전협의회</span>
       <span class="orgsep">|</span>
       <span>후원: 한국공학교육인증원(ABEEK)</span>
-      <span class="orgmeta">5부 설계도 작업대 · 15팀 · 누적 점수 <b id="hdScore">0</b>점</span>
+      <span class="orgmeta" title="이 기기에서 제출한 점수 합 — 팀 전체 점수는 현황판 참고">5부 설계도 작업대 · 15팀 · 제출 누적 <b id="hdScore">0</b>점</span>
     </div>
   </div>
 
@@ -1542,7 +1542,11 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <a class="btn sm primary" id="boardOpenSheet" href="#" target="_blank" rel="noopener">📄 구글 시트로 열기</a>
         <button class="btn sm" id="boardRefresh">🔄 새로고침</button>
-        <span class="tag gray" id="boardUpdated">불러오는 중…</span>
+        <span class="tag gray" id="boardUpdated">—</span>
+      </div>
+      <div id="boardNote" hidden style="font-size:13.5px;color:var(--txt2);line-height:1.75;background:#08101d;border:1px dashed var(--line2);border-radius:12px;padding:12px 14px">
+        제출은 <b>구글 시트에 바로 쌓입니다.</b> 팀별 완료 체크·총점·최종 시연 URL은 <b>[📄 구글 시트로 열기]</b>를 누르면 실시간으로 보입니다.<br>
+        <span style="color:var(--mut)">시트 탭: 제출로그(제출 1건마다 한 줄) · 팀별현황판(15팀 집계·총점·시연 URL)</span>
       </div>
       <div class="tablewrap" style="margin-top:6px">
         <table class="tin" style="min-width:560px">
@@ -2052,6 +2056,14 @@ const ASIDE_MINI_HINT = '예: 동진기업㈜은 이차전지 조립설비를 �
    ============================================================ */
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1IFDW-hfiDjro5tIEddxF9V8zYNTDbQJChkNz-5dtxak/edit';
 const SUBMIT_ENDPOINT = '';
+
+/* 구글 폼 전송 (Apps Script 없이도 브라우저에서 바로 저장되는 방식)
+   - 응답은 위 스프레드시트의 ‘제출로그’ 탭으로 들어가고, ‘팀별현황판’이 수식으로 집계합니다. */
+const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSd4JEiAWgzbcjqWJes7vO1jUO4cdA69tTo17pUsq71c2xlbDg/formResponse';
+const FORM_ENTRIES = {
+  team:'entry.2026300977', person:'entry.462407044', stage:'entry.279671118',
+  late:'entry.231515007', score:'entry.805492369', result:'entry.995245784', note:'entry.547132360'
+};
 
 </script>
 <script>
@@ -2608,10 +2620,11 @@ function refresh(){
     const box=$('sendprev'+n);
     if(box){
       const pl=payloadFor(n);
-      box.innerHTML = '<b>보낼 내용</b> · 팀 '+(esc(pl.team)||'—')+(pl.person?' · '+esc(pl.person):'')
-        + ' · '+pl.stage+'<br>'+(esc(pl.result)||'<span class="blank">(아직 비어 있음)</span>')
-        + (pl.demoUrl?'<br>시연 URL · '+esc(pl.demoUrl):'')
-        + (pl.note?'<br>'+esc(pl.note):'');
+      const lines=['<b>보낼 내용</b> · '+pl.stage+' · 팀 '+(esc(pl.team)||'—')+(pl.person?' · '+esc(pl.person):'')];
+      lines.push(esc(pl.result)||'<span class="blank">(아직 비어 있음)</span>');
+      if(pl.demoUrl) lines.push('시연 URL · '+esc(pl.demoUrl));
+      if(pl.note) lines.push(esc(pl.note));
+      box.innerHTML = lines.join('<br>');
     }
   }
   renderSubResults();
@@ -2703,7 +2716,7 @@ function buildRoundBars(){
       + '<div class="rb-time">남은 시간 <b id="rbRemain'+n+'">--:--</b></div>'
       + '<label class="rb-dl">마감 <input type="datetime-local" id="rbDl'+n+'">'
       + '<button type="button" class="btn sm ghost" id="rbSet'+n+'">적용</button></label>'
-      + '<div class="rb-score">우리 팀 누적 <b id="rbScore'+n+'">0</b>점</div>';
+      + '<div class="rb-score" title="이 기기에서 제출한 점수 합 — 팀 전체 점수는 현황판 참고">제출 누적 <b id="rbScore'+n+'">0</b>점</div>';
     sec.insertBefore(bar, sec.firstChild);
     const set=$('rbSet'+n);
     if(set) set.addEventListener('click', ()=>{
@@ -2800,6 +2813,17 @@ function setBtn(n, busy, label){
   if(busy){ b.dataset.old=b.textContent; b.textContent='전송 중…'; }
   else if(b.dataset.old){ b.textContent=label||b.dataset.old; delete b.dataset.old; }
 }
+function localScore(n, demoUrl){
+  const t=S.rounds[n]?new Date(S.rounds[n]).getTime():null;
+  const late = t!=null && Date.now()>t;
+  return {late, score:(late?SCORING.late:SCORING.ontime)+((n===5&&demoUrl)?SCORING.demoBonus:0)};
+}
+function recomputeTotal(){
+  let sum=0;
+  for(const n of STAGES){ if(S.sub[n] && S.sub[n].late!=='미전송') sum += Number(S.sub[n].score)||0; }
+  S.total=sum;
+  for(const n of STAGES){ if(S.sub[n]) S.sub[n].total=sum; }
+}
 async function submitPart(n){
   if(!S) return;
   const st=partStatus(n);
@@ -2813,10 +2837,47 @@ async function submitPart(n){
   const pl=payloadFor(n);
   if(!pl.team){ toast('팀명이 없습니다. 1부에서 팀을 골라 주세요.','bad'); return; }
   if(n===0 && !pl.person){ toast('내 이름을 먼저 입력하세요.','bad'); return; }
+  if(S.sub[n] && !window.confirm(n+'부는 이미 제출했습니다.\n다시 보내면 현황판에 새 줄이 하나 더 쌓입니다. 다시 보낼까요?')) return;
+
   setBtn(n,true);
   let j=null, err=null;
+
+  /* 1) 구글 폼 방식 (설정 없이 바로 동작) */
+  if(FORM_ACTION && !SUBMIT_ENDPOINT){
+    const ls=localScore(n, pl.demoUrl);
+    const body=new URLSearchParams();
+    body.set(FORM_ENTRIES.team, pl.team);
+    body.set(FORM_ENTRIES.person, pl.person||'');
+    body.set(FORM_ENTRIES.stage, pl.stage);
+    body.set(FORM_ENTRIES.late, ls.late?'지각':'정시');
+    body.set(FORM_ENTRIES.score, String(ls.score));
+    body.set(FORM_ENTRIES.result, pl.result||'');
+    body.set(FORM_ENTRIES.note, [pl.note, pl.deadline?('마감 '+hhmm(pl.deadline)):''].filter(Boolean).join(' | '));
+    try{
+      await fetch(FORM_ACTION, {method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}, body:body.toString()});
+      S.sub[n]={when:nowHHMM(), late:ls.late?'지각':'정시', score:ls.score, total:0};
+      recomputeTotal();
+      setBtn(n,false);
+      finishSubmit(n, false);
+      toast(n+'부 제출 완료 — '+(ls.late?'지각':'정시')+' +'+ls.score+'점','good');
+    }catch(e){
+      setBtn(n,false);
+      const go=window.confirm('현황판 전송에 실패했습니다.\n('+(e.message||'네트워크 오류')+')\n\n이 기기에만 완료로 저장하고 다음 부를 열까요?');
+      if(go){ finishSubmit(n,true); }
+      else toast('전송하지 못했습니다. 연결을 확인하고 다시 눌러 주세요.','bad');
+    }
+    return;
+  }
+
+  /* 2) Apps Script 웹앱 방식 (주소가 설정된 경우) */
+  if(!SUBMIT_ENDPOINT){
+    setBtn(n,false);
+    finishSubmit(n, true);
+    toast(n+'부 완료 — 현황판 주소가 아직 설정되지 않아 이 기기에만 저장했습니다.');
+    return;
+  }
   try{
-    if(!SUBMIT_ENDPOINT) throw new Error('제출 주소가 아직 설정되지 않았습니다');
     const res = await fetch(SUBMIT_ENDPOINT, {
       method:'POST', redirect:'follow',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
@@ -2834,7 +2895,7 @@ async function submitPart(n){
     toast(n+'부 제출 완료 — '+j.late+' +'+j.score+'점 (누적 '+j.total+'점)','good');
   } else {
     setBtn(n,false);
-    const go = window.confirm('현황판 전송에 실패했습니다.\n('+(err&&err.message||'알 수 없는 오류')+')\n\n이 기기에만 완료로 저장하고 다음 부를 열까요?\n(나중에 같은 칸에서 다시 제출하면 현황판에 들어갑니다)');
+    const go = window.confirm('현황판 전송에 실패했습니다.\n('+(err&&err.message||'알 수 없는 오류')+')\n\n이 기기에만 완료로 저장하고 다음 부를 열까요?\n(나중에 현황판에 직접 입력하거나 다시 제출할 수 있습니다)');
     if(!go){ toast('전송하지 못했습니다. 잠시 뒤 다시 눌러 주세요.','bad'); return; }
     finishSubmit(n, true);
   }
@@ -2844,7 +2905,11 @@ function finishSubmit(n, localOnly){
   const st=partStatus(n);
   S.done[n]=true;
   S.partial[n]=!st.ok;
-  if(localOnly) S.sub[n]=Object.assign({}, S.sub[n]||{}, {when:nowHHMM(), late:'미전송', score:0, total:S.total||0});
+  if(localOnly){
+    const ls=localScore(n, (payloadFor(n).demoUrl)||'');
+    S.sub[n]={when:nowHHMM(), late:'미전송', score:0, total:0, localScore:ls.score};
+  }
+  recomputeTotal();
   save(); refresh(); renderDoc();
   if(n<5){
     const next=n+1;
@@ -3026,34 +3091,15 @@ async function openBoard(){
 async function loadBoard(){
   const body=$('boardBody'), upd=$('boardUpdated');
   if(!body) return;
-  if(!SUBMIT_ENDPOINT){
-    body.innerHTML='<tr><td colspan="9" style="color:#fcd34d">제출 API 주소가 아직 설정되지 않았습니다. 구글 시트를 직접 열어 확인하세요.</td></tr>';
-    if(upd){ upd.textContent='시트 직접 열기'; upd.className='tag warn'; }
-    return;
+  const tbl = body.closest('.tablewrap');
+  if(tbl) tbl.style.display='none';
+  body.innerHTML='';
+  if(upd){
+    upd.className='tag ok';
+    upd.textContent = '구글 시트에서 실시간 갱신';
   }
-  if(upd){ upd.textContent='불러오는 중…'; upd.className='tag gray'; }
-  try{
-    const res=await fetch(SUBMIT_ENDPOINT+'?t='+Date.now(), {method:'GET', redirect:'follow'});
-    const j=JSON.parse(await res.text());
-    if(!j || !j.ok) throw new Error(j&&j.error||'오류');
-    body.innerHTML = (j.teams||[]).map(t=>{
-      const d=t.done||{};
-      const ck=k=>d[k]?'<span style="color:#86efac;font-weight:900">✓</span>':'<span style="color:#3f4c66">·</span>';
-      return '<tr><td><b>'+esc(t.team)+'</b><br><small style="color:#93a1bb">'+esc(t.univ)+'</small></td>'
-        + '<td style="text-align:center">'+(t.people0||0)+'명</td>'
-        + '<td style="text-align:center">'+ck('1부')+'</td>'
-        + '<td style="text-align:center">'+ck('2부')+'</td>'
-        + '<td style="text-align:center">'+ck('3부')+'</td>'
-        + '<td style="text-align:center">'+ck('4부')+'</td>'
-        + '<td style="text-align:center">'+ck('5부')+'</td>'
-        + '<td style="text-align:right;font-weight:900">'+(t.total||0)+'</td>'
-        + '<td style="font-size:12px;word-break:break-all">'+(t.demoUrl?esc(t.demoUrl):'<span class="blank">—</span>')+'</td></tr>';
-    }).join('');
-    if(upd){ upd.textContent='갱신 '+(j.updated||''); upd.className='tag ok'; }
-  }catch(e){
-    body.innerHTML='<tr><td colspan="9" style="color:#fca5a5">현황판을 불러오지 못했습니다('+esc(e.message)+'). 구글 시트를 직접 열어 확인하세요.</td></tr>';
-    if(upd){ upd.textContent='불러오기 실패'; upd.className='tag bad'; }
-  }
+  const note=$('boardNote');
+  if(note) note.hidden=false;
 }
 
 /* ---------------- 내보내기 / 불러오기 / 초기화 ---------------- */
