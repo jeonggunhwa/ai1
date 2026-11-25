@@ -2131,6 +2131,7 @@ function fillDefaults(def, val){
   }
   if(def && typeof def==='object'){
     if(!val || typeof val!=='object') return JSON.parse(JSON.stringify(def));
+    if(Object.keys(def).length===0) return JSON.parse(JSON.stringify(val));
     const out={};
     for(const k of Object.keys(def)) out[k] = (k in val) ? fillDefaults(def[k], val[k]) : JSON.parse(JSON.stringify(def[k]));
     return out;
