@@ -352,7 +352,81 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   .pg .dhead .ev.org{font-size:6.9pt;line-height:1.35}
 }
 
+/* ---------- 라운드 바 (부마다 상단: 라운드·제한시간·누적점수) ---------- */
+.roundbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0 0 16px;padding:12px 15px;border-radius:14px;background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(168,85,247,.12));border:1px solid rgba(99,102,241,.42)}
+.roundbar .rb-name{font-weight:900;font-size:15px;color:#fff;letter-spacing:-.3px}
+.roundbar .rb-time{display:flex;align-items:baseline;gap:6px;font-size:12.5px;color:#c7d2fe;font-weight:700}
+.roundbar .rb-time b{font-size:21px;font-variant-numeric:tabular-nums;color:#fff;letter-spacing:.5px}
+.roundbar.over{border-color:rgba(239,68,68,.55);background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(245,158,11,.1))}
+.roundbar.over .rb-time b{color:#fca5a5}
+.roundbar .rb-dl{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);font-weight:700}
+.roundbar .rb-dl input{background:#0a1322;border:1px solid var(--line2);border-radius:8px;color:var(--txt);padding:4px 7px;font-size:12.5px;min-height:0;width:auto}
+.roundbar .rb-score{margin-left:auto;display:flex;align-items:baseline;gap:6px;font-size:12.5px;color:#e9d5ff;font-weight:800}
+.roundbar .rb-score b{font-size:19px;color:#fff;font-variant-numeric:tabular-nums}
+
+/* ---------- 0부 ---------- */
+.rovalue{background:#0a1322;border:1px dashed var(--line2);border-radius:11px;padding:11px 13px;font-weight:800;color:#c7d2fe;min-height:46px;display:flex;align-items:center}
+.aside-step{display:flex;gap:12px;padding:13px 14px;border-radius:13px;background:#0a1322;border:1px solid var(--line2)}
+.aside-step .asn{width:26px;height:26px;border-radius:9px;background:var(--grad);color:#fff;font-weight:900;font-size:13px;display:grid;place-items:center;flex:none}
+.aside-step .asb{flex:1;min-width:0}
+.aside-step .asb b{display:block;font-size:14.5px;color:#fff;line-height:1.45}
+.aside-step .asb span{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin-top:3px;line-height:1.55}
+.aside-step .asb code{background:#0f1b2e;border:1px solid var(--line2);border-radius:5px;padding:0 5px;font-size:12px;color:#fbbf24}
+.aside-step .asdo{display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap}
+.aside-step .asdo select{min-height:38px;padding:7px 30px 7px 10px;font-size:13px;border-radius:9px;background:#0c1728}
+.minirow{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border-radius:12px;background:#0a1322;border:1px solid var(--line2)}
+.minirow.on{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.4)}
+.minirow .mx{width:24px;height:24px;border-radius:8px;border:2px solid #48587a;flex:none;margin-top:1px}
+.minirow.on .mx{background:linear-gradient(135deg,#16a34a,#22c55e);border-color:transparent;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:900}
+.minirow .mt{font-size:14px;color:#e6ecf8;font-weight:700;line-height:1.5}
+.minirow .ms{font-size:12px;color:var(--mut);margin-top:2px;font-weight:600}
+.progwrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 4px}
+.progbar{flex:1 1 180px;height:10px;border-radius:999px;background:#0a1322;border:1px solid var(--line2);overflow:hidden}
+.progbar i{display:block;height:100%;width:0;background:var(--grad);transition:width .25s}
+.progtxt{font-size:13px;font-weight:800;color:#c7d2fe}
+.badge-ik{display:none;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;font-size:12.5px;font-weight:900}
+.badge-ik.on{display:inline-flex}
+
+/* ---------- 제출 카드 ---------- */
+.submitcard{margin-top:4px;border:1px solid rgba(34,197,94,.42);border-radius:16px;padding:18px;background:linear-gradient(160deg,rgba(34,197,94,.1),rgba(99,102,241,.06))}
+.submitcard .sc-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.submitcard h3{font-size:17px;font-weight:900;color:#fff}
+.submitcard .sc-rule{font-size:12.5px;color:#86efac;font-weight:700;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);border-radius:999px;padding:3px 10px}
+.submitcard .sc-lead{font-size:13.5px;color:var(--txt2);line-height:1.7;margin-bottom:12px}
+.sendprev{font-size:12.5px;color:var(--txt2);background:#08101d;border:1px dashed var(--line2);border-radius:10px;padding:10px 12px;line-height:1.65;margin:10px 0 12px;word-break:break-all}
+.sendprev b{color:#c7d2fe}
+.subres{margin-top:12px;font-size:13.5px;line-height:1.7}
+.subres.ok{color:#86efac;font-weight:700}
+.subres.bad{color:#fca5a5;font-weight:700}
+.subres .kv{display:inline-flex;gap:6px;align-items:baseline;margin-right:12px;color:#c7d2fe;font-weight:700}
+.subres .kv b{color:#fff;font-size:16px}
+
+/* ---------- 참고 카드 (매칭 기업·과제 후보) ---------- */
+.refcard{border:1px solid rgba(168,85,247,.4);border-radius:14px;background:linear-gradient(160deg,rgba(168,85,247,.12),rgba(99,102,241,.05));padding:14px 16px;margin-bottom:14px}
+.refcard .rc-top{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:6px}
+.refcard .rc-corp{font-size:16px;font-weight:900;color:#fff}
+.refcard .rc-meta{font-size:12px;color:#c7d2fe;font-weight:700;border:1px solid var(--line2);background:#0c1728;border-radius:999px;padding:1px 8px}
+.refcard .rc-note{font-size:13px;color:var(--txt2);line-height:1.65;margin:4px 0 10px}
+.refcard .rc-caution{font-size:12px;color:#fcd34d;font-weight:600;margin:-4px 0 10px}
+.refcard .rc-theme{font-size:12px;color:#f9a8d4;font-weight:700;margin:0 0 10px}
+.candgrid{display:grid;gap:8px}
+.cand{border:1px solid var(--line2);border-radius:11px;background:#0a1322;padding:10px 12px}
+.cand.picked{border-color:rgba(34,197,94,.55);background:rgba(34,197,94,.08)}
+.cand .ct{font-size:13.5px;font-weight:800;color:#fff;line-height:1.5}
+.cand .ck{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;background:var(--grad);color:#fff;font-weight:900;font-size:11.5px;margin-right:7px;vertical-align:1px}
+.cand .cm{font-size:11px;color:#a78bfa;font-weight:800;border:1px solid rgba(168,85,247,.35);border-radius:5px;padding:0 5px;margin-left:6px;white-space:nowrap}
+.cand .cp{font-size:12.5px;color:var(--mut);margin-top:6px;line-height:1.6}
+.cand .crow{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.rolecard{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
+.rolecard .rc{border:1px solid var(--line2);border-radius:11px;background:#0a1322;padding:9px 11px}
+.rolecard .rc b{display:block;font-size:12px;color:#a78bfa;font-weight:800}
+.rolecard .rc span{display:block;font-size:13.5px;color:#fff;font-weight:800;margin-top:2px}
+
 /* ---------- 반응형 ---------- */
+@media (max-width:820px){
+  .rolecard{grid-template-columns:1fr}
+  .roundbar .rb-score{margin-left:0;width:100%}
+}
 @media (max-width:820px){
   .grid2,.grid3{grid-template-columns:1fr}
   .part-title{font-size:21px}
@@ -399,26 +473,27 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 </head>
 <body>
 
-<!-- ============ 시작 화면 ============ -->
+<!-- ============ 시작 화면 (입장) ============ -->
 <div class="start" id="startScreen">
   <div class="start-card">
     <div class="logo">🏗️</div>
     <span class="banner-badge">신산업분야 특화 선도전문대학 2.0 · HACKATHON</span>
     <h1>2026 NI2.0 AID 해커톤 대회</h1>
-    <p class="lead">2026. 11. 26.(목) ~ 27.(금) | 해운대 마리안느 호텔<br>5부 설계도 작업대 · 이틀 동안 웹앱 하나를 짓습니다.</p>
+    <p class="lead">2026. 11. 26.(목) ~ 27.(금) | 해운대 마리안느 호텔<br>0부 Aside 실습(개인) → 1부 기획·역할 → 2~5부 미션 · 제출할 때마다 실시간 현황판에 쌓입니다.</p>
     <div class="start-preset">
-      <label class="flabel" for="startPreset">우리 팀 빠른 선택 <span class="opt">15팀</span></label>
-      <div class="hint">팀을 고르면 팀 이름이 채워집니다 · 아래에서 다시 입력해도 됩니다</div>
+      <label class="flabel" for="startPreset">우리 팀 선택 <span class="opt">15팀</span></label>
+      <div class="hint">팀을 고르면 팀 이름이 채워지고, 우리 대학 매칭 기업·과제 후보 A/B/C가 아래에 뜹니다</div>
       <select class="sel" id="startPreset"></select>
     </div>
     <label class="flabel" for="startTeam">팀 이름</label>
     <input class="inp" id="startTeam" data-f="team" placeholder="예: 넥스톤(NEXTON)" autocomplete="off" maxlength="40">
+    <div id="startPresetInfo" hidden style="margin-top:14px"></div>
     <div class="divider"></div>
-    <button class="btn primary wide" id="startBtn">이 팀으로 시작하기 →</button>
+    <button class="btn primary wide" id="startBtn">이 팀으로 입장하기 →</button>
     <div class="start-note">
-      <div>🔒 입력한 내용은 <b>이 브라우저에만</b> 저장되고 서버로 전송되지 않습니다.</div>
+      <div>👤 <b>0부는 개인 참여</b>입니다. 같은 팀 3명이 각자 노트북에서 자기 이름으로 참여합니다.</div>
+      <div>🔒 입력한 내용은 <b>이 브라우저에만</b> 저장되고, [제출]을 누를 때만 현황판으로 갑니다.</div>
       <div>⚠️ <b>시크릿(비공개) 창은 쓰지 마세요.</b> 창을 닫으면 기록이 사라집니다.</div>
-      <div>💾 같은 팀 이름을 다시 입력하면 이 브라우저에 저장된 기록으로 이어집니다.</div>
     </div>
     <div class="start-org">
       주최/주관: 교육부 · 한국연구재단(NRF) · 신산업특화사업 2.0 발전협의회<br>
@@ -443,12 +518,13 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       </div>
       <div class="hd-team">👥 <b id="hdTeam">팀 미지정</b></div>
       <div class="hd-right">
-        <div class="timer" id="timerBox" title="이 부의 남은 시간">
-          <span>⏱</span><span class="tval" id="timerVal">50:00</span>
-          <button class="tbtn" id="timerToggle" title="시작/일시정지">▶</button>
-          <button class="tbtn" id="timerReset" title="이 부 타이머 초기화">⟲</button>
+        <div class="timer" id="timerBox" title="지금 진행 중인 부의 남은 시간 (목표 마감까지)">
+          <span>⏱</span><span class="tval" id="timerVal">--:--</span>
+          <button class="tbtn" id="timerToggle" title="지금부터 이 부의 제한시간을 시작">▶</button>
+          <button class="tbtn" id="timerReset" title="제한시간을 이 부의 기본값으로 다시 설정">⟲</button>
         </div>
         <span class="preview-badge" title="강사 미리보기: 모든 부가 열려 있습니다">🔓 강사 미리보기</span>
+        <a class="btn sm" id="openBoard" href="#" target="_blank" rel="noopener">📊 <span class="lbl">실시간 현황판</span></a>
         <button class="btn sm" id="openRes">📂 <span class="lbl">참여자 자료실</span></button>
         <button class="btn sm" id="openDoc">🖨 <span class="lbl">결과 기록지</span></button>
         <button class="btn sm ghost" id="openSet" title="설정">⚙ <span class="lbl">설정</span></button>
@@ -461,11 +537,11 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <span>주최/주관: 교육부 · 한국연구재단(NRF) · 신산업특화사업 2.0 발전협의회</span>
       <span class="orgsep">|</span>
       <span>후원: 한국공학교육인증원(ABEEK)</span>
-      <span class="orgmeta">5부 설계도 작업대 · 15팀 · 50분 × 5부</span>
+      <span class="orgmeta">5부 설계도 작업대 · 15팀 · 누적 점수 <b id="hdScore">0</b>점</span>
     </div>
   </div>
 
-  <nav class="rail" aria-label="5부 진행 레일">
+  <nav class="rail" aria-label="부 진행 레일">
     <div class="wrap rail-in" id="rail"></div>
   </nav>
   </div>
@@ -473,30 +549,164 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   <main class="wrap" id="main">
 
   <div id="verWarn" style="display:none">
-    <div class="callout blue">🔄 <b>프롬프트가 개정되었습니다</b> — 저장된 기록은 그대로 두고, 아래 프롬프트 상자는 현재 버전(v2.0)으로 다시 조립됩니다.</div>
+    <div class="callout blue">🔄 <b>프롬프트가 개정되었습니다</b> — 저장된 기록은 그대로 두고, 아래 프롬프트 상자는 현재 버전(v3.0)으로 다시 조립됩니다.</div>
   </div>
 
-  <!-- ================= 1부 ================= -->
-  <section class="part active" data-part="1" id="part1">
+  <!-- ================= 0부 · Aside 세팅 & 개인 실습 ================= -->
+  <section class="part" data-part="0" id="part0">
     <div class="part-head">
       <div>
-        <div class="part-kicker">PART 1 · 현장 답사</div>
-        <h2 class="part-title"><span>1부</span> — 우리가 무엇을 만드는지 우리 전공 말로 이해한다</h2>
-        <p class="part-sub">OT·기초 · 50분 · 팀 정보와 미션 해석, 문제 후보 2개까지</p>
+        <div class="part-kicker">PART 0 · ASIDE BOOT CAMP</div>
+        <h2 class="part-title"><span>0부</span> — Aside 세팅하고, 스스로 해 보고, 옆에 체크한다</h2>
+        <p class="part-sub">90분 · 개인 참여 — 같은 팀 3명이 각자 노트북에서 자기 이름으로 참여합니다</p>
       </div>
     </div>
     <div class="score-banner">
-      <span>🎯 이 부에서 챙기는 배점</span><b>협업 및 학습 과정</b>
-      <span class="pts">10점</span>
+      <span>🎯 이 부의 목표</span><b>Aside를 손에 익히고, 우리 기업 1줄 조사까지</b>
+      <span class="pts">개인 참여</span>
     </div>
 
     <div class="block b1">
       <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
       <p class="prose">
-        오늘 우리는 2일 동안 웹앱 하나를 만듭니다. 1부는 벽돌을 쌓기 전에 <span class="hl">땅을 보는 시간</span>입니다.
-        먼저 우리 팀이 누구인지 적고, 우리에게 주어진 미션을 우리 전공 말로 다시 풀어 봅니다.
-        그다음 Claude에게 "우리 분야에서 이 미션과 붙는 실제 문제가 뭐가 있나"를 물어 후보를 받습니다.
-        <b>오늘 고르는 문제 하나가 이틀 전체의 방향을 정합니다.</b> 아직 결정하지 않아도 됩니다. 후보만 모아 두세요.
+        0부는 <span class="hl">각자 자기 노트북에서</span> 진행합니다. 클로드·깃허브 계정은 이미 만들어 왔으니 가입 안내는 없습니다.
+        여기서 하는 일은 셋입니다. <b>① Aside 세팅</b>(유형·모델·도구 권한·분할 화면) → <b>② 스스로 해 보기</b>(6개 미션, 옆에 체크) → <b>③ 우리 기업 1줄 조사 제출</b>.
+        체크할 때마다 진행률이 오르고, 6개를 다 채우면 <b>익힘 완료</b> 배지가 붙습니다.
+      </p>
+      <div class="callout blue">💡 막히면 손을 들기 전에 이 화면의 순서를 그대로 따라 해 보세요. 세팅 4단계는 지금 화면과 Aside 화면을 나란히 두고 하면 가장 빠릅니다.</div>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">2</div><h2>내 이름 (개인 참여자) <small>이 이름으로 0부 제출 기록이 남습니다</small></h2></div>
+      <div class="grid2">
+        <div class="field">
+          <label for="f-my">내 이름 <span class="req">필수</span></label>
+          <div class="hint">같은 팀 3명이 각자 자기 이름을 넣습니다</div>
+          <input class="inp" id="f-my" data-f="p0.name" placeholder="예: 김민수" maxlength="20" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>우리 팀</label>
+          <div class="hint">입장에서 고른 팀 · 바꾸려면 설정(⚙) → 팀 바꾸기</div>
+          <div class="rovalue" id="p0team">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">3</div><h2>0-1. Aside 세팅 가이드 <small>“이거 · 이거 · 이거 순서대로 해봐!”</small></h2></div>
+      <div class="hint" style="margin-bottom:12px">아래 4개를 순서대로 하고, <b>해 본 것마다 오른쪽 체크</b>를 누르세요. 체크는 진행률에 바로 반영됩니다.</div>
+
+      <div class="steplist" style="display:grid;gap:10px">
+        <div class="aside-step">
+          <div class="asn">1</div>
+          <div class="asb">
+            <b>유형(모드) 선택 — 채팅 모드 / 에이전트 모드</b>
+            <span>먼저 <b>채팅 모드</b>로 시작합니다. 화면에 보이는 내용을 Aside가 직접 읽고 조작해야 할 때만 <b>에이전트 모드</b>로 바꿉니다.</span>
+            <div class="asdo">
+              <select class="sel" data-f="p0.mode" aria-label="Aside 유형(모드)">
+                <option value="">— 고른 모드 —</option>
+                <option>채팅 모드</option>
+                <option>에이전트 모드</option>
+              </select>
+              <label class="chk" style="padding:7px 10px;min-height:0"><input type="checkbox" data-f="p0.set.s1"><span>해봤어요</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="aside-step">
+          <div class="asn">2</div>
+          <div class="asb">
+            <b>모델 설정 — 기존 유료 Claude 계정 연동 + 모델 선택</b>
+            <span>이미 결제된 대표 계정으로 로그인되어 있는지 확인하고, 모델을 고릅니다. <b>정확도</b>가 필요하면 위쪽, <b>속도</b>가 필요하면 아래쪽입니다.</span>
+            <div class="asdo">
+              <select class="sel" data-f="p0.model" aria-label="Aside 모델">
+                <option value="">— 고른 모델 —</option>
+                <option>Claude Sonnet (기본·균형)</option>
+                <option>Claude Opus (가장 정확·느림)</option>
+                <option>Claude Haiku (가장 빠름)</option>
+              </select>
+              <label class="chk" style="padding:7px 10px;min-height:0"><input type="checkbox" data-f="p0.set.s2"><span>해봤어요</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="aside-step">
+          <div class="asn">3</div>
+          <div class="asb">
+            <b>컴퓨터 유즈(Computer Use) 등 도구 권한 켜기</b>
+            <span>Aside가 내 화면을 보고 클릭·입력할 수 있게 권한을 켭니다. 켠 뒤 <b>브라우저를 열어 특정 페이지를 찾아 보게</b> 한 번 시켜 보세요.</span>
+            <div class="asdo">
+              <label class="chk" style="padding:7px 10px;min-height:0"><input type="checkbox" data-f="p0.set.s3"><span>권한 켜고 한 번 실행해 봤어요</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="aside-step">
+          <div class="asn">4</div>
+          <div class="asb">
+            <b>분할 화면 · 작업 폴더 연결</b>
+            <span>Aside와 이 작업대를 나란히 띄우고(왼쪽 Aside · 오른쪽 작업대), 작업 폴더를 연결합니다. 폴더는 <code>바탕화면/our-team</code> 처럼 한 곳으로 정하세요.</span>
+            <div class="asdo">
+              <label class="chk" style="padding:7px 10px;min-height:0"><input type="checkbox" data-f="p0.set.s4"><span>분할 화면 + 폴더 연결 완료</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">4</div><h2>0-2. 스스로 익히기 &amp; 옆에 체크 <small>6개를 다 채우면 ‘익힘 완료’</small></h2></div>
+      <div class="progwrap">
+        <span class="progtxt" id="p0prog">진행률 0 / 6</span>
+        <div class="progbar"><i id="p0bar"></i></div>
+        <span class="badge-ik" id="p0badge">🏅 익힘 완료</span>
+        <span class="tag gray" id="p0score">내 점수 0점</span>
+      </div>
+      <div class="checks" id="asideMissions" style="margin-top:10px"></div>
+    </div>
+
+    <div class="block b3">
+      <div class="bhead"><div class="bnum">5</div><h2>0-3. 개인 미니 미션 결과 입력 &amp; 제출 <small>우리 매칭 기업·주제 1줄 조사</small></h2></div>
+      <div class="hint">Aside에게 우리 매칭 기업(아래 참고 카드)에 대해 물어보고, 확인한 내용을 <b>한 줄</b>로 적으세요. 이 한 줄이 현황판에 남습니다.</div>
+      <textarea class="ta t2" id="f-mini" data-f="p0.mini" maxlength="300" placeholder=""></textarea>
+      <div class="refcard" id="refcard0" hidden style="margin-top:14px"></div>
+      <div class="submitcard">
+        <div class="sc-head">
+          <h3>🏁 0부 개인 완료 제출</h3>
+          <span class="sc-rule">시간 내 제출 +10점 · 지각 +5점</span>
+        </div>
+        <div class="sc-lead">내 이름 · 미션 1줄이 준비되면 누르세요. 제출하면 1부가 열립니다. (같은 이름으로 다시 누르면 최신 내용으로 바뀝니다)</div>
+        <div class="sendprev" id="sendprev0"></div>
+        <div id="miss0" class="missing"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+          <button class="btn ok" id="done0">✓ 0부 개인 완료 제출</button>
+          <span class="tag gray" id="state0">아직 완료 전</span>
+        </div>
+        <div class="subres" id="subres0"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 1부 ================= -->
+  <section class="part" data-part="1" id="part1">
+    <div class="part-head">
+      <div>
+        <div class="part-kicker">PART 1 · PLAN &amp; ROLES</div>
+        <h2 class="part-title"><span>1부</span> — 주제를 정하고, 우리 팀 역할을 확정한다</h2>
+        <p class="part-sub">40분 · 참고 카드에서 과제를 고르고, 팀 정보·역할·핵심 기획 1줄을 제출합니다</p>
+      </div>
+    </div>
+    <div class="score-banner">
+      <span>🎯 이 부에서 챙기는 배점</span><b>협업 및 학습 과정 · 문제이해</b>
+      <span class="pts">시간 내 제출</span>
+    </div>
+
+    <div class="block b1">
+      <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
+      <p class="prose">
+        1부는 <span class="hl">방향을 정하는 시간</span>입니다. 위 참고 카드에서 우리 대학 매칭 기업의 과제 후보 A/B/C를 읽고, 우리가 만들 것을 <b>하나</b>로 정합니다.
+        정했으면 팀 정보와 <b>역할 분담</b>(기획·데이터 / 빌더 / 깃허브·발표)을 적고, <b>핵심 기획 1줄</b>을 남겨 제출합니다.
+        <b>오늘 고르는 문제 하나가 이틀 전체의 방향을 정합니다.</b>
       </p>
     </div>
 
@@ -504,10 +714,11 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 <small>필수 항목을 채우면 아래 프롬프트가 조립됩니다 · 자동 저장</small></h2></div>
       <div class="presetbar">
         <label class="flabel" for="teamPreset">⭐ 우리 팀 빠른 선택 <span class="opt">15팀</span></label>
-        <div class="hint">팀을 고르면 <b>팀명·소속 대학·분야·배정 미션</b>이 자동으로 채워집니다. 고친 뒤에는 직접 입력해도 됩니다.</div>
+        <div class="hint">팀을 고르면 <b>팀명·소속 대학·분야·배정 과제</b>가 채워지고, 매칭 기업·과제 후보 A/B/C 카드가 아래에 뜹니다.</div>
         <select class="sel" id="teamPreset"><option value="">— 직접 입력 —</option></select>
         <div class="presetinfo" id="teamPresetInfo" hidden></div>
       </div>
+      <div class="refcard" id="refcard1" hidden></div>
       <div class="form">
         <div class="grid3">
           <div class="field">
@@ -536,42 +747,40 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
         </div>
 
         <div class="field">
-          <label for="f-mission">배정 미션 <span class="req">필수</span></label>
-          <div class="hint">받은 미션 문장 그대로 옮겨 적으세요. 요약하지 마세요.</div>
-          <textarea class="ta t2" id="f-mission" data-f="p1.mission" placeholder="예: 우리 지역의 냉동·공조 설비 유지관리 현장에서 발생하는 문제를 데이터로 줄이는 웹앱을 만들어라."></textarea>
+          <label for="f-mission">배정 과제(미션) <span class="req">필수</span></label>
+          <div class="hint">확정 과제가 있으면 그 문장 그대로. 참고 카드의 후보를 골랐다면 아래 <b>[이 과제로 정하기]</b>를 누르면 자동으로 들어갑니다.</div>
+          <textarea class="ta t2" id="f-mission" data-f="p1.mission" placeholder="예: [기업 연계 · ㈜서번] 공조기 고장 증상 → 점검 순서 안내 챗봇"></textarea>
         </div>
 
         <div>
-          <div class="flabel">팀원 3인 <span class="req">필수</span></div>
-          <div class="hint">역할은 기본값으로 자동 배정됩니다. 실제 분담이 다르면 바꾸세요.</div>
+          <div class="flabel">팀원 3인과 역할 <span class="req">필수</span></div>
+          <div class="hint">역할: 기획·데이터 / 빌더 / 깃허브·발표. 기본값으로 자동 배정되니 실제 분담과 다르면 바꾸세요.</div>
           <div class="grid3">
             <div class="field">
-              <label for="f-m0">팀원 1 (기본: 빌더)</label>
+              <label for="f-m0">팀원 1</label>
               <input class="inp" id="f-m0" data-f="p1.members.0.name" placeholder="이름">
             </div>
             <div class="field">
-              <label for="f-m1">팀원 2 (기본: 데이터·기획)</label>
+              <label for="f-m1">팀원 2</label>
               <input class="inp" id="f-m1" data-f="p1.members.1.name" placeholder="이름">
             </div>
             <div class="field">
-              <label for="f-m2">팀원 3 (기본: 검증·발표)</label>
+              <label for="f-m2">팀원 3</label>
               <input class="inp" id="f-m2" data-f="p1.members.2.name" placeholder="이름">
             </div>
           </div>
           <div class="grid3" style="margin-top:8px">
-            <select class="sel" data-f="p1.members.0.role" aria-label="팀원1 역할"><option>빌더</option><option>데이터·기획</option><option>검증·발표</option></select>
-            <select class="sel" data-f="p1.members.1.role" aria-label="팀원2 역할"><option>빌더</option><option>데이터·기획</option><option>검증·발표</option></select>
-            <select class="sel" data-f="p1.members.2.role" aria-label="팀원3 역할"><option>빌더</option><option>데이터·기획</option><option>검증·발표</option></select>
+            <select class="sel" data-f="p1.members.0.role" aria-label="팀원1 역할"><option>기획·데이터</option><option>빌더</option><option>깃허브·발표</option></select>
+            <select class="sel" data-f="p1.members.1.role" aria-label="팀원2 역할"><option>기획·데이터</option><option>빌더</option><option>깃허브·발표</option></select>
+            <select class="sel" data-f="p1.members.2.role" aria-label="팀원3 역할"><option>기획·데이터</option><option>빌더</option><option>깃허브·발표</option></select>
           </div>
+          <div class="rolecard" id="rolesum" style="margin-top:10px"></div>
         </div>
 
-        <div>
-          <div class="flabel">계정·도구 확인 <span class="req">필수</span></div>
-          <div class="checks">
-            <label class="chk"><input type="checkbox" data-f="p1.chk.c1"><span>Claude Code가 내 컴퓨터에서 실행됨 <small>실행이 안 되면 손을 들고 강사를 부르세요</small></span></label>
-            <label class="chk"><input type="checkbox" data-f="p1.chk.c2"><span>팀 계정으로 로그인됨 <small>팀당 1대 원칙 · 다른 팀 계정 쓰지 않기</small></span></label>
-            <label class="chk"><input type="checkbox" data-f="p1.chk.c3"><span>참여자 자료실 링크가 열림 <small>헤더의 📂 참여자 자료실 버튼</small></span></label>
-          </div>
+        <div class="field">
+          <label for="f-plan">핵심 기획 1줄 <span class="req">필수 · 제출 내용</span></label>
+          <div class="hint">누가·무엇을·어떻게 해결하는지 한 문장. 예: “설비 알람을 공정별로 묶어 상위 5개를 보여주는 대시보드”</div>
+          <input class="inp" id="f-plan" data-f="p1.plan" maxlength="140" placeholder="우리 팀이 이틀 동안 만들 것 한 줄">
         </div>
 
         <div class="grid2">
@@ -590,11 +799,20 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
           <label for="f-c2">눈여겨본 문제 후보 2 <span class="opt">3부에서 필수</span></label>
           <input class="inp" id="f-c2" data-f="p1.cand2" placeholder="예: 점검 기록이 종이에 흩어져 월별 집계가 안 된다">
         </div>
+
+        <div>
+          <div class="flabel">준비 확인 <span class="req">필수</span></div>
+          <div class="checks">
+            <label class="chk"><input type="checkbox" data-f="p1.chk.c1"><span>Aside가 내 컴퓨터에서 열리고 로그인되어 있다 <small>실행이 안 되면 손을 들고 강사를 부르세요</small></span></label>
+            <label class="chk"><input type="checkbox" data-f="p1.chk.c2"><span>우리 대학 GitHub 계정으로 로그인되어 있다 <small>팀당 1대 원칙 · 다른 팀 계정 쓰지 않기</small></span></label>
+            <label class="chk"><input type="checkbox" data-f="p1.chk.c3"><span>참고 카드의 과제 후보 A/B/C를 팀원 모두 읽었다 <small>헤더의 📊 현황판·위 참고 카드</small></span></label>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="block b3">
-      <div class="bhead"><div class="bnum">3</div><h2>Claude에 붙여넣을 프롬프트 ① <small>미션 해석 · 문제 후보 5개</small></h2></div>
+      <div class="bhead"><div class="bnum">3</div><h2>Aside에 붙여넣을 프롬프트 ① <small>미션 해석 · 문제 후보 5개</small></h2></div>
       <div class="pbox">
         <div class="pbox-top">
           <span class="pt">프롬프트 ① · 미션 해석과 문제 후보</span>
@@ -607,22 +825,31 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
         <div class="pbox-foot">
           <button class="btn primary sm copybtn" data-copy="1">📋 전체 복사</button>
           <button class="btn sm ghost" data-expand="1">펼쳐 보기</button>
-          <span class="note">복사 → 팀 Claude 대화 창에 붙여넣기</span>
+          <span class="note">복사 → Aside 대화 창에 붙여넣기</span>
         </div>
       </div>
     </div>
 
     <div class="block b4">
-      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인할 것 <small>3개를 확인하고 2부를 엽니다</small></h2></div>
+      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인하고 제출 <small>3개를 확인하고 2부를 엽니다</small></h2></div>
       <div class="checks">
-        <label class="chk"><input type="checkbox" data-f="p1.conf.c1"><span>Claude가 우리 분야 언어로 미션을 <b>3줄로 설명</b>했는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p1.conf.c1"><span>Aside가 우리 분야 언어로 미션을 <b>3줄로 설명</b>했는가</span></label>
         <label class="chk"><input type="checkbox" data-f="p1.conf.c2"><span>현장 문제 후보 <b>5개가 출처와 함께</b> 나왔는가</span></label>
         <label class="chk"><input type="checkbox" data-f="p1.conf.c3"><span>후보 중 <b>2개를 골라</b> 위 칸(눈여겨본 후보 1·2)에 적었다</span></label>
       </div>
-      <div id="miss1" class="missing"></div>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="btn ok" id="done1">✓ 1부 완료 · 2부 열기</button>
-        <span class="tag gray" id="state1">아직 완료 전</span>
+      <div class="submitcard">
+        <div class="sc-head">
+          <h3>🏁 1부 기획·역할 제출</h3>
+          <span class="sc-rule">시간 내 제출 +10점 · 지각 +5점</span>
+        </div>
+        <div class="sc-lead">팀명 · 팀원 역할 · 핵심 기획 1줄이 현황판으로 갑니다. 제출하면 2부가 열립니다.</div>
+        <div class="sendprev" id="sendprev1"></div>
+        <div id="miss1" class="missing"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+          <button class="btn ok" id="done1">✓ 1부 기획·역할 제출</button>
+          <span class="tag gray" id="state1">아직 완료 전</span>
+        </div>
+        <div class="subres" id="subres1"></div>
       </div>
     </div>
   </section>
@@ -630,9 +857,9 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   <section class="part" data-part="2" id="part2">
     <div class="part-head">
       <div>
-        <div class="part-kicker">PART 2 · 자재 검수</div>
-        <h2 class="part-title"><span>2부</span> — 쓸 자료를 정하고, 개인정보를 가리고, 오류 3건을 찾는다</h2>
-        <p class="part-sub">데이터 분석·마스킹·데이터 오류 점검 · 50분</p>
+        <div class="part-kicker">PART 2 · DATA</div>
+        <h2 class="part-title"><span>2부</span> — 화면 메뉴를 정하고, 쓸 가상 데이터 10줄을 검수한다</h2>
+        <p class="part-sub">메뉴 정리 · 데이터 마스킹 · 오류 점검 · 40분</p>
       </div>
     </div>
     <div class="score-banner">
@@ -751,16 +978,25 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
     </div>
 
     <div class="block b4">
-      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인할 것</h2></div>
+      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인하고 제출</h2></div>
       <div class="checks">
         <label class="chk"><input type="checkbox" data-f="p2.conf.c1"><span>개인정보로 보이는 <b>칸 목록</b>이 나왔는가</span></label>
         <label class="chk"><input type="checkbox" data-f="p2.conf.c2"><span>마스킹 방법이 <b>원본을 고치지 않는 제안</b>으로 나왔는가</span></label>
         <label class="chk"><input type="checkbox" data-f="p2.conf.c3"><span>오류가 <b>3건 이상, 표로</b> 나왔는가</span></label>
       </div>
-      <div id="miss2" class="missing"></div>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="btn ok" id="done2">✓ 2부 완료 · 3부 열기</button>
-        <span class="tag gray" id="state2">아직 완료 전</span>
+      <div class="submitcard">
+        <div class="sc-head">
+          <h3>🏁 2부 완료 제출</h3>
+          <span class="sc-rule">시간 내 제출 +10점 · 지각 +5점</span>
+        </div>
+        <div class="sc-lead">정리된 데이터 요약(5번 칸)이 이 부의 핵심 결과입니다. 제출하면 3부가 열립니다.</div>
+        <div class="sendprev" id="sendprev2"></div>
+        <div id="miss2" class="missing"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+          <button class="btn ok" id="done2">✓ 2부 완료 제출</button>
+          <span class="tag gray" id="state2">아직 완료 전</span>
+        </div>
+        <div class="subres" id="subres2"></div>
       </div>
     </div>
   </section>
@@ -768,9 +1004,9 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   <section class="part" data-part="3" id="part3">
     <div class="part-head">
       <div>
-        <div class="part-kicker">PART 3 · 설계도</div>
+        <div class="part-kicker">PART 3 · BLUEPRINT</div>
         <h2 class="part-title"><span>3부</span> — 문제를 한 문장으로 자르고 화면 3칸을 그린다</h2>
-        <p class="part-sub">문제해결·웹사이트 기획 · 50분 · 여기서 채운 칸이 그대로 4부의 제작 지시문이 됩니다</p>
+        <p class="part-sub">설계도·프롬프트 · 40분 · 여기서 채운 칸이 그대로 4부의 제작 지시문이 됩니다</p>
       </div>
     </div>
     <div class="score-banner">
@@ -908,17 +1144,26 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
     </div>
 
     <div class="block b4">
-      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인할 것</h2></div>
+      <div class="bhead"><div class="bnum">4</div><h2>복사한 뒤 확인하고 제출</h2></div>
       <div class="checks">
-        <label class="chk"><input type="checkbox" data-f="p3.conf.c1"><span>Claude가 <b>우리 대신 결정하지 않고</b> 선택지만 줬는가</span></label>
+        <label class="chk"><input type="checkbox" data-f="p3.conf.c1"><span>Aside가 <b>우리 대신 결정하지 않고</b> 선택지만 줬는가</span></label>
         <label class="chk"><input type="checkbox" data-f="p3.conf.c2"><span>화면 3칸(입력·버튼·결과)이 <b>우리 말로</b> 다시 적혔는가</span></label>
         <label class="chk"><input type="checkbox" data-f="p3.conf.c3"><span>핵심 기능 <b>1개</b>가 정해졌고, 뺄 것을 뺐는가</span></label>
         <label class="chk"><input type="checkbox" data-f="p3.conf.c4"><span>12번 '왜 이 기능인가'를 <b>우리 힘으로</b> 채웠는가</span></label>
       </div>
-      <div id="miss3" class="missing"></div>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="btn ok" id="done3">✓ 3부 완료 · 4부 열기</button>
-        <span class="tag gray" id="state3">아직 완료 전</span>
+      <div class="submitcard">
+        <div class="sc-head">
+          <h3>🏁 3부 완료 제출</h3>
+          <span class="sc-rule">시간 내 제출 +10점 · 지각 +5점</span>
+        </div>
+        <div class="sc-lead">핵심 기능 1개와 화면 3칸이 이 부의 핵심 결과입니다. 제출하면 4부가 열립니다.</div>
+        <div class="sendprev" id="sendprev3"></div>
+        <div id="miss3" class="missing"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+          <button class="btn ok" id="done3">✓ 3부 완료 제출</button>
+          <span class="tag gray" id="state3">아직 완료 전</span>
+        </div>
+        <div class="subres" id="subres3"></div>
       </div>
     </div>
   </section>
@@ -928,7 +1173,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <div>
         <div class="part-kicker">PART 4 · 시공</div>
         <h2 class="part-title"><span>4부</span> — 설계도대로 핵심 기능 1개를 내 손으로 세운다</h2>
-        <p class="part-sub">사이트 만들기 · 50~90분 · 한 단계 만들고 멈추고 확인합니다</p>
+        <p class="part-sub">사이트 만들기 · 90분 · 한 단계 만들고 멈추고 확인합니다</p>
       </div>
     </div>
     <div class="score-banner">
@@ -1025,17 +1270,26 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
     </div>
 
     <div class="block b4">
-      <div class="bhead"><div class="bnum">4</div><h2>확인할 것</h2></div>
+      <div class="bhead"><div class="bnum">4</div><h2>확인하고 제출</h2></div>
       <div class="checks">
         <label class="chk"><input type="checkbox" data-f="p4.conf.c1"><span>index.html을 열면 <b>화면 뼈대</b>가 보인다</span></label>
         <label class="chk"><input type="checkbox" data-f="p4.conf.c2"><span>버튼을 누르면 <b>결과 영역에 값</b>이 나온다</span></label>
         <label class="chk"><input type="checkbox" data-f="p4.conf.c3"><span>예시 데이터를 넣었을 때 결과가 말이 된다</span></label>
         <label class="chk"><input type="checkbox" data-f="p4.conf.c4"><span>외부 인터넷을 끊어도 열린다 <small>CDN을 쓰지 않았는지 확인</small></span></label>
       </div>
-      <div id="miss4" class="missing"></div>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="btn ok" id="done4">✓ 4부 완료 · 5부 열기</button>
-        <span class="tag gray" id="state4">아직 완료 전</span>
+      <div class="submitcard">
+        <div class="sc-head">
+          <h3>🏁 4부 완료 제출</h3>
+          <span class="sc-rule">시간 내 제출 +10점 · 지각 +5점</span>
+        </div>
+        <div class="sc-lead">만든 파일과 지금 되는 것이 이 부의 핵심 결과입니다. 제출하면 5부(GitHub 업로드·Pages)가 열립니다.</div>
+        <div class="sendprev" id="sendprev4"></div>
+        <div id="miss4" class="missing"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+          <button class="btn ok" id="done4">✓ 4부 완료 제출</button>
+          <span class="tag gray" id="state4">아직 완료 전</span>
+        </div>
+        <div class="subres" id="subres4"></div>
       </div>
     </div>
   </section>
@@ -1043,32 +1297,85 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
   <section class="part" data-part="5" id="part5">
     <div class="part-head">
       <div>
-        <div class="part-kicker">PART 5 · 준공 검사</div>
-        <h2 class="part-title"><span>5부</span> — 기능을 동결하고, 시험 5건·사용자 2인으로 검사한다</h2>
-        <p class="part-sub">검수·수정 · 50분+α · 새 기능 없이, 고장 난 곳만 최소로</p>
+        <div class="part-kicker">PART 5 · SHIP</div>
+        <h2 class="part-title"><span>5부</span> — GitHub에 올리고, Pages 시연 URL을 낸다</h2>
+        <p class="part-sub">40분 · 미리 만든 GitHub 계정에 업로드 → Pages 켜기 → 시연 URL 제출 (+20점)</p>
       </div>
     </div>
     <div class="score-banner">
-      <span>🎯 이 부에서 챙기는 배점</span><b>검증 및 개선 20점 + 현장 적용 가능성 15점</b>
-      <span class="pts">35점</span>
+      <span>🎯 이 부에서 챙기는 배점</span><b>시제품 구현 및 시연 · GitHub 배포</b>
+      <span class="pts">+20점 보너스</span>
     </div>
 
     <div class="block b1">
       <div class="bhead"><div class="bnum">1</div><h2>이 단계에서 하는 일</h2></div>
       <p class="prose">
-        마지막입니다. 여기서 가장 중요한 규칙은 <span class="hl">새 기능을 넣지 않는 것</span>입니다(기능 동결).
-        지금 있는 기능을 시험하고, 고장 난 곳만 최소로 고칩니다. 시험은 다섯 번 합니다 — <b>잘 되는 경우 3번, 일부러 이상한 값을 넣는 경우 2번</b>.
-        그리고 우리 팀이 아닌 사람 2명에게 직접 써 보게 하고 그 말을 적습니다. 마지막에 기록지를 뽑아 제출합니다.
+        마지막입니다. 4부에서 만든 <span class="hl">index.html 하나</span>를 우리 대학 GitHub에 올리고, <b>Pages</b>를 켜서 <b>심사위원이 접속할 수 있는 주소</b>를 만듭니다.
+        계정은 이미 만들어 왔으니 가입은 하지 않습니다. 업로드가 끝나면 <b>Pages 시연 URL</b>을 제출하세요. 이 URL을 낸 팀에 <b>+20점</b>이 붙습니다.
       </p>
-      <div class="callout pink">📌 <b>순서를 지키세요.</b> 시험표를 먼저 채우고, 그다음 프롬프트⑤를 복사합니다. 시험표의 '실제 결과·판정'이 그대로 수정 지시문이 됩니다.</div>
+      <div class="callout blue">⏱ Pages는 켠 뒤 <b>1~2분</b> 뒤에 열립니다. 주소가 404로 보이면 1분 기다렸다가 새로고침하세요. 그동안 아래 준공 검사(선택)를 채우면 됩니다.</div>
     </div>
 
     <div class="block b2">
-      <div class="bhead"><div class="bnum">2</div><h2>우리 팀 칸 <small>동결 확인을 먼저 체크해야 시험표가 열립니다</small></h2></div>
+      <div class="bhead"><div class="bnum">2</div><h2>5-1. 업로드 5단계 <small>GitHub 화면 그대로 따라 하기</small></h2></div>
+      <ol class="gb-steps">
+        <li><div><b>올릴 파일 확인</b><span>4부에서 만든 폴더에 <code>index.html</code>이 있는지 확인합니다. (예: <code>바탕화면/our-team/index.html</code>)</span></div></li>
+        <li><div><b>새 저장소 만들기</b><span>GitHub 오른쪽 위 <code>+</code> → <b>New repository</b> → 이름은 <code>our-team</code> 처럼 팀 이름 → <b>Public</b> → Create repository.</span></div></li>
+        <li><div><b>index.html 올리기</b><span>저장소 화면의 <b>uploading an existing file</b>(또는 Add file → Upload files)를 눌러 <code>index.html</code>을 끌어다 놓고 <b>Commit changes</b>.</span></div></li>
+        <li><div><b>Pages 켜기</b><span><b>Settings</b> → 왼쪽 <b>Pages</b> → Source: <b>Deploy from a branch</b> → Branch: <code>main</code> / <code>/ (root)</code> → <b>Save</b>.</span></div></li>
+        <li><div><b>주소 확인하고 복사</b><span>1~2분 뒤 <code>https://내아이디.github.io/저장소이름/</code> 이 열립니다. 이 주소를 아래 칸에 붙여넣으세요.</span></div></li>
+      </ol>
+      <div class="callout">⚠️ 저장소 이름에 한글·공백을 쓰면 주소가 깨집니다. <b>영문 소문자·하이픈</b>만 쓰세요. 예: <code>chosun-one-pick</code></div>
+    </div>
+
+    <div class="block b3">
+      <div class="bhead"><div class="bnum">3</div><h2>5-2. 우리 팀 제출 <small>시연 URL이 이 부의 핵심 결과입니다</small></h2></div>
+      <div class="form">
+        <div class="grid2">
+          <div class="field">
+            <label for="f-repo">GitHub 저장소 주소 <span class="opt">선택</span></label>
+            <div class="hint">예: https://github.com/아이디/our-team</div>
+            <input class="inp" id="f-repo" data-f="p5.repo" maxlength="200" placeholder="https://github.com/...">
+          </div>
+          <div class="field">
+            <label for="f-demo">Pages 시연 URL <span class="req">필수</span></label>
+            <div class="hint">예: https://아이디.github.io/our-team/ — 심사위원이 여기로 접속합니다</div>
+            <input class="inp" id="f-demo" data-f="p5.demoUrl" maxlength="200" placeholder="https://아이디.github.io/ours/">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-one">우리 앱 한 줄 소개 <span class="req">필수</span></label>
+          <div class="hint">현황판과 발표 첫 문장에 쓰입니다. 예: “알람 로그를 공정별로 묶어 자주 서는 공정을 5초 안에 보여줍니다”</div>
+          <input class="inp" id="f-one" data-f="p5.oneLine" maxlength="160" placeholder="누가 쓰면 무엇이 좋아지는 앱인지 한 줄">
+        </div>
+        <div class="checks">
+          <label class="chk"><input type="checkbox" data-f="p5.conf.c1"><span>시연 URL을 <b>다른 기기(휴대폰)</b>에서 열어 확인했다</span></label>
+          <label class="chk"><input type="checkbox" data-f="p5.conf.c2"><span>업로드한 <code>index.html</code>이 <b>4부에서 확인한 그 파일</b>이다</span></label>
+        </div>
+      </div>
+
+      <div class="submitcard">
+        <div class="sc-head">
+          <h3>🏁 5부 완료 제출 — GitHub Pages 시연 URL</h3>
+          <span class="sc-rule">시간 내 +10점 · 지각 +5점 · 시연 URL +20점</span>
+        </div>
+        <div class="sc-lead">시연 URL이 열리는 것을 확인한 뒤 누르세요. 제출하면 현황판 ‘최종 시연 URL’ 칸에 그대로 남습니다.</div>
+        <div class="sendprev" id="sendprev5"></div>
+        <div id="miss5" class="missing"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+          <button class="btn ok" id="done5">✓ 5부 완료 제출 · 시연 URL 보내기</button>
+          <span class="tag gray" id="state5">아직 완료 전</span>
+        </div>
+        <div class="subres" id="subres5"></div>
+      </div>
+    </div>
+
+    <div class="block b2">
+      <div class="bhead"><div class="bnum">4</div><h2>준공 검사 · 결과 기록지용 <small>선택 — 발표·기록지를 낼 팀만 채웁니다</small></h2></div>
 
       <label class="chk" style="margin-bottom:16px">
         <input type="checkbox" data-f="p5.freeze" id="freezeChk">
-        <span>1. <b>기능 동결 확인</b> — 지금부터 새 기능은 넣지 않습니다 <small>시험 중 "이것도 넣자"가 나오면 다음 버전으로 미룹니다</small></span>
+        <span>4-1. <b>기능 동결 확인</b> — 지금부터 새 기능은 넣지 않습니다 <small>시험 중 "이것도 넣자"가 나오면 다음 버전으로 미룹니다</small></span>
       </label>
 
       <div id="gate5" class="locknote" style="display:none">
@@ -1078,7 +1385,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <div id="p5form" class="form" style="opacity:.45;pointer-events:none" aria-disabled="true">
 
         <div class="field">
-          <div class="flabel">2. 시험 5건 <span class="req">필수 · 5행</span></div>
+          <div class="flabel">4-2. 시험 5건 <span class="opt">기록지용 · 선택</span></div>
           <div class="hint">1~3행은 <b>잘 되는 경우</b>, 4~5행은 <b>일부러 이상한 값</b>(빈 값·글자·아주 큰 숫자 등). 판정은 합격/불합격으로만.</div>
           <div class="tablewrap">
             <table class="tin">
@@ -1096,7 +1403,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
         </div>
 
         <div class="field">
-          <div class="flabel">3. 사용자 검증 2인 <span class="req">필수 · 2행</span></div>
+          <div class="flabel">4-3. 사용자 검증 2인 <span class="opt">기록지용 · 선택</span></div>
           <div class="hint">우리 팀이 아닌 사람 2명(강사가 배정). <b>소감은 그 사람이 한 말 그대로</b> 인용하세요.</div>
           <div class="tablewrap">
             <table class="tin">
@@ -1110,7 +1417,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
         </div>
 
         <div class="field">
-          <div class="flabel">4. AI·자료 출처 <span class="req">필수 · 2행</span>
+          <div class="flabel">4-4. AI·자료 출처 <span class="opt">기록지용 · 선택</span>
             <button class="btn sm ghost" id="addClaudeSrc" style="margin-left:auto;font-size:12.5px;min-height:30px;padding:3px 9px">🤖 Claude 한 줄</button>
             <button class="btn sm ghost" id="addSrcRow" style="font-size:12.5px;min-height:30px;padding:3px 9px">+ 2행 더</button>
           </div>
@@ -1129,7 +1436,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
         </div>
 
         <div class="field">
-          <div class="flabel">5. 팀원별 기여 <span class="req">필수 · 3행</span></div>
+          <div class="flabel">4-5. 팀원별 기여 <span class="opt">기록지용 · 선택</span></div>
           <div class="hint">이름은 1부에서 자동으로 채워집니다. 시간(h)은 3인 합 8~12시간이 자연스럽습니다.</div>
           <div class="tablewrap">
             <table class="tin">
@@ -1144,40 +1451,40 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
         </div>
 
         <div class="field">
-          <label for="f-limits">6. 현장 적용 시 한계·전제 <span class="req">필수 · 3줄</span></label>
+          <label for="f-limits">4-6. 현장 적용 시 한계·전제 <span class="opt">기록지용 · 선택</span></label>
           <div class="hint">실제 업무에 붙일 때 무엇이 아직 필요한지 솔직하게</div>
           <textarea class="ta t3" id="f-limits" data-f="p5.limits" placeholder="예: 실제 설비 대장과 연동되지 않아 손으로 입력해야 함&#10;검사자별 계정 구분이 없어 누가 입력했는지는 남지 않음&#10;태블릿 화면 기준으로 만들어 PC에서는 글씨가 큼"></textarea>
         </div>
 
         <div class="grid2">
           <div class="field">
-            <label for="f-presenter">7. 발표자 <span class="req">필수</span></label>
-            <div class="hint">기본값: 검증·발표 역할</div>
+            <label for="f-presenter">4-7. 발표자 <span class="opt">선택</span></label>
+            <div class="hint">기본값: 깃허브·발표 역할</div>
             <input class="inp" id="f-presenter" data-f="p5.presenter" placeholder="이름">
           </div>
           <div class="field">
-            <label for="f-demo1">8-1. 시연 순서 1</label>
+            <label for="f-demo1">4-8. 시연 순서 1 <span class="opt">선택</span></label>
             <div class="hint">30초 안에 끝나는 동작</div>
             <input class="inp" id="f-demo1" data-f="p5.demo.0" placeholder="예: 점검 3대를 입력하고 '확인'을 누른다">
           </div>
         </div>
         <div class="grid2">
-          <div class="field"><label for="f-demo2">8-2. 시연 순서 2</label><input class="inp" id="f-demo2" data-f="p5.demo.1" placeholder="예: 3일 지난 설비가 빨갛게 뜨는 것을 보여준다"></div>
-          <div class="field"><label for="f-demo3">8-3. 시연 순서 3</label><input class="inp" id="f-demo3" data-f="p5.demo.2" placeholder="예: 빈 값으로 눌러 안내 문구를 보여준다"></div>
+          <div class="field"><label for="f-demo2">4-9. 시연 순서 2</label><input class="inp" id="f-demo2" data-f="p5.demo.1" placeholder="예: 3일 지난 설비가 빨갛게 뜨는 것을 보여준다"></div>
+          <div class="field"><label for="f-demo3">4-10. 시연 순서 3</label><input class="inp" id="f-demo3" data-f="p5.demo.2" placeholder="예: 빈 값으로 눌러 안내 문구를 보여준다"></div>
         </div>
         <div class="field">
-          <label for="f-q1">8-4. 예상질문 1 <span class="opt">프롬프트⑤ 결과 반영</span></label>
+          <label for="f-q1">4-11. 예상질문 1 <span class="opt">프롬프트⑤ 결과 반영</span></label>
           <input class="inp" id="f-q1" data-f="p5.demoQ.0" placeholder="예: 실제 설비 대장이랑은 어떻게 연결하나요?">
         </div>
         <div class="grid2">
-          <div class="field"><label for="f-q2">8-5. 예상질문 2</label><input class="inp" id="f-q2" data-f="p5.demoQ.1" placeholder=""></div>
-          <div class="field"><label for="f-q3">8-6. 예상질문 3</label><input class="inp" id="f-q3" data-f="p5.demoQ.2" placeholder=""></div>
+          <div class="field"><label for="f-q2">4-12. 예상질문 2</label><input class="inp" id="f-q2" data-f="p5.demoQ.1" placeholder=""></div>
+          <div class="field"><label for="f-q3">4-13. 예상질문 3</label><input class="inp" id="f-q3" data-f="p5.demoQ.2" placeholder=""></div>
         </div>
       </div>
     </div>
 
     <div class="block b3">
-      <div class="bhead"><div class="bnum">3</div><h2>Claude에 붙여넣을 프롬프트 ⑤ <small>검수·수정·발표 지시문 — 4부와 같은 대화에서 이어서</small></h2></div>
+      <div class="bhead"><div class="bnum">5</div><h2>Aside·클로드 코드에 붙여넣을 프롬프트 ⑤ <small>검수·수정·발표 지시문 — 4부와 같은 대화에서 이어서</small></h2></div>
       <div class="pbox">
         <div class="pbox-top">
           <span class="pt">프롬프트 ⑤ · 준공 검사</span>
@@ -1193,21 +1500,14 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
           <span class="note">시험표가 채워질수록 지시문이 정확해집니다</span>
         </div>
       </div>
-      <div class="callout">🆕 Claude가 새 기능을 제안하면 <b>"새 기능은 넣지 마. 오늘 고칠 것과 발표에서 말할 것만 나눠 줘"</b>라고 답하세요.</div>
+      <div class="callout">🆕 Aside나 클로드가 새 기능을 제안하면 <b>"새 기능은 넣지 마. 오늘 고칠 것과 발표에서 말할 것만 나눠 줘"</b>라고 답하세요.</div>
     </div>
 
     <div class="block b4">
-      <div class="bhead"><div class="bnum">4</div><h2>확인할 것 <small>4개를 확인하면 기록지 버튼이 켜집니다</small></h2></div>
-      <div class="checks">
-        <label class="chk"><input type="checkbox" data-f="p5.conf.c1"><span>시험 5건 중 <b>불합격 항목에 수정 내용</b>이 적혀 있는가</span></label>
-        <label class="chk"><input type="checkbox" data-f="p5.conf.c2"><span>사용자 2인의 말이 <b>그대로 인용</b>되어 있는가</span></label>
-        <label class="chk"><input type="checkbox" data-f="p5.conf.c3"><span>출처에 <b>라이선스</b>가 적혀 있는가</span></label>
-        <label class="chk"><input type="checkbox" data-f="p5.conf.c4"><span>기여 시간 합계가 대략 맞는가 <small>3인 합 8~12시간</small></span></label>
-      </div>
-      <div id="miss5" class="missing"></div>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="btn ok" id="done5">✓ 5부 완료 · 결과 기록지 출력</button>
-        <span class="tag gray" id="state5">아직 완료 전</span>
+      <div class="bhead"><div class="bnum">6</div><h2>결과 기록지 <small>선택 항목을 채우면 기록지가 더 채워집니다</small></h2></div>
+      <p class="prose" style="font-size:14px">제출이 끝났으면 <b>[결과 기록지]</b>로 3쪽 기록지를 PDF로 저장해 내세요. 비어 있는 칸은 —로 표시됩니다.</p>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn" id="openDoc2">🖨 결과 기록지 열기</button>
       </div>
     </div>
   </section>
@@ -1216,7 +1516,7 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 
   <div class="statusbar">
     <div class="wrap in">
-      <span>🔒 이 화면의 입력은 <b>이 브라우저에만</b> 저장되며 서버로 전송되지 않습니다.</span>
+      <span>🔒 입력은 <b>이 브라우저에만</b> 저장되고, [제출]을 누를 때만 현황판으로 전송됩니다.</span>
       <span class="dotsep">·</span>
       <span id="sbSave" class="save"><span class="sdot"></span><span id="sbSaveTxt">저장 준비됨</span></span>
     </div>
@@ -1234,6 +1534,28 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 </div>
 <div id="printDoc"></div>
 
+<!-- ============ 모달: 현황판 ============ -->
+<div class="modal" id="boardModal">
+  <div class="modal-card">
+    <div class="modal-head"><h3>📊 실시간 현황판</h3><button class="x" data-close="boardModal">×</button></div>
+    <div class="modal-body">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <a class="btn sm primary" id="boardOpenSheet" href="#" target="_blank" rel="noopener">📄 구글 시트로 열기</a>
+        <button class="btn sm" id="boardRefresh">🔄 새로고침</button>
+        <span class="tag gray" id="boardUpdated">불러오는 중…</span>
+      </div>
+      <div class="tablewrap" style="margin-top:6px">
+        <table class="tin" style="min-width:560px">
+          <thead><tr><th>팀</th><th style="width:64px">0부</th><th style="width:44px">1</th><th style="width:44px">2</th><th style="width:44px">3</th><th style="width:44px">4</th><th style="width:44px">5</th><th style="width:74px">총점</th><th>시연 URL</th></tr></thead>
+          <tbody id="boardBody"><tr><td colspan="9" style="color:#93a1bb">불러오는 중…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="hint">0부는 개인 제출 인원 수입니다. 점수는 제출 시각으로 서버가 정시/지각을 판정해 계산합니다.</div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close="boardModal">닫기</button></div>
+  </div>
+</div>
+
 <!-- ============ 모달: 자료실 ============ -->
 <div class="modal" id="resModal">
   <div class="modal-card">
@@ -1244,25 +1566,26 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
           <span class="gb-ico">🐣</span>
           <div>
             <b>클로드 코드(Claude Code) 처음 써 보는 분을 위한 5단계 따라하기 (Windows 기준)</b>
-            <small>참가자 79%가 처음 씁니다 · 85%가 Windows 노트북입니다. 4부 전에 이 5단계만 먼저 끝내세요.</small>
+            <small>4부에서만 씁니다. 계정은 이미 만들어 왔으니 가입하지 말고, 안내받은 계정으로 로그인만 하세요.</small>
           </div>
         </div>
         <ol class="gb-steps">
           <li><div><b>작업 폴더 만들기</b><span>바탕화면에 팀 이름으로 새 폴더를 만듭니다. (예: <code>our-team</code>)</span></div></li>
           <li><div><b>폴더에서 터미널 열기</b><span>VS Code에서 그 폴더를 엽니다. (또는 폴더 주소창에 <code>cmd</code>를 치고 엔터)</span></div></li>
-          <li><div><b><code>claude</code> 실행 &amp; 로그인</b><span>검은 창에 <code>claude</code>를 치고 엔터 → 안내받은 팀 계정으로 로그인합니다.</span></div></li>
+          <li><div><b><code>claude</code> 실행 &amp; 로그인</b><span>검은 창에 <code>claude</code>를 치고 엔터 → 안내받은 계정으로 로그인합니다.</span></div></li>
           <li><div><b>프롬프트 붙여넣기</b><span>이 작업대에서 복사한 프롬프트를 검은 창에 붙여넣고(<code>Ctrl+V</code> 또는 우클릭) 엔터 → 멈추지 말고 끝날 때까지 기다립니다.</span></div></li>
-          <li><div><b>결과 파일 확인</b><span>폴더에 생긴 <code>index.html</code>을 더블클릭해 Chrome/Edge로 열어 확인합니다. 오류가 나면 당황하지 말고 에러 화면을 그대로 복사해 클로드에 다시 붙여넣으세요.</span></div></li>
+          <li><div><b>결과 파일 확인</b><span>폴더에 생긴 <code>index.html</code>을 더블클릭해 Chrome/Edge로 열어 확인합니다. 오류가 나면 당황하지 말고 에러 화면을 그대로 복사해 다시 붙여넣으세요.</span></div></li>
         </ol>
       </div>
       <div class="reslist">
-        <div class="ri"><div class="rn">1</div><div><b>Claude Code 실행 확인</b><small>터미널(명령 프롬프트)에서 <code>claude</code>를 입력해 실행되는지 확인하세요. 실행이 안 되면 손을 들고 강사를 부르세요.</small></div></div>
-        <div class="ri"><div class="rn">2</div><div><b>팀 계정 로그인</b><small>팀당 1대 원칙입니다. 다른 팀 계정으로 로그인하지 말고, 한도 메시지가 뜨면 화면을 캡처해 강사에게 보여 주세요.</small></div></div>
-        <div class="ri"><div class="rn">3</div><div><b>1~3부는 Claude 대화 창에서</b><small>표·목록·문장을 주고받는 작업입니다. 앱을 Aside(분할 화면) 옆에 띄우면 복사·붙여넣기가 한 화면에서 끝납니다.</small></div></div>
-        <div class="ri"><div class="rn">4</div><div><b>4부는 Claude Code에서</b><small>실제 파일(index.html)이 생겨야 하므로 Claude Code를 사용합니다. 5부는 4부 대화를 그대로 이어서 진행하세요.</small></div></div>
+        <div class="ri"><div class="rn">0</div><div><b>0부는 Aside로</b><small>Aside 세팅(유형·모델·컴퓨터 유즈·분할 화면)을 먼저 끝내고, 6개 미션을 체크하세요. 0부는 개인 참여입니다.</small></div></div>
+        <div class="ri"><div class="rn">1</div><div><b>Aside 실행 확인</b><small>Aside가 내 컴퓨터에서 열리고 유료 계정으로 로그인되어 있는지 확인하세요. 안 되면 손을 들고 강사를 부르세요.</small></div></div>
+        <div class="ri"><div class="rn">2</div><div><b>팀 계정 로그인</b><small>1~3부는 Aside 대화 창에서, 4부는 클로드 코드에서 진행합니다. 팀당 1대 원칙입니다.</small></div></div>
+        <div class="ri"><div class="rn">3</div><div><b>화면 왼쪽 Aside · 오른쪽 작업대</b><small>분할 화면으로 두면 복사·붙여넣기가 한 화면에서 끝납니다.</small></div></div>
+        <div class="ri"><div class="rn">4</div><div><b>5부는 GitHub 업로드</b><small>미리 만든 계정으로 저장소를 만들고 <code>index.html</code>을 올린 뒤 Settings → Pages를 켭니다. 가입은 하지 않습니다.</small></div></div>
         <div class="ri"><div class="rn">5</div><div><b>네트워크가 끊길 때</b><small>복사한 프롬프트는 메모장(Windows)이나 텍스트편집기(Mac)에 임시로 붙여 두세요. 1~3부는 그 프롬프트로 이어서 진행할 수 있습니다.</small></div></div>
         <div class="ri"><div class="rn">6</div><div><b>기록 백업</b><small>설정(⚙) → <b>기록 내보내기(.json)</b>로 하루에 한 번 백업하세요. 기기가 바뀌면 <b>불러오기</b>로 5분 안에 복원됩니다.</small></div></div>
-        <div class="ri"><div class="rn">7</div><div><b>제출은 PDF로</b><small>5부 완료 후 [결과 기록지] → [인쇄 / PDF 저장] → 대상: 'PDF로 저장', 배경 그래픽 끔. 파일명은 <code>2026NI2.0_결과기록지_{팀명}.pdf</code>로 저장하세요.</small></div></div>
+        <div class="ri"><div class="rn">7</div><div><b>제출은 PDF로</b><small>[결과 기록지] → [인쇄 / PDF 저장] → 대상: 'PDF로 저장', 배경 그래픽 끔. 파일명은 <code>2026NI2.0_결과기록지_{팀명}.pdf</code>로 저장하세요.</small></div></div>
       </div>
     </div>
     <div class="modal-foot"><button class="btn" data-close="resModal">닫기</button></div>
@@ -1286,8 +1609,14 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       <div class="divider"></div>
       <div class="field">
         <div class="flabel">강사 미리보기</div>
-        <div class="hint">현장 시연용입니다. 켜면 5부가 모두 열립니다. <b>기본값은 꺼짐</b> — 학생은 순서대로 진행해야 합니다.</div>
+        <div class="hint"> 현장 시연용입니다. 켜면 5부가 모두 열립니다. <b>기본값은 꺼짐</b> — 학생은 순서대로 진행해야 합니다.</div>
         <label class="chk"><input type="checkbox" id="previewToggle"><span>🔓 잠금 해제 (강사 미리보기)</span></label>
+      </div>
+      <div class="divider"></div>
+      <div class="field">
+        <div class="flabel">현황판 연결</div>
+        <div class="hint">시트: <b id="setSheetState">—</b></div>
+        <button class="btn sm" id="btnBoard">📊 현황판 열기</button>
       </div>
       <div class="divider"></div>
       <div class="field">
@@ -1297,8 +1626,8 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
       </div>
       <div class="divider"></div>
       <div style="font-size:12px;color:var(--mut2);line-height:1.7">
-        프롬프트 템플릿 <b style="color:#a78bfa">v2.0</b> · 앱 버전 2.0 · 저장 위치: 이 브라우저 localStorage<br>
-        서버·로그인 없음 · 외부 CDN 0개(오프라인에서 열림)
+        프롬프트 템플릿 <b style="color:#a78bfa">v2.0</b> · 앱 버전 3.0 · 저장 위치: 이 브라우저 localStorage<br>
+        서버·로그인 없음(제출만 구글 시트로 전송) · 외부 CDN 0개(오프라인에서 열림)
       </div>
     </div>
     <div class="modal-foot"><button class="btn" data-close="setModal">닫기</button></div>
@@ -1309,41 +1638,157 @@ body.docmode .doctoolbar{display:flex;position:fixed;top:0;left:0;right:0;height
 
 <script>
 /* ============================================================
-   15개 팀 프리셋 (「팀별 과제(1팀 미정)」 기준 · 2026 NI2.0 AID 해커톤 대회)
-   track = 앱의 6개 분야 중 가장 맞는 값으로 자동 매핑한 값. 참가자가 직접 바꿀 수 있습니다.
-   mission = 배정 과제 원문에 구분(기업 연계·대학 제안·자율 주제)과 연계 기업을 붙인 문장.
+   15개 팀 프리셋 + 아티팩트(대학별 기업 매칭) 데이터
+   - 2026 NI2.0 AID 해커톤 대회 · 2026-11-25 v3.0
+   - 매칭 기업·과제 후보 A/B/C는 ㈜스마트소셜 교육운영(2026. 11. 17.) 매칭안
+     「2026년 NI2.0 AID 해커톤 대회 · 대학별 기업 매칭」 아티팩트에서 그대로 옮겼습니다.
+   - track = 앱의 6개 분야 중 가장 맞는 값으로 자동 매핑한 값. 참가자가 직접 바꿀 수 있습니다.
+   - mission = 배정 과제 원문(확정). 15팀 조선이공대는 현장 확정 전이라 비어 있고,
+     missionPending:true 로 두어 참고 카드의 후보 A/B/C에서 고르게 합니다.
    ============================================================ */
 const TEAMS = [
-  {no:1, univ:'강원도립대학교', dept:'스마트건설토목과', team:'넥스톤(NEXTON)', track:'공간정보·건설',
-   mission:'[기업 연계 · ㈜동호엔지니어링] 안전관리 체크리스트 Q&A 챗봇'},
-  {no:2, univ:'계명문화대학교', dept:'디자인융합학부', team:'뭉치스', track:'AI·콘텐츠·디자인',
-   mission:'[기업 연계 · ㈜디엔비] 중소기업 브랜드 진단 AI — 로고·패키지를 올리면 개선 포인트 제안'},
-  {no:3, univ:'대구보건대학교', dept:'임상병리학과·치기공학과', team:'E.T', track:'바이오·보건',
-   mission:'[대학 제안 · ㈜인트인] AI 기반 자가검사 오류 원인 추적 및 제품 품질개선 지원 웹앱'},
-  {no:4, univ:'대림대학교', dept:'반도체학과', team:'고수빈과 아이들', track:'반도체·전자',
-   mission:'[기업 연계 · ㈜아이코어] 웨이퍼·칩 표면 불량 이미지 분류기'},
-  {no:5, univ:'동원과학기술대학교', dept:'냉동공조설비과', team:'냉동냥이', track:'에너지·냉동공조',
-   mission:'[기업 연계 · ㈜서번] 공조기 고장 증상 → 점검 순서 안내 챗봇'},
-  {no:6, univ:'부천대학교', dept:'전자공학과·스마트팩토리전공', team:'해커트리오', track:'제조·전자동화',
-   mission:'[대학 제안 · ㈜트윔] AI 물류분류 시스템 설계 및 비전 불량 감지 (Teachable Machine 물체인식 + 불량 판정 + 생산통계 대시보드)'},
-  {no:7, univ:'서일대학교', dept:'AI게임융합학과', team:'카페인 중독', track:'AI·콘텐츠·디자인',
-   mission:'[기업 연계 · ㈜에이블게임즈] 방치형 RPG 밸런스 시뮬레이터 — 성장 곡선·재화 소모를 숫자로 확인'},
-  {no:8, univ:'순천제일대학교', dept:'산업기술화공과', team:'혼돈즈', track:'제조·전자동화',
-   mission:'[기업 연계 · ㈜포스포] 배치(lot)별 품질검사 결과 추세 대시보드'},
-  {no:9, univ:'연성대학교', dept:'컴퓨터소프트웨어과', team:'AIM', track:'AI·콘텐츠·디자인',
-   mission:'[자율 주제] 문서 전용 비주얼 스크립팅 방식 워크플로 엔진'},
-  {no:10, univ:'영남이공대학교', dept:'소프트웨어융합과·스마트e-자동차과', team:'솔로이스트', track:'제조·전자동화',
-   mission:'[기업 연계 · ㈜아진엑스텍] 로봇 축 이동 궤적 시뮬레이터 (속도 프로파일을 그래프로 확인)'},
-  {no:11, univ:'오산대학교', dept:'반도체장비과·AI반도체계열', team:'드리미', track:'반도체·전자',
-   mission:'[기업 연계 · ㈜오로스테크놀로지] 장비 셋업 체크리스트·인수인계 앱(A주제)'},
-  {no:12, univ:'울산과학대학교', dept:'조선해양시스템공학과', team:'유메이크', track:'제조·전자동화',
-   mission:'[기업 연계 · 케이로드로보틱스㈜] 로봇 작업구역 안전수칙 Q&A 챗봇'},
-  {no:13, univ:'유한대학교', dept:'유한바이오제약학과·유한생명바이오학과', team:'풀어라민', track:'바이오·보건',
-   mission:'[기업 연계 · ㈜에스엘에스바이오] 품질시험 SOP 검색 챗봇'},
-  {no:14, univ:'전주비전대학교', dept:'신재생에너지과', team:'꾸미호', track:'에너지·냉동공조',
-   mission:'[기업 연계 · 비나텍㈜] 생산라인 신입 온보딩 Q&A — 공정·안전수칙'},
-  {no:15, univ:'조선이공대학교', dept:'자동화시스템공학부', team:'원픽(one pick)', track:'제조·전자동화',
-   mission:'[자율 주제] 현장 확정 예정'}
+  {no:1, univ:"강원도립대학교", dept:"스마트건설토목과", team:"넥스톤(NEXTON)", track:"공간정보·건설",
+   mission:"[기업 연계 · ㈜동호엔지니어링] 안전관리 체크리스트 Q&A 챗봇",
+   corp:"㈜동호엔지니어링", corpMeta:"강원 · 건설업 · 이노비즈 ~2028.12.28", corpLoc:"강원 강릉",
+   corpCaution:"본사 시·군은 섭외 전 확인이 필요합니다.",
+   corpNote:"강원 지역 건설·전기공사 업체로, 강릉에서 주택지원 태양광 설치 등 공사실적이 확인되는 기업.",
+   ideas:[
+     {k:"A", t:"현장 일일작업일보 AI 정리기 — 사진·메모로 작업일보 자동 작성", mvp:"모바일 웹", tip:"현장 관리자는 하루 끝에 일보를 몰아서 쓰느라 누락이 생깁니다. 사진 한 장과 음성 메모를 올리면 공종·인원·장비가 표로 정리되는 화면이면 충분합니다. 실제 일보를 받지 못하면 공개된 작업일보 양식으로 샘플을 만들고 화면에 ‘예시 데이터’라고 표시하세요."},
+     {k:"B", t:"공사 안전수칙·위험성평가 Q&A 챗봇", mvp:"웹챗봇 + 체크리스트 카드", tip:"신규 인력이 “고소작업 때 뭘 확인하지?”를 바로 물을 수 있게 만듭니다. 산업안전보건공단 공개 자료를 근거로 답하고 출처 문구를 함께 보여주면 신뢰도가 올라갑니다. 답변 끝에 체크리스트를 띄워 현장에서 체크하게 하세요."},
+     {k:"C", t:"태양광 설치현장 공정 진행 대시보드", mvp:"대시보드", tip:"여러 가구에 동시에 설치하는 사업은 어디까지 진행됐는지 한눈에 보기 어렵습니다. 현장별 진행률·지연 사유를 지도와 막대그래프로 보여주는 정도면 됩니다."},
+   ]},
+  {no:2, univ:"계명문화대학교", dept:"디자인융합학부", team:"뭉치스", track:"AI·콘텐츠·디자인",
+   mission:"[기업 연계 · ㈜디엔비] 중소기업 브랜드 진단 AI — 로고·패키지를 올리면 개선 포인트 제안",
+   corp:"㈜디엔비", corpMeta:"대구 수성구 · 디자인 · 이노비즈 ~2029.07.08", corpLoc:"대구 달서구",
+   corpNote:"CI·BI·편집·포장·UX/UI 디자인을 하는 종합디자인 전문기업. 대표가 이노비즈협회 대구경북지회장을 맡은 이력이 있어 협회 연계 섭외에 유리합니다.",
+   ideas:[
+     {k:"A", t:"중소기업 브랜드 진단 AI — 로고·패키지를 올리면 개선 포인트 제안", mvp:"웹앱 (이미지 업로드 + 리포트)", tip:"디자인 의뢰 전 상담 단계에서 고객이 자기 브랜드 문제를 말로 설명하지 못하는 경우가 많습니다. 색상·가독성·일관성 항목별 점수와 개선 예시를 1장 리포트로 보여주세요. 실제 고객사 시안 대신 가상 브랜드를 만들어 시연하면 됩니다."},
+     {k:"B", t:"패키지 디자인 시안 A/B 비교 투표 페이지", mvp:"Canva + 웹페이지", tip:"시안 2~3개를 놓고 소비자 반응을 빠르게 모으는 도구입니다. QR로 접속해 고르고 이유를 한 줄 남기면 결과가 바로 집계되게 만드세요."},
+     {k:"C", t:"디자인 의뢰 브리프 자동 작성 챗봇", mvp:"웹챗봇", tip:"고객과 몇 번 묻고 답하면 목적·타깃·톤·예산이 정리된 브리프가 나오게 합니다. 디자이너가 처음 받는 정보의 질이 올라가는 것이 핵심 가치입니다."},
+   ]},
+  {no:3, univ:"대구보건대학교", dept:"임상병리학과·치기공학과", team:"E.T", track:"바이오·보건",
+   mission:"[대학 제안 · ㈜인트인] AI 기반 자가검사 오류 원인 추적 및 제품 품질개선 지원 웹앱",
+   corp:"㈜인트인", corpMeta:"대구 동구 첨단의료복합단지 · 바이오 · 이노비즈 ~2028.01.04", corpLoc:"대구 북구",
+   theme:"대학 제안주제 · AI 기반 바이오헬스 검사결과 분석 및 맞춤형 건강관리 서비스 / 기업 연계 · 검사 데이터 자동 정리 및 이상값 탐지",
+   corpNote:"정자·배란 자가테스트기와 앱 분석을 만드는 디지털헬스케어 의료기기 기업. 호흡 진단·치료 기기로 CES 혁신상을 받았습니다. ‘측정 → 앱 분석 → 결과 설명’ 구조가 대학 제안주제와 맞습니다.",
+   ideas:[
+     {k:"A", t:"[대학 제안 반영] 검사결과 자동 정리·이상값 탐지 + 쉬운 설명 서비스", mvp:"웹앱 (CSV 업로드 → 표·그래프 → 설명문)", tip:"혈액검사 결과표를 올리면 정상범위 밖 항목을 색으로 표시하고, 의료 비전문가도 이해할 문장으로 풀어주는 화면을 만드세요. 실제 환자 데이터는 쓸 수 없으므로 참고치 기반 가상 데이터를 만들고 ‘예시 데이터’라고 반드시 표시해야 합니다. 진단이 아니라 ‘설명’이라는 문구를 화면에 넣으세요."},
+     {k:"B", t:"자가측정 기록 추세 리포트 — 반복 측정값의 변화와 이상 패턴 알림", mvp:"대시보드", tip:"자가테스트는 한 번보다 추세가 중요합니다. 날짜별 측정값을 꺾은선으로 보여주고 급변 구간에 알림을 띄우는 기능이면 충분합니다."},
+     {k:"C", t:"(치기공 연계) 보철물 제작 의뢰서 정리·누락 체크 도구", mvp:"웹 폼 + 체크리스트", tip:"치과에서 오는 의뢰서는 형식이 제각각이라 기공소에서 되묻는 일이 많습니다. 필수 항목 누락을 자동으로 잡아주는 폼으로 팀 내 치기공 전공자의 현장 지식을 살릴 수 있습니다."},
+   ]},
+  {no:4, univ:"대림대학교", dept:"반도체학과", team:"고수빈과 아이들", track:"반도체·전자",
+   mission:"[기업 연계 · ㈜아이코어] 웨이퍼·칩 표면 불량 이미지 분류기",
+   corp:"㈜아이코어", corpMeta:"경기 안양 동안구 호계동 · 전기전자 · 이노비즈 ~2029.11.23", corpLoc:"경기 안양",
+   corpNote:"반도체·디스플레이·이차전지 공정의 머신비전 핵심부품(스트로브 컨트롤러, 오토포커스 모듈 등)을 직접 개발·공급하는 기업. 독일 머신비전 어워드 수상 이력이 있고, 학교와 같은 동안구에 있습니다.",
+   ideas:[
+     {k:"A", t:"웨이퍼·칩 표면 불량 이미지 분류기 (Teachable Machine)", mvp:"웹앱 (이미지 업로드 → 판정)", tip:"공개된 웨이퍼 결함 이미지 데이터셋으로 스크래치·오염·정상 정도만 분류해도 충분합니다. 판정 결과와 함께 신뢰도 %를 보여주세요. 회사 이미지를 받지 못하면 공개 데이터셋임을 화면에 밝히세요."},
+     {k:"B", t:"비전 조명·렌즈 선택 도우미 챗봇", mvp:"웹챗봇 + 제품 카드", tip:"고객이 ‘반사가 심한 금속 표면’처럼 상황을 말하면 맞는 조명 방식과 부품을 추천합니다. 영업·기술지원 문의를 줄이는 것이 기업 입장의 가치입니다."},
+     {k:"C", t:"신입 엔지니어용 머신비전 용어·원리 학습 카드", mvp:"검색형 웹앱", tip:"노출·게인·스트로브 같은 용어를 그림 한 장과 3줄 설명으로 정리합니다. 반도체학과 학생이 직접 공부하며 만드는 과제라 완성도가 잘 나옵니다."},
+   ]},
+  {no:5, univ:"동원과학기술대학교", dept:"냉동공조설비과", team:"냉동냥이", track:"에너지·냉동공조",
+   mission:"[기업 연계 · ㈜서번] 공조기 고장 증상 → 점검 순서 안내 챗봇",
+   corp:"㈜서번", corpMeta:"부산 강서구 화전산단 · 기계금속 · 이노비즈 ~2029.10.11", corpLoc:"경남 양산",
+   corpNote:"공기조화기·배기열 회수 열교환기를 만드는 냉동공조 전문기업(조달청 우수제품, 미국 AHRI 인증). 물류센터 작업환경 개선, 클린룸 공조까지 사업을 넓혔습니다. 양산에서 차로 약 40분.",
+   ideas:[
+     {k:"A", t:"공조기 고장 증상 → 점검 순서 안내 챗봇", mvp:"웹챗봇 + 점검 카드", tip:"현장 설비 담당자가 ‘바람이 약하다’처럼 증상을 말하면 필터 → 팬 → 코일 순으로 점검 순서를 안내합니다. 제품 매뉴얼을 받지 못하면 일반 공조기 점검 기준으로 만들고 ‘예시’라고 표시하세요."},
+     {k:"B", t:"물류센터 작업장 온열 쾌적도 모니터링 대시보드", mvp:"대시보드", tip:"온도·습도 값으로 체감온도를 계산해 구역별 색으로 보여주는 화면입니다. 센서가 없으면 가상 측정값을 생성해 시연하면 됩니다."},
+     {k:"C", t:"열교환기 도입 효과 계산기 — 배기열 회수로 절감되는 냉난방비", mvp:"계산기 웹페이지", tip:"영업 현장에서 고객에게 숫자로 보여줄 도구입니다. 입력 항목은 면적·운전시간·전기요금 정도로 단순하게 두세요."},
+   ]},
+  {no:6, univ:"부천대학교", dept:"전자공학과·스마트팩토리전공", team:"해커트리오", track:"제조·전자동화",
+   mission:"[대학 제안 · ㈜트윔] AI 물류분류 시스템 설계 및 비전 불량 감지 (Teachable Machine 물체인식 + 불량 판정 + 생산통계 대시보드)",
+   corp:"㈜트윔", corpMeta:"경기 화성 · SW · 이노비즈 ~2029.04.30", corpLoc:"경기 부천",
+   theme:"대학 제안주제 · AI 물류분류 시스템 설계 및 비전 불량 감지 (Teachable Machine 물체인식 · 불량 감지 · 생산 통계)",
+   corpCaution:"본사가 화성이라 부천에서 차로 약 1시간 — 거리 기준선에 걸려 있습니다.",
+   corpNote:"AI 기반 머신비전 검사기를 만드는 코스닥 상장 중소기업. 이차전지·디스플레이·식음료 등 여러 업종에 검사 설비를 공급하며, 대학 제안주제와 업무가 거의 일치합니다.",
+   ideas:[
+     {k:"A", t:"[대학 제안 반영] Teachable Machine 물체인식 + 불량 판정 + 생산통계 대시보드", mvp:"웹캠 웹앱 + 대시보드", tip:"카메라 앞을 지나는 물건을 양품/불량/종류로 분류하고, 시간대별 생산량·불량률을 그래프로 쌓으세요. 실제 부품이 없으면 병뚜껑·블록처럼 구하기 쉬운 물건으로 시연해도 구조를 보여주기에 충분합니다."},
+     {k:"B", t:"불량 이미지 라벨링 도우미 — 현장 작업자가 클릭으로 불량 유형 태깅", mvp:"웹앱", tip:"AI 검사기의 성능은 학습 데이터 라벨 품질에 달려 있습니다. 작업자가 이미지를 넘기며 버튼으로 유형을 고르는 단순 화면이면 기업 실무와 바로 연결됩니다."},
+     {k:"C", t:"검사기 판정 결과 일일 리포트 자동 생성", mvp:"리포트 웹페이지", tip:"판정 로그(CSV)를 올리면 불량 상위 유형과 전일 대비 변화를 한 장으로 요약합니다. 로그가 없으면 가상 로그를 만들어 ‘예시 데이터’로 표시하세요."},
+   ]},
+  {no:7, univ:"서일대학교", dept:"AI게임융합학과", team:"카페인 중독", track:"AI·콘텐츠·디자인",
+   mission:"[기업 연계 · ㈜에이블게임즈] 방치형 RPG 밸런스 시뮬레이터 — 성장 곡선·재화 소모를 숫자로 확인",
+   corp:"㈜에이블게임즈", corpMeta:"서울 · SW · 이노비즈 ~2028.06.26", corpLoc:"서울 중랑구",
+   corpNote:"‘달토끼 키우기’(글로벌 450만 다운로드)와 넥슨 공동개발 ‘메이플 키우기’를 만든 모바일 게임 개발사.",
+   ideas:[
+     {k:"A", t:"방치형 RPG 밸런스 시뮬레이터 — 성장 곡선·재화 소모를 숫자로 확인", mvp:"웹앱 (입력값 → 그래프)", tip:"방치형 게임은 레벨별 필요 재화와 획득량의 균형이 핵심입니다. 공식을 바꾸면 ‘며칠 만에 몇 레벨’이 그래프로 바뀌는 도구를 만들면 기획자가 바로 쓸 수 있습니다. 수치는 가상으로 설정하세요."},
+     {k:"B", t:"유저 리뷰 감성 분석 대시보드", mvp:"대시보드", tip:"스토어 리뷰를 긍정/부정·주제(과금, 버그, 콘텐츠)로 나눠 보여줍니다. 공개 리뷰 일부를 샘플로 쓰고 출처를 표시하세요."},
+     {k:"C", t:"이벤트 공지·패치노트 AI 초안 작성기", mvp:"웹챗봇", tip:"업데이트 항목을 입력하면 게임 톤에 맞는 공지문을 만들어 줍니다. 운영팀의 반복 업무를 줄이는 과제라 짧은 기간에 완성도가 나옵니다."},
+   ]},
+  {no:8, univ:"순천제일대학교", dept:"산업기술화공과", team:"혼돈즈", track:"제조·전자동화",
+   mission:"[기업 연계 · ㈜포스포] 배치(lot)별 품질검사 결과 추세 대시보드",
+   corp:"㈜포스포", corpMeta:"광주 북구 본사 / 전남 광양공장 · 화학 · 이노비즈 ~2029.09.04", corpLoc:"전남 순천",
+   corpNote:"디스플레이·전기차용 형광소재(Micro LED, PIG 등)와 고순도 화학소재를 개발·생산하는 기업. 무역의 날 대통령상 수상. 광양공장이 순천과 가깝습니다.",
+   ideas:[
+     {k:"A", t:"신입 작업자 온보딩 AI — 공정·약품·안전수칙 Q&A", mvp:"웹챗봇 + 공정 카드", tip:"화학공장 신입은 약품 이름과 취급 주의사항을 한꺼번에 외워야 해서 부담이 큽니다. 공정 단계별 카드와 “이 약품 장갑 뭐 껴요?” 같은 질문에 답하는 챗봇을 묶으세요."},
+     {k:"B", t:"MSDS 빠른 검색기 — 물질명으로 위험·보호구·응급조치 요약", mvp:"검색형 웹앱", tip:"공개된 MSDS 정보를 3줄 요약 카드로 보여주는 것이 핵심입니다. 회사 내부 목록을 받지 못하면 일반 화학물질 10~20종으로 시연하고 ‘예시 데이터’라고 표시하세요."},
+     {k:"C", t:"배치(lot)별 품질검사 결과 추세 대시보드", mvp:"대시보드", tip:"lot별 순도·입도 같은 측정값을 관리도로 그려 기준선을 넘는 lot을 표시합니다. 화공과 전공 지식(관리도)을 그대로 쓸 수 있는 과제입니다."},
+   ]},
+  {no:9, univ:"연성대학교", dept:"컴퓨터소프트웨어과", team:"AIM", track:"AI·콘텐츠·디자인",
+   mission:"[자율 주제] 문서 전용 비주얼 스크립팅 방식 워크플로 엔진",
+   corp:"㈜케이에스씨앤씨", corpMeta:"서울 · SW · 이노비즈 ~2028.07.07", corpLoc:"경기 안양",
+   corpCaution:"안양 소재 SW 이노비즈 기업을 찾지 못해 서울 기업으로 매칭했습니다. 세부 소재지는 섭외 전 확인이 필요합니다.",
+   corpNote:"AI·OCR 문서 분석, RPA 업무자동화, 데이터 기반 의사결정 플랫폼을 만드는 기업.",
+   ideas:[
+     {k:"A", t:"영수증·거래명세서 OCR → 엑셀 자동 정리기", mvp:"웹앱 (이미지 업로드 → 표)", tip:"중소기업 경리 업무에서 가장 반복이 많은 일입니다. 날짜·거래처·금액만 정확히 뽑아도 쓸모가 큽니다. 실제 증빙 대신 직접 만든 가상 영수증으로 시연하세요."},
+     {k:"B", t:"사내 규정 문서 검색 챗봇 (RAG)", mvp:"웹챗봇", tip:"취업규칙·출장규정 같은 문서를 올려두고 질문하면 해당 조항과 함께 답하게 만듭니다. 답변에 원문 위치를 꼭 표시하세요."},
+     {k:"C", t:"반복 업무 자동화 후보 진단표", mvp:"웹 설문 + 결과 리포트", tip:"직원이 하루 업무를 입력하면 RPA로 바꿀 만한 업무를 점수로 골라줍니다. 기업의 영업 도구로도 쓸 수 있어 기업 반응이 좋을 주제입니다."},
+   ]},
+  {no:10, univ:"영남이공대학교", dept:"소프트웨어융합과·스마트e-자동차과", team:"솔로이스트", track:"제조·전자동화",
+   mission:"[기업 연계 · ㈜아진엑스텍] 로봇 축 이동 궤적 시뮬레이터 (속도 프로파일을 그래프로 확인)",
+   corp:"㈜아진엑스텍", corpMeta:"대구 달서구 성서산단 · 전기전자 · 이노비즈 ~2029.08.02", corpLoc:"대구 남구",
+   corpNote:"국내 최초로 모션제어 칩을 개발한 기업. 모션제어 모듈과 로봇 제어기를 만들어 삼성전자 등에 로봇을 납품합니다.",
+   ideas:[
+     {k:"A", t:"모션제어 제품 기술지원 챗봇 — 에러코드·설정 질문 응답", mvp:"웹챗봇 + 에러코드 카드", tip:"약 700개 고객사에서 오는 반복 문의를 줄이는 것이 목적입니다. 공개 매뉴얼 범위 안에서 답하게 하고, 답을 못 찾으면 담당자 연결 버튼을 띄우세요."},
+     {k:"B", t:"로봇 축 이동 궤적 시뮬레이터 — 속도 프로파일을 그래프로 확인", mvp:"웹앱 (입력값 → 그래프·애니메이션)", tip:"가속·등속·감속 구간을 바꾸면 위치·속도 그래프가 바뀌는 교육용 도구입니다. 자동차과 학생에게도 모터 제어 원리를 익히는 과제가 됩니다."},
+     {k:"C", t:"설비 가동 로그 이상 감지 대시보드", mvp:"대시보드", tip:"모터 전류·위치오차 로그에서 평소와 다른 구간을 표시합니다. 로그가 없으면 가상 로그를 만들어 ‘예시 데이터’로 표시하세요."},
+   ]},
+  {no:11, univ:"오산대학교", dept:"반도체장비과·AI반도체계열", team:"드리미", track:"반도체·전자",
+   mission:"[기업 연계 · ㈜오로스테크놀로지] 장비 셋업 체크리스트·인수인계 앱(A주제)",
+   corp:"㈜오로스테크놀로지", corpMeta:"경기 화성 동탄 · 전기전자 · 이노비즈 ~2029.05.25", corpLoc:"경기 오산",
+   corpNote:"반도체 노광공정의 오버레이 계측장비를 국산화한 기업. 패키징 계측, 웨이퍼 백사이드 검사장비로 영역을 넓히고 있습니다. 오산에서 가깝습니다.",
+   ideas:[
+     {k:"A", t:"장비 셋업 체크리스트·인수인계 앱", mvp:"모바일 웹", tip:"고객사 현장에 장비를 설치할 때 엔지니어마다 확인 순서가 다르면 실수가 생깁니다. 단계별 체크와 사진 첨부, 완료 리포트 출력까지만 만들면 됩니다."},
+     {k:"B", t:"오버레이 계측값 시각화 대시보드", mvp:"대시보드", tip:"웨이퍼 지도 위에 측정 지점별 오차 벡터를 화살표로 그려주는 화면입니다. 실제 값은 받기 어려우므로 가상 측정값을 생성하고 ‘예시 데이터’라고 표시하세요."},
+     {k:"C", t:"반도체 공정·장비 용어 학습 퀴즈", mvp:"웹앱", tip:"노광·식각·계측 용어를 퀴즈로 익히는 신입 교육 도구입니다. AI반도체계열 1학년 팀원도 기여할 수 있습니다."},
+   ]},
+  {no:12, univ:"울산과학대학교", dept:"조선해양시스템공학과", team:"유메이크", track:"제조·전자동화",
+   mission:"[기업 연계 · 케이로드로보틱스㈜] 로봇 작업구역 안전수칙 Q&A 챗봇",
+   corp:"케이로드로보틱스㈜", corpMeta:"울산 울주군 언양 · 기계금속 · 이노비즈 ~2028.12.12", corpLoc:"울산 동구",
+   corpCaution:"울산 소재 조선 전업 이노비즈 기업은 이번 조사에서 확인하지 못했습니다. 찾으면 교체를 권장합니다.",
+   corpNote:"자율주행 물류로봇(AMR)과 로봇 자동화 설비를 개발하는 기업(임직원 61명). 조선소 물류·자동화와 연결됩니다. 동구에서 차로 약 40~50분.",
+   ideas:[
+     {k:"A", t:"조선소 블록·자재 이동 경로 계획 시뮬레이터", mvp:"웹앱 (격자 지도 + 경로)", tip:"야드 지도 위에 출발·도착을 찍으면 물류로봇의 경로와 소요시간을 보여줍니다. 실제 야드 도면은 쓸 수 없으니 단순화한 가상 배치도로 만드세요."},
+     {k:"B", t:"로봇 작업구역 안전수칙 Q&A 챗봇", mvp:"웹챗봇 + 안전 카드", tip:"사람과 로봇이 같은 공간에서 일할 때 지켜야 할 규칙을 묻고 답하게 합니다. 조선 현장 안전 지식을 가진 학생이 강점을 살릴 수 있습니다."},
+     {k:"C", t:"로봇 가동 현황·배터리 상태 대시보드", mvp:"대시보드", tip:"여러 대의 로봇 위치·작업 상태·배터리를 한 화면에 보여줍니다. 가상 로봇 데이터로 시연하면 됩니다."},
+   ]},
+  {no:13, univ:"유한대학교", dept:"유한바이오제약학과·유한생명바이오학과", team:"풀어라민", track:"바이오·보건",
+   mission:"[기업 연계 · ㈜에스엘에스바이오] 품질시험 SOP 검색 챗봇",
+   corp:"㈜에스엘에스바이오", corpMeta:"경기 수원 영통 · 바이오 · 이노비즈 ~2029.10.30", corpLoc:"경기 부천",
+   corpNote:"의약품 품질관리 시험, 생물학적 동등성 시험, 체외진단 검사키트 개발을 하는 기업. 식약처 의약품 품질검사기관 지정 이력이 있습니다. 부천에서 차로 약 50분.",
+   ideas:[
+     {k:"A", t:"시험의뢰 접수·진행상황 조회 페이지", mvp:"웹앱", tip:"제약사 고객이 ‘시험이 어디까지 됐나’를 전화로 묻는 일이 많습니다. 의뢰번호로 단계(접수 → 시험 → 검토 → 성적서)를 보여주는 화면이면 충분합니다."},
+     {k:"B", t:"품질시험 SOP 검색 챗봇", mvp:"웹챗봇", tip:"신입 연구원이 시험법 절차를 바로 찾게 합니다. 실제 SOP 대신 대한민국약전 등 공개 기준 일부로 시연하고 ‘예시’라고 표시하세요."},
+     {k:"C", t:"시험 결과 규격 적합 판정 + 추세 그래프", mvp:"대시보드", tip:"함량·순도 결과를 넣으면 규격 적합 여부를 표시하고 lot별 추세를 그립니다. 바이오제약 전공 지식이 바로 쓰이는 과제입니다."},
+   ]},
+  {no:14, univ:"전주비전대학교", dept:"신재생에너지과", team:"꾸미호", track:"에너지·냉동공조",
+   mission:"[기업 연계 · 비나텍㈜] 생산라인 신입 온보딩 Q&A — 공정·안전수칙",
+   corp:"비나텍㈜", corpMeta:"전북 전주 본사 / 완주 공장 · 전기전자 · 이노비즈 ~2028.07.19", corpLoc:"전북 전주",
+   corpNote:"슈퍼커패시터와 수소연료전지 핵심소재(MEA 등)를 만드는 코스닥 상장 기업. 미국 블룸에너지에 AI 데이터센터용 슈퍼커패시터를 공급합니다.",
+   ideas:[
+     {k:"A", t:"슈퍼커패시터 vs 배터리 비교 학습·용량 계산기", mvp:"계산기 웹페이지", tip:"필요한 순간 출력과 시간을 넣으면 필요한 셀 수와 배터리 대비 장단점을 보여줍니다. 영업·교육에 바로 쓸 수 있는 도구입니다."},
+     {k:"B", t:"셀 충방전 시험 데이터 이상 감지 대시보드", mvp:"대시보드", tip:"사이클별 용량·내부저항 변화를 그래프로 그리고 기준을 벗어난 셀을 표시합니다. 시험 데이터를 받지 못하면 가상 데이터를 만들어 ‘예시 데이터’로 표시하세요."},
+     {k:"C", t:"생산라인 신입 온보딩 Q&A — 공정·안전수칙", mvp:"웹챗봇 + 공정 카드", tip:"전극·조립·화성 공정 단계를 카드로 정리하고 질문에 답하게 합니다."},
+   ]},
+  {no:15, univ:"조선이공대학교", dept:"자동화시스템공학부", team:"원픽(one pick)", track:"제조·전자동화",
+   mission:"",
+   missionPending:true,
+   corp:"동진기업㈜", corpMeta:"광주 · 기계금속 · 이노비즈 ~2029.04.02", corpLoc:"광주 동구",
+   corpNote:"이차전지 조립설비를 만드는 자동화 장비 기업(임직원 76명, 특허 29건).",
+   ideas:[
+     {k:"A", t:"설비 알람 이력 분석 대시보드 — 자주 서는 공정 찾기", mvp:"대시보드", tip:"설비 정지 알람을 공정·원인별로 모아 상위 5개를 보여줍니다. 알람 로그가 없으면 가상 로그로 만들고 ‘예시 데이터’라고 표시하세요."},
+     {k:"B", t:"설비 유지보수 매뉴얼 Q&A 챗봇", mvp:"웹챗봇 + 점검 카드", tip:"고객사 현장 작업자가 “그리퍼가 안 잡아요”를 물으면 점검 순서를 안내합니다. 출장 A/S를 줄이는 것이 기업의 가치입니다."},
+     {k:"C", t:"장비 출하 전 검수 체크리스트 앱", mvp:"모바일 웹", tip:"항목별 합격/불합격과 사진을 남기고 검수 리포트를 만들게 합니다. 자동화 전공 학생에게 익숙한 내용이라 완성도가 잘 나옵니다."},
+   ]},
 ];
 
 /* ============================================================
@@ -1564,18 +2009,64 @@ const LABELS = {
   '후보1':'문제 후보 1','후보2':'문제 후보 2'
 };
 
+
+/* ============================================================
+   단계(라운드) 정의 — 0부는 개인 참여, 1~5부는 팀 참여
+   ============================================================ */
+const ROUNDS = [
+  {n:0, short:'Aside 세팅',   name:'0부 · Aside 세팅 & 개인 실습',      min:90, indiv:true,
+   kicker:'PART 0 · ASIDE BOOT CAMP', sub:'90분 · 개인 참여 — 같은 팀 3명이 각자 노트북에서 자기 이름으로 참여합니다'},
+  {n:1, short:'기획·역할',    name:'1부 · 기획 & 팀별 역할 확정',        min:40,
+   kicker:'PART 1 · PLAN & ROLES',    sub:'40분 · 주제·기획 확정 + 기획·데이터 / 빌더 / 깃허브·발표 역할 분담'},
+  {n:2, short:'자료 검수',    name:'2부 · 메뉴·가상 데이터 준비',        min:40,
+   kicker:'PART 2 · DATA',            sub:'40분 · 화면 메뉴 정하고, 가상 데이터 10줄을 개인정보 가림·오류 점검까지 마칩니다'},
+  {n:3, short:'설계도',       name:'3부 · 설계도 & 프롬프트',            min:40,
+   kicker:'PART 3 · BLUEPRINT',       sub:'40분 · 문제를 한 문장으로 자르고 화면 3칸·핵심 기능 1개를 확정합니다'},
+  {n:4, short:'시공',         name:'4부 · 핵심 기능 구현',               min:90,
+   kicker:'PART 4 · BUILD',           sub:'90분 · 클로드 코드로 핵심 기능 1개를 짓습니다 (왕초보 5단계 가이드 포함)'},
+  {n:5, short:'GitHub 배포',  name:'5부 · GitHub 업로드 & Pages 시연',   min:40,
+   kicker:'PART 5 · SHIP',            sub:'40분 · 미리 만든 GitHub에 올리고 Pages 시연 URL을 제출합니다 (+20점 보너스)'}
+];
+const ROUND_BY_N = Object.fromEntries(ROUNDS.map(r=>[r.n,r]));
+
+/* 점수 규칙 (서버가 마감시각과 제출시각을 비교해 계산합니다) */
+const SCORING = { ontime:10, late:5, demoBonus:20 };
+
+/* 0-2 스스로 익히기 미션 (각 항목 옆 체크 → 익힘 배지·개인 진행률) */
+const ASIDE_MISSIONS = [
+  {id:'m1', t:'채팅 모드에서 우리 기업 관련 질문을 하나 던지고 답을 받았다', s:'예: "동진기업이 만드는 설비의 알람은 어떤 것이 있나?"'},
+  {id:'m2', t:'모델을 바꿔 같은 질문을 다시 던져 답의 차이를 비교했다', s:'빠른 모델 ↔ 정확한 모델'},
+  {id:'m3', t:'컴퓨터 유즈(Computer Use) 권한을 켜고 화면을 보며 한 번 시켰다', s:'브라우저를 열어 특정 페이지를 찾게 하기'},
+  {id:'m4', t:'분할 화면에 이 작업대를 띄우고 Aside 옆에서 함께 봤다', s:'왼쪽 Aside · 오른쪽 작업대'},
+  {id:'m5', t:'작업 폴더를 연결하고 그 폴더의 파일 하나를 열어 봤다', s:'예: 바탕화면/our-team'},
+  {id:'m6', t:'우리 대학 매칭 기업의 과제 후보 A/B/C를 읽고 하나를 골랐다', s:'입장 화면의 참고 카드'}
+];
+
+/* 0-3 개인 미니 미션 — 이 한 줄이 0부 제출 내용이 됩니다 */
+const ASIDE_MINI_HINT = '예: 동진기업㈜은 이차전지 조립설비를 만들고, 알람 이력 분석이 가장 자주 나오는 과제였다';
+
+/* ============================================================
+   실시간 현황판 연결 (2026-11-25 구축)
+   - SHEET_URL : 대표님 드라이브의 현황판 스프레드시트
+   - SUBMIT_ENDPOINT : Google Apps Script 웹앱(/exec). 비어 있으면 제출은 로컬에만 남습니다.
+   ============================================================ */
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1IFDW-hfiDjro5tIEddxF9V8zYNTDbQJChkNz-5dtxak/edit';
+const SUBMIT_ENDPOINT = '';
+
 </script>
 <script>
 /* ============================================================
-   5부 설계도 작업대 v2.0 — 애플리케이션 로직
+   5부 설계도 작업대 v3.0 — 애플리케이션 로직
+   0부(Aside 개인 실습) + 1~5부(팀 미션) · 제출 → 구글 시트 실시간 현황판
    ============================================================ */
 (function(){
 'use strict';
 
-const LS_KEY = k => 'hq2:team:' + k;
-const LS_LAST = 'hq2:last';
+const LS_KEY = k => 'hq3:team:' + k;
+const LS_LAST = 'hq3:last';
 const BLANKTXT = '(아직 비어 있음 — 우리가 채울 것)';
-const PART_NAMES = {1:'현장 답사',2:'자재 검수',3:'설계도',4:'시공',5:'준공 검사'};
+const PART_NAMES = {0:'Aside 세팅',1:'기획·역할',2:'자료 검수',3:'설계도',4:'시공',5:'GitHub 배포'};
+const STAGES = [0,1,2,3,4,5];
 
 const P1_EXTRA = `
 
@@ -1585,21 +2076,24 @@ const P1_EXTRA = `
 
 /* ---------------- 상태 ---------------- */
 function defaults(team){
+  const m = {};
+  ASIDE_MISSIONS.forEach(x=>{ m[x.id]=false; });
   return {
-    v:2, template:'v2.0', team:team||'', savedAt:null,
-    done:{1:false,2:false,3:false,4:false,5:false},
-    partial:{1:false,2:false,3:false,4:false,5:false},
-    copied:{},
-    preview:false,
-    timer:{remain:3000,running:false,endAt:null},
+    v:3, template:'v2.0', team:team||'', savedAt:null,
+    done:{0:false,1:false,2:false,3:false,4:false,5:false},
+    partial:{0:false,1:false,2:false,3:false,4:false,5:false},
+    copied:{}, preview:false,
+    rounds:{0:null,1:null,2:null,3:null,4:null,5:null},
+    sub:{}, total:0,
     parts:{
-      1:{team:team||'',univ:'',track:'',mission:'',
-         members:[{name:'',role:'빌더'},{name:'',role:'데이터·기획'},{name:'',role:'검증·발표'}],
+      0:{name:'',mode:'',model:'',set:{s1:false,s2:false,s3:false,s4:false},m:m,mini:''},
+      1:{team:team||'',univ:'',track:'',mission:'',plan:'',
+         members:[{name:'',role:'빌더'},{name:'',role:'기획·데이터'},{name:'',role:'깃허브·발표'}],
          chk:{c1:false,c2:false,c3:false},understand:'',cand1:'',cand2:'',
          conf:{c1:false,c2:false,c3:false}},
       2:{sources:[{name:'',url:''},{name:'',url:''},{name:'',url:''}],
          mask:['','',''],mc:{name:false,phone:false,addr:false,face:false,biz:false,etc:false,none:false},
-         err:[{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''},{item:'',type:'',found:'',fix:''}],
+         err:[0,1,2,3,4].map(()=>({item:'',type:'',found:'',fix:''})),
          summary:'',data:'',conf:{c1:false,c2:false,c3:false}},
       3:{problem:'',user:'',current:'',effect:'',success:'',exclude:'',
          s1:{input:'',btn:'',out:''},s2:{input:'',btn:'',out:''},
@@ -1607,7 +2101,7 @@ function defaults(team){
          conf:{c1:false,c2:false,c3:false,c4:false}},
       4:{file:'',works:'',notWorks:'',blocked:'',step:{s1:false,s2:false,s3:false},
          conf:{c1:false,c2:false,c3:false,c4:false}},
-      5:{freeze:false,
+      5:{freeze:false,repo:'',demoUrl:'',oneLine:'',
          test:[0,1,2,3,4].map(()=>({item:'',input:'',expect:'',actual:'',verdict:'',fix:''})),
          user:[{who:'',voice:'',fix:''},{who:'',voice:'',fix:''}],
          src:[0,1,2,3].map(()=>({name:'',url:'',lic:''})),
@@ -1634,8 +2128,8 @@ function fillDefaults(def, val){
 
 let S = null;
 let teamKey = '';
-let activePart = 1;
-let saveTimer = null, docTimer = null, lastTickWarn = 0;
+let activePart = 0;
+let saveTimer = null, docTimer = null, lastWarn = {};
 const lastPrompt = {};
 
 /* ---------------- 유틸 ---------------- */
@@ -1652,10 +2146,10 @@ function toast(msg, kind){
 function teamKeyOf(name){
   return String(name||'').toLowerCase().replace(/[\s\u00a0·・.,!?()\[\]{}'"`~@#$%^&*/\\|:;+\-—_]/g,'');
 }
-function normPath(path){ return String(path).replace(/^p([1-5])\./,'parts.$1.'); }
+function normPath(path){ return String(path).replace(/^p([0-5])\./,'parts.$1.'); }
 function getPath(path){
-  const segs=normPath(path).split('.');
-  let o=S; for(const p of segs){ if(o==null) return undefined; o=o[p]; }
+  const segs=normPath(path).split('.'); let o=S;
+  for(const p of segs){ if(o==null) return undefined; o=o[p]; }
   return o;
 }
 function setPath(path, v){
@@ -1667,6 +2161,24 @@ function setPath(path, v){
   }
   o[parts[parts.length-1]]=v;
 }
+function fmt(sec){
+  const neg = sec<0; sec=Math.abs(Math.floor(sec));
+  const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+  const t = (h>0?h+':'+String(m).padStart(2,'0'):String(m).padStart(2,'0'))+':'+String(s).padStart(2,'0');
+  return (neg?'-':'')+t;
+}
+function nowHHMM(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function dtLocal(iso){
+  const d = iso ? new Date(iso) : null;
+  if(!d || isNaN(d.getTime())) return '';
+  const p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());
+}
+function hhmm(iso){
+  const d = iso ? new Date(iso) : null;
+  if(!d || isNaN(d.getTime())) return '—';
+  return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
 
 /* ---------------- 저장 ---------------- */
 function setSaveStatus(txt, saving){
@@ -1675,7 +2187,6 @@ function setSaveStatus(txt, saving){
   const box=$('sbSave');
   if(box){ box.style.color = saving ? '#fcd34d' : '#86efac'; const d=box.querySelector('.sdot'); if(d) d.style.background = saving?'#f59e0b':'#22c55e'; }
 }
-function nowHHMM(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
 function save(){
   if(!S || !teamKey) return;
   S.savedAt = new Date().toISOString();
@@ -1707,12 +2218,11 @@ function handleField(el){
 }
 function syncInputs(){
   document.querySelectorAll('[data-f]').forEach(el=>{
-    const f=el.dataset.f; if(!f || f==='team') return;   // 시작 화면 입력은 제외
+    const f=el.dataset.f; if(!f || f==='team') return;
     const v=getPath(f);
     if(el.type==='checkbox'){ el.checked=!!v; }
     else { el.value = (v==null?'':v); }
   });
-  // 팀 프리셋 드롭다운을 현재 팀에 맞춰 둔다
   const ps=$('teamPreset');
   if(ps && S){
     const t = presetByTeam(S.parts[1].team);
@@ -1720,8 +2230,13 @@ function syncInputs(){
     renderPresetInfo(t);
   }
 }
+function afterChange(){
+  autoFill();
+  refresh();
+  scheduleSave();
+}
 
-/* ---------------- 15팀 프리셋 ---------------- */
+/* ---------------- 15팀 프리셋 + 참고 카드 ---------------- */
 function buildPresetSelect(sel, emptyLabel){
   if(!sel) return;
   const cur = sel.value;
@@ -1732,7 +2247,7 @@ function buildPresetSelect(sel, emptyLabel){
     const o = document.createElement('option');
     o.value = String(t.no);
     o.textContent = t.no+'. '+t.univ+' · '+t.team;
-    o.title = t.dept+' · '+t.mission;
+    o.title = t.dept+' · '+t.corp;
     sel.appendChild(o);
   });
   if(cur) sel.value = cur;
@@ -1748,28 +2263,66 @@ function renderPresetInfo(t){
   box.innerHTML = '<span class="pk">'+esc(t.univ)+'</span>'
     + '<span class="pk">'+esc(t.dept)+'</span>'
     + '<span class="pk">분야 · '+esc(t.track)+'</span>'
-    + '<div class="pmission">배정 과제 · '+esc(t.mission)+'</div>';
+    + '<div class="pmission">배정 과제 · '+esc(t.mission||'현장 확정 전 — 아래 후보 A/B/C에서 고르세요')+'</div>';
+}
+function refcardHTML(t, interactive){
+  const mission = (S && S.parts[1].mission) ? String(S.parts[1].mission) : '';
+  const ideas = (t.ideas||[]).map(i=>{
+    const picked = mission.indexOf(i.t)>=0;
+    return '<div class="cand'+(picked?' picked':'')+'">'
+      + '<div class="ct"><span class="ck">'+esc(i.k)+'</span>'+esc(i.t)+'<span class="cm">'+esc(i.mvp)+'</span></div>'
+      + '<div class="cp">'+esc(i.tip)+'</div>'
+      + (interactive ? '<div class="crow"><button type="button" class="btn sm '+(picked?'ok':'primary')+'" data-pick="'+esc(i.k)+'">'+(picked?'✓ 이 과제로 정해짐':'이 과제로 정하기')+'</button></div>' : '')
+      + '</div>';
+  }).join('');
+  return '<div class="rc-top"><span class="rc-corp">🏢 '+esc(t.corp)+'</span><span class="rc-meta">'+esc(t.corpMeta)+'</span></div>'
+    + (t.theme ? '<div class="rc-theme">'+esc(t.theme)+'</div>' : '')
+    + '<div class="rc-note">'+esc(t.corpNote)+'</div>'
+    + (t.corpCaution ? '<div class="rc-caution">⚠ '+esc(t.corpCaution)+'</div>' : '')
+    + '<div class="hint" style="margin:0 0 7px">과제 후보 A/B/C — 고르면 1부 ‘배정 과제’ 칸에 그대로 들어갑니다.</div>'
+    + '<div class="candgrid">'+ideas+'</div>';
+}
+function renderRefCards(){
+  const t = S ? presetByTeam(S.parts[1].team) : null;
+  ['refcard0','refcard1'].forEach(id=>{
+    const el=$(id); if(!el) return;
+    if(!t){ el.hidden=true; el.innerHTML=''; return; }
+    el.hidden=false; el.innerHTML = refcardHTML(t, true);
+    el.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>pickIdea(t,b.dataset.pick)));
+  });
+  const st=$('startPresetInfo');
+  if(st){
+    const selNo = $('startPreset') ? $('startPreset').value : '';
+    const st2 = TEAMS.find(x=>String(x.no)===String(selNo));
+    if(!st2){ st.hidden=true; st.innerHTML=''; }
+    else { st.hidden=false; st.innerHTML = '<div class="refcard">'+refcardHTML(st2,false)+'</div>'; }
+  }
+}
+function pickIdea(t,k){
+  if(!S){ toast('먼저 우리 팀으로 입장해 주세요.','bad'); return; }
+  const idea = (t.ideas||[]).find(i=>i.k===k); if(!idea) return;
+  const cur = (S.parts[1].mission||'').trim();
+  const next = '['+(t.corp?('기업 연계 · '+t.corp):'자율 주제')+'] '+idea.t;
+  if(cur && cur!==next && !window.confirm('지금 적힌 배정 과제를 이 후보로 바꿀까요?\n\n· 지금: '+cur)) return;
+  S.parts[1].mission = next;
+  syncInputs(); afterChange();
+  toast('후보 '+k+' — 배정 과제로 넣었습니다.','good');
 }
 function applyTeamPreset(no){
   if(!S) return;
   const t = TEAMS.find(x=>String(x.no)===String(no));
   const sel = $('teamPreset');
-  if(!t){ if(sel) sel.value=''; renderPresetInfo(null); return; }
+  if(!t){ if(sel) sel.value=''; renderPresetInfo(null); renderRefCards(); return; }
   const p1 = S.parts[1];
   const changed = ['team','univ','track','mission'].some(k=>p1[k] && String(p1[k]).trim() && p1[k]!==t[k]);
-  if(changed && !window.confirm('지금 적힌 팀 정보를 '+t.no+'번 '+t.team+' 프리셋으로 바꿀까요?\n(팀명·소속 대학·분야·배정 미션을 덮어씁니다)')){
+  if(changed && !window.confirm('지금 적힌 팀 정보를 '+t.no+'번 '+t.team+' 프리셋으로 바꿀까요?\n(팀명·소속 대학·분야·배정 과제를 덮어씁니다)')){
     const cur = presetByTeam(p1.team); if(sel) sel.value = cur ? String(cur.no) : ''; renderPresetInfo(cur); return;
   }
-  p1.team = t.team; p1.univ = t.univ; p1.track = t.track; p1.mission = t.mission;
+  p1.team = t.team; p1.univ = t.univ; p1.track = t.track;
+  if(t.mission) p1.mission = t.mission;
   S.team = t.team;
-  syncInputs();
-  afterChange();
-  toast(t.no+'번 '+t.team+' — 대학·분야·배정 과제를 채웠습니다.','good');
-}
-function afterChange(){
-  autoFill();
-  refresh();
-  scheduleSave();
+  syncInputs(); afterChange();
+  toast(t.no+'번 '+t.team+' — 대학·분야·과제를 채웠습니다.'+(t.mission?'':' 참고 카드에서 과제 후보를 골라 주세요.'),'good');
 }
 
 /* 2부·1부 → 5부 자동 채움 */
@@ -1781,14 +2334,12 @@ function autoFill(){
     if(!p5.src[i].name && p2.sources[i] && p2.sources[i].name) p5.src[i].name = p2.sources[i].name;
     if(!p5.src[i].url && p2.sources[i] && p2.sources[i].url) p5.src[i].url = p2.sources[i].url;
   }
-  // 이름은 1부에서 글자를 칠 때마다 넘어오므로, 비어 있거나 아직 자라는 중(서로가 서로의 앞부분)일 때만 갱신한다.
-  // 한 번 첫 글자로 굳고 더 길어지지 않던 문제 수정.
   const growing = (cur, next)=>!cur || next.startsWith(cur) || cur.startsWith(next);
   for(let i=0;i<3;i++){
     const mName = p1.members[i] && p1.members[i].name ? p1.members[i].name.trim() : '';
     if(mName && growing(String(p5.contrib[i].name||'').trim(), mName)) p5.contrib[i].name = mName;
   }
-  const m = p1.members.find(x=>x.role==='검증·발표' && x.name.trim());
+  const m = p1.members.find(x=>x.role==='깃허브·발표' && x.name.trim());
   if(m){
     const mn = m.name.trim();
     if(growing(String(p5.presenter||'').trim(), mn)) p5.presenter = mn;
@@ -1854,7 +2405,7 @@ function templateFor(n){
     const stage2 = p3.s1.input.trim() && p3.s1.btn.trim() && p3.s1.out.trim() && p3.funcName.trim();
     return TEMPLATES[3] + (stage2 ? P3_STAGE2 : '');
   }
-  return TEMPLATES[n];
+  return TEMPLATES[n] || '';
 }
 function assemble(n){
   const tpl = templateFor(n);
@@ -1871,6 +2422,7 @@ function assemble(n){
   return {html, plain, blanks, missing, len: plain.length};
 }
 function refreshPrompt(n){
+  if(n===0) return;
   const r = assemble(n);
   const pre = $('pre'+n); if(pre) pre.innerHTML = r.html;
   const blank = $('blank'+n);
@@ -1908,78 +2460,95 @@ function refreshPrompt(n){
 }
 
 /* ---------------- 완료 조건 ---------------- */
+function missionDone(){
+  const m = S.parts[0].m || {};
+  return ASIDE_MISSIONS.filter(x=>m[x.id]).length;
+}
+function setupDone(){
+  const s = S.parts[0].set || {};
+  return ['s1','s2','s3','s4'].filter(k=>s[k]).length;
+}
 function partStatus(n){
   const p=S.parts, missing=[];
   let ok=true, partialOk=false, warn='';
-  const need=(label, cond, soft)=>{ if(!cond){ if(soft) return; missing.push(label); ok=false; } };
+  const need=(label, cond)=>{ if(!cond){ missing.push(label); ok=false; } };
+  if(n===0){
+    const a=p[0];
+    need('내 이름', !!(a.name||'').trim());
+    need('Aside 유형(모드) 선택', !!a.mode);
+    need('모델 선택', !!a.model);
+    need('세팅 4단계 체크', setupDone()===4);
+    need('스스로 익히기 6개', missionDone()===6);
+    need('미니 미션 1줄', !!(a.mini||'').trim());
+    partialOk = !!(a.name||'').trim() && !!(a.mini||'').trim() && missionDone()>=4;
+    warn = '세팅 '+(4-setupDone())+'단계, 익히기 '+(6-missionDone())+'개가 비어 있습니다. 지금 제출하면 0부 기록에 그대로 남습니다.';
+  }
   if(n===1){
     const a=p[1];
-    need('팀명', !!a.team.trim());
-    need('소속 대학', !!a.univ.trim());
+    need('팀명', !!(a.team||'').trim());
+    need('소속 대학', !!(a.univ||'').trim());
     need('분야', !!a.track);
-    need('배정 미션', !!a.mission.trim());
-    need('팀원 3인 이름', a.members.every(m=>m.name.trim()));
-    need('계정·도구 확인 3개', !!(a.chk.c1&&a.chk.c2&&a.chk.c3));
+    need('배정 과제', !!(a.mission||'').trim());
+    need('팀원 3인 이름', a.members.every(m=>(m.name||'').trim()));
+    need('핵심 기획 1줄', !!(a.plan||'').trim());
+    need('준비 확인 3개', !!(a.chk.c1&&a.chk.c2&&a.chk.c3));
     need('확인 3개', !!(a.conf.c1&&a.conf.c2&&a.conf.c3));
-    partialOk = false;
+    partialOk = !!(a.team||'').trim() && !!(a.mission||'').trim() && !!(a.plan||'').trim() && a.members.some(m=>(m.name||'').trim());
+    warn = '일부 칸이 비어 있습니다. 지금 제출하면 빈 칸은 그대로 현황판에 남습니다.';
   }
   if(n===2){
     const b=p[2];
     const maskOn = ['name','phone','addr','face','biz','etc'].filter(k=>b.mc[k]).length;
-    const errs = b.err.slice(0,3).every(e=>e.item.trim()&&e.type&&e.found.trim()&&e.fix.trim());
-    need('자료 출처 1행', !!(b.sources[0]||{}).name.trim());
-    need('마스킹 기록 3줄', b.mask.every(x=>x.trim()));
+    const errs = b.err.slice(0,3).every(e=>(e.item||'').trim()&&e.type&&(e.found||'').trim()&&(e.fix||'').trim());
+    need('자료 출처 1행', !!((b.sources[0]||{}).name||'').trim());
+    need('마스킹 기록 3줄', b.mask.every(x=>String(x||'').trim()));
     need('마스킹 체크(6개 중 5개 또는 해당 없음)', maskOn>=5 || b.mc.none);
     need('데이터 오류 3행', errs);
-    need('정리된 자료 요약', !!b.summary.trim());
+    need('정리된 자료 요약', !!(b.summary||'').trim());
     need('확인 3개', !!(b.conf.c1&&b.conf.c2&&b.conf.c3));
-    partialOk = false;
+    partialOk = !!((b.sources[0]||{}).name||'').trim() && !!(b.summary||'').trim() && errs;
+    warn = '마스킹 체크나 확인 항목이 비어 있습니다. 그래도 제출할 수는 있습니다.';
   }
   if(n===3){
     const c=p[3];
-    const core = [c.problem,c.user,c.current,c.effect,c.success].every(x=>x.trim());
+    const core = [c.problem,c.user,c.current,c.effect,c.success].every(x=>String(x||'').trim());
     const screenOk = !!(c.s1.input.trim() && c.s1.btn.trim() && c.s1.out.trim());
-    const funcCore = [c.funcName,c.func.in,c.func.proc,c.func.out,c.why].every(x=>x.trim())
-      && c.flow.every(f=>f.trim());
+    const funcCore = [c.funcName,c.func.in,c.func.proc,c.func.out,c.why].every(x=>String(x||'').trim())
+      && c.flow.every(f=>String(f||'').trim());
     const conf = !!(c.conf.c1&&c.conf.c2&&c.conf.c3&&c.conf.c4);
-    need('현장의 문제', !!c.problem.trim());
-    need('사용자', !!c.user.trim());
-    need('현재 절차', !!c.current.trim());
-    need('기대효과', !!c.effect.trim());
-    need('성공 판정 기준', !!c.success.trim());
-    need('뺀 것(범위)', !!c.exclude.trim());
+    need('현장의 문제', !!(c.problem||'').trim());
+    need('사용자', !!(c.user||'').trim());
+    need('현재 절차', !!(c.current||'').trim());
+    need('기대효과', !!(c.effect||'').trim());
+    need('성공 판정 기준', !!(c.success||'').trim());
+    need('뺀 것(범위)', !!(c.exclude||'').trim());
     need('화면 3칸(입력·버튼·결과)', screenOk);
     need('핵심 기능(기능명·입출력)', !!(c.funcName.trim()&&c.func.in.trim()&&c.func.proc.trim()&&c.func.out.trim()));
-    need('사용 흐름 3단계', c.flow.every(f=>f.trim()));
-    need('왜 이 기능인가', !!c.why.trim());
+    need('사용 흐름 3단계', c.flow.every(f=>String(f||'').trim()));
+    need('왜 이 기능인가', !!(c.why||'').trim());
     need('확인 4개', conf);
-    partialOk = core && funcCore && conf && !ok;
-    warn = '뺀 것과 화면 3칸이 비어 있습니다. 비운 채로 열면 4부에서 범위가 커집니다.';
+    partialOk = core && screenOk && !!(c.funcName||'').trim();
+    warn = '뺀 것과 확인 항목이 비어 있습니다. 비운 채로 제출하면 4부에서 범위가 커집니다.';
   }
   if(n===4){
     const d=p[4];
-    const steps = d.step.s1&&d.step.s2&&d.step.s3;
-    const conf = !!(d.conf.c1&&d.conf.c2&&d.conf.c3&&d.conf.c4);
-    need('만든 파일 이름/위치', !!d.file.trim());
-    need('지금 되는 것', !!d.works.trim());
-    need('단계 확인 3개', steps);
-    need('확인 4개', conf);
-    partialOk = !!d.file.trim() && d.step.s1 && conf && !ok;
+    const steps = d.step.s1;
+    need('만든 파일 이름/위치', !!(d.file||'').trim());
+    need('지금 되는 것', !!(d.works||'').trim());
+    need('1단계(화면 뼈대) 확인', !!steps);
+    need('확인 4개', !!(d.conf.c1&&d.conf.c2&&d.conf.c3&&d.conf.c4));
+    partialOk = !!(d.file||'').trim() && !!steps;
     warn = '1단계(화면 뼈대)까지만 된 상태입니다. 5부는 열리지만 기록지 ②에 \'미완성\'으로 표시됩니다.';
   }
   if(n===5){
     const e=p[5];
-    const tests = e.test.every(t=>t.item.trim()&&t.input.trim()&&t.expect.trim()&&t.actual.trim()&&t.verdict);
-    const users = e.user.every(u=>u.who.trim()&&u.voice.trim());
-    const contrib = e.contrib.every(c=>c.name.trim()&&c.work.trim()&&c.h.trim());
-    need('기능 동결 확인', !!e.freeze);
-    need('시험 5건(항목·입력·기대·실제·판정)', tests);
-    need('사용자 검증 2인', users);
-    need('팀원별 기여 3행', contrib);
-    need('현장 적용 한계·전제', !!e.limits.trim());
-    need('발표자', !!e.presenter.trim());
-    need('확인 4개', !!(e.conf.c1&&e.conf.c2&&e.conf.c3&&e.conf.c4));
-    partialOk = false;
+    const urlOk = /^https?:\/\/[^\s.]+\.\S+$/i.test(String(e.demoUrl||'').trim());
+    need('Pages 시연 URL', urlOk);
+    need('우리 앱 한 줄 소개', !!(e.oneLine||'').trim());
+    need('휴대폰에서 URL 열어 확인', !!e.conf.c1);
+    need('업로드한 파일 확인', !!e.conf.c2);
+    partialOk = urlOk && !!(e.oneLine||'').trim();
+    warn = '확인 체크가 비어 있습니다. 시연 URL은 그대로 제출됩니다.';
   }
   return {ok, partialOk, missing, warn};
 }
@@ -1989,9 +2558,14 @@ function refresh(){
   if(!S) return;
   autoFill();
   $('hdTeam').textContent = S.parts[1].team || S.team || '팀 미지정';
+  $('hdScore').textContent = String(S.total||0);
+  const t=$('p0team'); if(t) t.textContent = (S.parts[1].team||S.team||'팀 미지정')+(S.parts[1].univ?' · '+S.parts[1].univ:'');
   document.body.classList.toggle('preview', !!S.preview);
   renderRail();
-  for(let n=1;n<=5;n++){ refreshPrompt(n); refreshPartState(n); }
+  for(const n of STAGES){ refreshPrompt(n); refreshPartState(n); }
+  refreshZero();
+  renderRefCards();
+  refreshRoundBars();
   // 글자수 안내
   document.querySelectorAll('[data-min]').forEach(el=>{
     const box = el.parentElement.querySelector('.cnt[data-for="'+el.dataset.f+'"]');
@@ -2005,25 +2579,21 @@ function refresh(){
     box.className='cnt '+cls;
     box.innerHTML='<span class="dot"></span>'+txt;
   });
-  // 마스킹 체크 수
   const mc=S.parts[2].mc;
   const mcnt=['name','phone','addr','face','biz','etc'].filter(k=>mc[k]).length;
   const mt=$('maskCount'); if(mt){ mt.textContent='확인 '+mcnt+'/6'; mt.className = (mcnt>=5||mc.none)?'tag ok':'tag gray'; }
-  // 시험 판정 수
   const tc=$('verdictCnt');
   if(tc){
-    const t=S.parts[5].test;
-    const pass=t.filter(x=>x.verdict==='합격').length, fail=t.filter(x=>x.verdict==='불합격').length;
+    const t2=S.parts[5].test;
+    const pass=t2.filter(x=>x.verdict==='합격').length, fail=t2.filter(x=>x.verdict==='불합격').length;
     tc.className='cnt'; tc.innerHTML='<span class="dot"></span>합격 '+pass+' · 불합격 '+fail+' · 미판정 '+(5-pass-fail);
   }
-  // 데이터 줄수
   const dc=$('dataCnt');
   if(dc){
     const lines=(S.parts[2].data||'').trim().split('\n').filter(x=>x.trim()).length;
     dc.className='cnt '+(lines>=11?'ok':(lines>0?'low':''));
     dc.innerHTML='<span class="dot"></span>'+(lines? (lines-1)+'줄 (머리글 포함 '+lines+'행)' : '아직 붙이지 않았습니다');
   }
-  // 5부 게이트
   const gate=$('gate5'), form=$('p5form');
   if(gate&&form){
     gate.style.display = S.parts[5].freeze ? 'none':'flex';
@@ -2032,10 +2602,41 @@ function refresh(){
     if(S.parts[5].freeze) form.removeAttribute('aria-disabled');
     else form.setAttribute('aria-disabled','true');
   }
-  // 기록지 버튼 강조
-  $('openDoc').classList.toggle('primary', !!S.done[5]);
+  const od=$('openDoc'); if(od) od.classList.toggle('primary', !!S.done[5]);
+  // 제출 미리보기
+  for(const n of STAGES){
+    const box=$('sendprev'+n);
+    if(box){
+      const pl=payloadFor(n);
+      box.innerHTML = '<b>보낼 내용</b> · 팀 '+(esc(pl.team)||'—')+(pl.person?' · '+esc(pl.person):'')
+        + ' · '+pl.stage+'<br>'+(esc(pl.result)||'<span class="blank">(아직 비어 있음)</span>')
+        + (pl.demoUrl?'<br>시연 URL · '+esc(pl.demoUrl):'')
+        + (pl.note?'<br>'+esc(pl.note):'');
+    }
+  }
+  renderSubResults();
 }
-
+function refreshZero(){
+  if(!S) return;
+  const p0=S.parts[0];
+  const cnt=missionDone();
+  const prog=$('p0prog'); if(prog) prog.textContent='진행률 '+cnt+' / 6';
+  const bar=$('p0bar'); if(bar) bar.style.width = Math.round(cnt/6*100)+'%';
+  const badge=$('p0badge'); if(badge) badge.classList.toggle('on', cnt===6);
+  const sc=$('p0score');
+  if(sc){
+    const sub=S.sub[0];
+    sc.textContent = sub ? ('내 제출 '+sub.late+' · +'+sub.score+'점') : ('세팅 '+setupDone()+'/4 · 제출하면 +10점');
+    sc.className = sub ? 'tag ok' : 'tag gray';
+  }
+  document.querySelectorAll('#asideMissions .minirow').forEach(row=>{
+    const id=row.dataset.mid;
+    const on=!!(p0.m&&p0.m[id]);
+    row.classList.toggle('on', on);
+    const mark=row.querySelector('.mx'); if(mark) mark.textContent = on?'✓':'';
+  });
+  const mini=$('f-mini'); if(mini) mini.placeholder = ASIDE_MINI_HINT;
+}
 function refreshPartState(n){
   const st = partStatus(n);
   const miss = $('miss'+n);
@@ -2044,123 +2645,215 @@ function refreshPartState(n){
   if(tag){
     if(S.done[n] && st.ok){ tag.className='tag ok'; tag.textContent='완료 ✓'; }
     else if(S.done[n]){ tag.className='tag warn'; tag.textContent='완료 처리됨 · 일부 칸 비어 있음'; }
-    else if(st.ok){ tag.className='tag pur'; tag.textContent='모든 칸이 찼습니다 — 완료 버튼을 누르세요'; }
-    else if(st.partialOk){ tag.className='tag warn'; tag.textContent='일부 칸 비어 있음 · 경고 후 열 수 있습니다'; }
+    else if(st.ok){ tag.className='tag pur'; tag.textContent='모든 칸이 찼습니다 — 제출 버튼을 누르세요'; }
+    else if(st.partialOk){ tag.className='tag warn'; tag.textContent='일부 칸 비어 있음 · 경고 후 제출할 수 있습니다'; }
     else { tag.className='tag gray'; tag.textContent='아직 완료 전'; }
   }
 }
-
 function renderRail(){
   const rail=$('rail'); if(!rail) return;
   let html='';
-  for(let n=1;n<=5;n++){
-    const accessible = n===1 || S.done[n-1] || S.preview;
+  for(const n of STAGES){
+    const accessible = n===0 || S.done[n-1] || S.preview;
     let cls='step';
     if(S.done[n]) cls+=' done';
     if(n===activePart) cls+=' active';
     if(!accessible) cls+=' locked';
     let stat;
     if(!accessible) stat='잠김';
-    else if(S.done[n]) stat='완료 ✓';
+    else if(S.done[n]) stat='제출 완료';
     else if(n===activePart) stat='진행 중';
     else stat='열림';
     html += '<button class="'+cls+'" data-goto="'+n+'" '+(accessible?'':'aria-disabled="true"')+'>'
       + '<span class="num">'+(S.done[n]?'✓':n)+'</span>'
-      + '<span><span class="sname">'+n+'부 '+PART_NAMES[n]+'</span><span class="sstat">'+stat+'</span></span>'
+      + '<span><span class="sname">'+(n===0?'0부':'')+(n===0?' ':'')+PART_NAMES[n]+'</span><span class="sstat">'+stat+'</span></span>'
       + (!accessible?'<span class="lockicon">🔒</span>':'')
       + '</button>';
   }
   rail.innerHTML=html;
   rail.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>goTo(+b.dataset.goto)));
 }
-
 function goTo(n){
   if(!S) return;
-  const accessible = n===1 || S.done[n-1] || S.preview;
+  const accessible = n===0 || S.done[n-1] || S.preview;
   if(!accessible){
     const st = partStatus(n-1);
-    toast((n-1)+'부를 먼저 완료해야 '+n+'부가 열립니다'+(st.missing.length?' ('+st.missing.slice(0,2).join(', ')+' 등)':''), 'bad');
+    toast((n-1)+'부를 먼저 제출해야 '+n+'부가 열립니다'+(st.missing.length?' ('+st.missing.slice(0,2).join(', ')+' 등)':''), 'bad');
     return;
   }
   activePart=n;
   document.querySelectorAll('.part').forEach(sec=>sec.classList.toggle('active', +sec.dataset.part===n));
-  renderRail();
-  refreshPrompt(n);
+  if(!S.rounds[n]){
+    const r=ROUND_BY_N[n];
+    S.rounds[n] = new Date(Date.now()+r.min*60000).toISOString();
+    save();
+  }
+  renderRail(); refreshPrompt(n); refreshRoundBars();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ---------------- 완료 버튼 ---------------- */
-function completePart(n){
-  const st = partStatus(n);
+/* ---------------- 라운드 바 / 타이머 ---------------- */
+function buildRoundBars(){
+  document.querySelectorAll('.part').forEach(sec=>{
+    const n=+sec.dataset.part, r=ROUND_BY_N[n];
+    if(!r || sec.querySelector('.roundbar')) return;
+    const bar=document.createElement('div');
+    bar.className='roundbar'; bar.id='rb'+n;
+    bar.innerHTML = '<div class="rb-name">'+esc(r.name)+'</div>'
+      + '<div class="rb-time">남은 시간 <b id="rbRemain'+n+'">--:--</b></div>'
+      + '<label class="rb-dl">마감 <input type="datetime-local" id="rbDl'+n+'">'
+      + '<button type="button" class="btn sm ghost" id="rbSet'+n+'">적용</button></label>'
+      + '<div class="rb-score">우리 팀 누적 <b id="rbScore'+n+'">0</b>점</div>';
+    sec.insertBefore(bar, sec.firstChild);
+    const set=$('rbSet'+n);
+    if(set) set.addEventListener('click', ()=>{
+      const v=$('rbDl'+n);
+      if(!v || !v.value){ toast('마감 시각을 먼저 고르세요.','bad'); return; }
+      const d=new Date(v.value);
+      if(isNaN(d.getTime())){ toast('마감 시각을 다시 확인해 주세요.','bad'); return; }
+      S.rounds[n]=d.toISOString(); save(); refreshRoundBars();
+      toast(n+'부 마감을 '+hhmm(S.rounds[n])+'로 맞췄습니다.','good');
+    });
+  });
+}
+function refreshRoundBars(){
+  if(!S) return;
+  for(const n of STAGES){
+    const bar=$('rb'+n); if(!bar) continue;
+    const rem=$('rbRemain'+n); const dl=$('rbDl'+n); const sc=$('rbScore'+n);
+    const target=S.rounds[n]?new Date(S.rounds[n]).getTime():null;
+    if(rem){
+      if(!target){ rem.textContent=fmt(ROUND_BY_N[n].min*60); bar.classList.remove('over'); }
+      else {
+        const sec=Math.round((target-Date.now())/1000);
+        rem.textContent=fmt(sec);
+        bar.classList.toggle('over', sec<0);
+      }
+    }
+    if(dl) dl.value = dtLocal(S.rounds[n]||'');
+    if(sc) sc.textContent = String(S.total||0);
+  }
+  const box=$('timerBox'), val=$('timerVal');
+  if(box&&val){
+    const n=activePart, target=S.rounds[n]?new Date(S.rounds[n]).getTime():null;
+    if(!target){ val.textContent=fmt((ROUND_BY_N[n]||{min:0}).min*60); box.classList.remove('due'); }
+    else { const sec=Math.round((target-Date.now())/1000); val.textContent=fmt(sec); box.classList.toggle('due', sec<0 || sec<=300); }
+  }
+}
+function tick(){
+  if(!S) return;
+  refreshRoundBars();
+  const n=activePart, target=S.rounds[n]?new Date(S.rounds[n]).getTime():null;
+  if(target){
+    const sec=Math.round((target-Date.now())/1000);
+    if(sec<=0 && !lastWarn['late'+n]){ lastWarn['late'+n]=1; toast(n+'부 제한시간이 지났습니다. 지금 제출하면 지각(+5점)으로 기록됩니다.','bad'); }
+    if(sec>0 && sec<=300 && !lastWarn['w'+n]){ lastWarn['w'+n]=1; toast(n+'부 5분 남았습니다. 제출할 곳을 정하세요.',''); }
+  }
+}
+function startRound(){
+  if(!S) return;
+  const n=activePart, r=ROUND_BY_N[n];
+  S.rounds[n]=new Date(Date.now()+r.min*60000).toISOString();
+  lastWarn={}; save(); refreshRoundBars();
+  toast(n+'부 제한시간을 시작했습니다 — 마감 '+hhmm(S.rounds[n]),'good');
+}
+function clearRound(){
+  if(!S) return;
+  S.rounds[activePart]=null; save(); refreshRoundBars();
+  toast(activePart+'부 마감을 지웠습니다. ▶ 를 누르면 다시 시작합니다.');
+}
+
+/* ---------------- 제출 ---------------- */
+function payloadFor(n){
+  const p0=S.parts[0], p1=S.parts[1], p2=S.parts[2], p3=S.parts[3], p4=S.parts[4], p5=S.parts[5];
+  const team=(p1.team||S.team||'').trim();
+  const base={stage:n+'부', team, deadline:S.rounds[n]||'', client:new Date().toISOString()};
+  if(n===0) return Object.assign(base,{person:(p0.name||'').trim(), result:(p0.mini||'').trim(),
+    note:'Aside 익힘 '+missionDone()+'/6 · 세팅 '+setupDone()+'/4'+(p0.mode?' · '+p0.mode:'')+(p0.model?' · '+p0.model:'')});
+  if(n===1) return Object.assign(base,{person:'', result:'기획: '+(p1.plan||'').trim(),
+    note:'역할: '+p1.members.map(m=>(m.name||'').trim()+'('+m.role+')').join(' / ')+' | 과제: '+(p1.mission||'').trim()});
+  if(n===2) return Object.assign(base,{person:'', result:'자료: '+(p2.summary||'').trim(),
+    note:'출처: '+((p2.sources[0]||{}).name||'')+' | 오류 '+(p2.err||[]).filter(e=>e.item).length+'건'});
+  if(n===3) return Object.assign(base,{person:'', result:'핵심기능: '+(p3.funcName||'').trim()+' — 입력 '+(p3.s1.input||'-')+' / 버튼 '+(p3.s1.btn||'-')+' / 결과 '+(p3.s1.out||'-'),
+    note:'왜: '+(p3.why||'').trim()});
+  if(n===4) return Object.assign(base,{person:'', result:'파일: '+(p4.file||'').trim()+' | 되는 것: '+((p4.works||'').trim().split('\n')[0]||''),
+    note:'안 되는 것: '+((p4.notWorks||'').trim().split('\n')[0]||'-')});
+  if(n===5) return Object.assign(base,{person:'', result:'한 줄: '+(p5.oneLine||'').trim(),
+    demoUrl:(p5.demoUrl||'').trim(), note:'저장소: '+(p5.repo||'').trim()});
+  return base;
+}
+function renderSubResults(){
+  if(!S) return;
+  for(const n of STAGES){
+    const box=$('subres'+n); if(!box) continue;
+    const s=S.sub[n];
+    if(!s){ box.className='subres'; box.innerHTML=''; continue; }
+    box.className='subres ok';
+    box.innerHTML = '<span class="kv">'+(s.late==='지각'?'⏰ 지각':'✅ 정시')+' · <b>+'+s.score+'점</b></span>'
+      + '<span class="kv">누적 <b>'+(s.total!=null?s.total:S.total||0)+'</b>점</span>'
+      + '<span class="kv">'+(esc(s.when)||'')+'</span>';
+  }
+}
+function setBtn(n, busy, label){
+  const b=$('done'+n); if(!b) return;
+  b.disabled=!!busy;
+  if(busy){ b.dataset.old=b.textContent; b.textContent='전송 중…'; }
+  else if(b.dataset.old){ b.textContent=label||b.dataset.old; delete b.dataset.old; }
+}
+async function submitPart(n){
+  if(!S) return;
+  const st=partStatus(n);
   if(!st.ok && !st.partialOk){
     toast('아직 덜 찬 칸이 있습니다: '+st.missing.slice(0,4).join(', '), 'bad');
     return;
   }
   if(!st.ok && st.partialOk){
-    if(!window.confirm(st.warn+'\n\n그래도 '+n+'부를 완료하고 다음 부를 열까요?')) return;
+    if(!window.confirm(st.warn+'\n\n그래도 '+n+'부를 제출하고 다음 부를 열까요?')) return;
   }
+  const pl=payloadFor(n);
+  if(!pl.team){ toast('팀명이 없습니다. 1부에서 팀을 골라 주세요.','bad'); return; }
+  if(n===0 && !pl.person){ toast('내 이름을 먼저 입력하세요.','bad'); return; }
+  setBtn(n,true);
+  let j=null, err=null;
+  try{
+    if(!SUBMIT_ENDPOINT) throw new Error('제출 주소가 아직 설정되지 않았습니다');
+    const res = await fetch(SUBMIT_ENDPOINT, {
+      method:'POST', redirect:'follow',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(pl)
+    });
+    const txt = await res.text();
+    try{ j=JSON.parse(txt); }catch(e){ throw new Error('응답을 읽지 못했습니다('+res.status+')'); }
+    if(!j || !j.ok) throw new Error((j&&j.error)||'전송 실패');
+  }catch(e){ err=e; }
+
+  if(j && j.ok){
+    S.sub[n]={when:j.when,late:j.late,score:j.score,total:j.total};
+    if(j.total!=null) S.total=j.total;
+    finishSubmit(n, false);
+    toast(n+'부 제출 완료 — '+j.late+' +'+j.score+'점 (누적 '+j.total+'점)','good');
+  } else {
+    setBtn(n,false);
+    const go = window.confirm('현황판 전송에 실패했습니다.\n('+(err&&err.message||'알 수 없는 오류')+')\n\n이 기기에만 완료로 저장하고 다음 부를 열까요?\n(나중에 같은 칸에서 다시 제출하면 현황판에 들어갑니다)');
+    if(!go){ toast('전송하지 못했습니다. 잠시 뒤 다시 눌러 주세요.','bad'); return; }
+    finishSubmit(n, true);
+  }
+  setBtn(n,false);
+}
+function finishSubmit(n, localOnly){
+  const st=partStatus(n);
   S.done[n]=true;
-  S.partial[n] = !st.ok;
-  // 타이머는 다음 부를 위해 초기화
-  S.timer={remain:3000,running:false,endAt:null};
-  save();
-  refresh();
-  renderDoc();
+  S.partial[n]=!st.ok;
+  if(localOnly) S.sub[n]=Object.assign({}, S.sub[n]||{}, {when:nowHHMM(), late:'미전송', score:0, total:S.total||0});
+  save(); refresh(); renderDoc();
   if(n<5){
     const next=n+1;
     goTo(next);
-    toast(n+'부 완료! '+next+'부가 열렸습니다. 타이머는 50:00으로 다시 맞춰졌습니다.','good');
-    setTimeout(()=>{ const el=document.querySelector('.part.active .block.b2'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); },300);
+    toast(n+'부 완료! '+next+'부가 열렸습니다.','good');
+    setTimeout(()=>{ const el=document.querySelector('.part.active .block'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); },300);
   } else {
     toast('5부 완료! 결과 기록지를 출력해 제출하세요.','good');
-    openDoc();
   }
-}
-
-/* ---------------- 타이머 ---------------- */
-function timerRemain(){
-  if(!S) return 3000;
-  if(S.timer.running && S.timer.endAt) return Math.max(0, Math.round((S.timer.endAt - Date.now())/1000));
-  return S.timer.remain;
-}
-function fmt(sec){
-  sec=Math.max(0,Math.floor(sec));
-  return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
-}
-function tickTimer(){
-  if(!S) return;
-  const r = timerRemain();
-  const e=$('timerVal'); if(e) e.textContent = fmt(r);
-  const box=$('timerBox'); if(box) box.classList.toggle('due', r<=300);
-  if(S.timer.running){
-    const btn=$('timerToggle'); if(btn) btn.textContent='❚❚';
-    if(r<=0){
-      S.timer={remain:0,running:false,endAt:null}; save();
-      toast('이 부의 시간(50분)이 끝났습니다. 완료 체크를 누르고 다음 부로 넘어가세요.','bad');
-    } else if(r<=300 && lastTickWarn!==300){
-      lastTickWarn=300;
-      toast('5분 남았습니다. '+PART_NAMES[activePart]+' 단계에서 멈출 곳을 정하세요.','');
-    }
-  } else {
-    const btn=$('timerToggle'); if(btn) btn.textContent='▶';
-  }
-}
-function toggleTimer(){
-  if(!S) return;
-  if(S.timer.running){
-    S.timer.remain = timerRemain();
-    S.timer.running=false; S.timer.endAt=null;
-  } else {
-    if(S.timer.remain<=0) S.timer.remain=3000;
-    S.timer.running=true; S.timer.endAt=Date.now()+S.timer.remain*1000;
-    lastTickWarn=0;
-  }
-  save(); tickTimer();
-}
-function resetTimer(){
-  if(!S) return;
-  S.timer={remain:3000,running:false,endAt:null}; lastTickWarn=0; save(); tickTimer();
-  toast('타이머를 50:00으로 초기화했습니다.');
 }
 
 /* ---------------- 결과 기록지 ---------------- */
@@ -2168,7 +2861,7 @@ function openDoc(){
   if(!S) return;
   renderDoc();
   document.body.classList.add('docmode');
-  if(!S.done[5]) toast('아직 5부가 완료되지 않았습니다. 빈 칸은 —로 표시됩니다.','');
+  if(!S.done[5]) toast('아직 5부가 제출되지 않았습니다. 빈 칸은 —로 표시됩니다.','');
   const el=$('printDoc'); if(el) el.scrollTop=0;
 }
 function closeDoc(){ document.body.classList.remove('docmode'); }
@@ -2180,15 +2873,14 @@ function renderDoc(){
   const team = p1.team || S.team || '팀명 미기입';
   const now = new Date();
   const today = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  const members = p1.members.filter(m=>m.name.trim()||m.role).map(m=>(m.name.trim()||'이름 미기입')+'('+m.role+')').join(' · ');
+  const members = p1.members.filter(m=>(m.name||'').trim()||m.role).map(m=>((m.name||'').trim()||'이름 미기입')+'('+m.role+')').join(' · ');
   const stepDone = p4.step.s1&&p4.step.s2&&p4.step.s3;
 
-  // 미기입 수
   let blanks=0;
-  for(let n=1;n<=5;n++) blanks += partStatus(n).missing.length;
+  for(const n of STAGES) blanks += partStatus(n).missing.length;
 
-  const jobs = p5.contrib.filter(c=>c.name.trim()||c.work.trim()||c.h.trim());
-  const srcs = p5.src.filter(s=>s.name.trim()||s.url.trim()||s.lic.trim());
+  const jobs = p5.contrib.filter(c=>(c.name||'').trim()||(c.work||'').trim()||(c.h||'').trim());
+  const srcs = p5.src.filter(s=>(s.name||'').trim()||(s.url||'').trim()||(s.lic||'').trim());
 
   const tests = p5.test.map((t,i)=>{
     const kind=i<3?'정상':'에러';
@@ -2209,7 +2901,7 @@ function renderDoc(){
 
   const flow = p3.flow.map((f,i)=>'<tr><td class="k" style="width:14%">'+(i+1)+'단계</td><td>'+dash(f)+'</td></tr>').join('');
   const demo = p5.demo.map((d,i)=>'<tr><td class="k" style="width:14%">시연 '+(i+1)+'</td><td>'+dash(d)+'</td></tr>').join('');
-  const qs = p5.demoQ.filter(q=>String(q).trim());
+  const qs = p5.demoQ.filter(q=>String(q||'').trim());
   const qHtml = qs.length ? qs.map((q,i)=>'<li>'+esc(q)+'</li>').join('') : '<li><span class="blank">예상질문 미기입</span></li>';
 
   el.innerHTML = `
@@ -2227,8 +2919,10 @@ function renderDoc(){
   <table class="tinfo">
     <colgroup><col style="width:11%"><col style="width:23%"><col style="width:12%"><col style="width:18%"><col style="width:9%"><col style="width:27%"></colgroup>
     <tr><td class="k">팀명</td><td>${dash(p1.team)}</td><td class="k">소속 대학</td><td>${dash(p1.univ)}</td><td class="k">분야</td><td>${dash(p1.track)}</td></tr>
-    <tr><td class="k">배정 미션</td><td colspan="5">${nl(p1.mission||'')}</td></tr>
-    <tr><td class="k">팀원</td><td colspan="3">${members?esc(members):'<span class="blank">—</span>'}</td><td class="k">5부 완료</td><td>${S.done[5]?'예':'아니오 — 진행 중 기록'}</td></tr>
+    <tr><td class="k">배정 과제</td><td colspan="5">${nl(p1.mission||'')}</td></tr>
+    <tr><td class="k">핵심 기획</td><td colspan="5">${nl(p1.plan||'')}</td></tr>
+    <tr><td class="k">팀원</td><td colspan="3">${members?esc(members):'<span class="blank">—</span>'}</td><td class="k">5부 제출</td><td>${S.done[5]?'예':'아니오 — 진행 중 기록'}</td></tr>
+    <tr><td class="k">시연 URL</td><td colspan="5">${dash(p5.demoUrl)}</td></tr>
   </table>
 
   <h2>① 문제정의서 <span style="font-weight:400;font-size:8pt;color:#555">(3부 설계도)</span></h2>
@@ -2243,14 +2937,10 @@ function renderDoc(){
     <tr><td class="k">핵심 기능</td><td colspan="3">${dash(p3.funcName)}</td></tr>
     <tr><td class="k">입력</td><td>${dash(p3.func.in)}</td><td class="k">처리</td><td>${dash(p3.func.proc)}</td></tr>
     <tr><td class="k">출력</td><td>${dash(p3.func.out)}</td><td class="k">기능 선정 이유</td><td>${dash(p3.why)}</td></tr>
-    <tr><td class="k">파일 / 주소</td><td colspan="3">${dash(p4.file)}</td></tr>
+    <tr><td class="k">파일 / 주소</td><td colspan="3">${dash(p4.file)}${p5.demoUrl?' · '+esc(p5.demoUrl):''}</td></tr>
   </table>
   <h3>사용 흐름</h3>
   <table>${flow}</table>
-  <h3>화면 구성</h3>
-  <table>
-    <tr><td class="k">화면 1</td><td>[입력] ${dash(p3.s1.input)} · [버튼] ${dash(p3.s1.btn)} · [결과] ${dash(p3.s1.out)}</td></tr>
-  </table>
   <h3>4부 시공 기록</h3>
   <table>
     <tr><td class="k">지금 되는 것</td><td>${nl(p4.works||'')}</td></tr>
@@ -2283,7 +2973,7 @@ function renderDoc(){
     <thead><tr><th style="width:22%">이름</th><th>한 일</th><th style="width:12%">시간(h)</th></tr></thead>
     <tbody>${jobRows}</tbody>
   </table>
-  <p class="note">※ 2부 자재 검수: ${dash((p2.sources[0]||{}).name)} · 마스킹 ${p2.mask.filter(m=>String(m).trim()).length}건 기록 · 데이터 오류 ${p2.err.filter(e=>e.item.trim()).length}건 정리</p>
+  <p class="note">※ 2부 자재 검수: ${dash((p2.sources[0]||{}).name)} · 마스킹 ${p2.mask.filter(m=>String(m||'').trim()).length}건 기록 · 데이터 오류 ${p2.err.filter(e=>e.item).length}건 정리</p>
   <div class="pgfoot"><span>2026 NI2.0 AID 해커톤 대회 · 팀 결과 기록지 · ${esc(team)}</span><span>2 / 3</span></div>
 </div>
 
@@ -2304,7 +2994,7 @@ function renderDoc(){
     <thead><tr><th style="width:28%">배점 항목</th><th style="width:10%">배점</th><th>우리 근거가 기록지 어디에 있는가</th></tr></thead>
     <tbody>
       <tr><td>문제이해 및 요구 충족</td><td>20</td><td>① 문제정의서 — 문제·사용자·현재 절차·성공기준·뺀 것</td></tr>
-      <tr><td>시제품 구현 및 시연</td><td>25</td><td>② 시제품 — 핵심 기능 1개, 사용 흐름 3단계, 파일</td></tr>
+      <tr><td>시제품 구현 및 시연</td><td>25</td><td>② 시제품 — 핵심 기능 1개, 사용 흐름 3단계, GitHub Pages URL</td></tr>
       <tr><td>검증 및 개선</td><td>20</td><td>③ 시험 5건과 사용자 2인 — 불합격 → 수정 흔적</td></tr>
       <tr><td>현장 적용 가능성</td><td>15</td><td>⑤ 한계·전제, ① 기대효과</td></tr>
       <tr><td>AI·자료 활용 책임성</td><td>10</td><td>④ 출처·라이선스, 2부 마스킹 기록</td></tr>
@@ -2324,6 +3014,46 @@ function renderDoc(){
 
   const badge=$('docBlank');
   if(badge) badge.textContent = '미기입 '+blanks+'항목';
+}
+
+/* ---------------- 현황판 모달 ---------------- */
+async function openBoard(){
+  if(!S){ return; }
+  $('boardModal').classList.add('open');
+  const link=$('boardOpenSheet'); if(link) link.href = SHEET_URL;
+  loadBoard();
+}
+async function loadBoard(){
+  const body=$('boardBody'), upd=$('boardUpdated');
+  if(!body) return;
+  if(!SUBMIT_ENDPOINT){
+    body.innerHTML='<tr><td colspan="9" style="color:#fcd34d">제출 API 주소가 아직 설정되지 않았습니다. 구글 시트를 직접 열어 확인하세요.</td></tr>';
+    if(upd){ upd.textContent='시트 직접 열기'; upd.className='tag warn'; }
+    return;
+  }
+  if(upd){ upd.textContent='불러오는 중…'; upd.className='tag gray'; }
+  try{
+    const res=await fetch(SUBMIT_ENDPOINT+'?t='+Date.now(), {method:'GET', redirect:'follow'});
+    const j=JSON.parse(await res.text());
+    if(!j || !j.ok) throw new Error(j&&j.error||'오류');
+    body.innerHTML = (j.teams||[]).map(t=>{
+      const d=t.done||{};
+      const ck=k=>d[k]?'<span style="color:#86efac;font-weight:900">✓</span>':'<span style="color:#3f4c66">·</span>';
+      return '<tr><td><b>'+esc(t.team)+'</b><br><small style="color:#93a1bb">'+esc(t.univ)+'</small></td>'
+        + '<td style="text-align:center">'+(t.people0||0)+'명</td>'
+        + '<td style="text-align:center">'+ck('1부')+'</td>'
+        + '<td style="text-align:center">'+ck('2부')+'</td>'
+        + '<td style="text-align:center">'+ck('3부')+'</td>'
+        + '<td style="text-align:center">'+ck('4부')+'</td>'
+        + '<td style="text-align:center">'+ck('5부')+'</td>'
+        + '<td style="text-align:right;font-weight:900">'+(t.total||0)+'</td>'
+        + '<td style="font-size:12px;word-break:break-all">'+(t.demoUrl?esc(t.demoUrl):'<span class="blank">—</span>')+'</td></tr>';
+    }).join('');
+    if(upd){ upd.textContent='갱신 '+(j.updated||''); upd.className='tag ok'; }
+  }catch(e){
+    body.innerHTML='<tr><td colspan="9" style="color:#fca5a5">현황판을 불러오지 못했습니다('+esc(e.message)+'). 구글 시트를 직접 열어 확인하세요.</td></tr>';
+    if(upd){ upd.textContent='불러오기 실패'; upd.className='tag bad'; }
+  }
 }
 
 /* ---------------- 내보내기 / 불러오기 / 초기화 ---------------- */
@@ -2349,7 +3079,7 @@ function importJSON(file){
       teamKey = teamKeyOf(S.parts[1].team || nm) || 'team';
       syncInputs(); refresh(); save(); renderDoc();
       toast('기록을 불러왔습니다.','good');
-      goTo(1);
+      goTo(0);
     }catch(e){
       toast('불러오지 못했습니다: '+e.message,'bad');
     }
@@ -2363,7 +3093,7 @@ function resetTeam(){
   if(typed===null) return;
   if(teamKeyOf(typed)!==teamKey){ toast('팀 이름이 일치하지 않아 취소했습니다.','bad'); return; }
   try{ localStorage.removeItem(LS_KEY(teamKey)); }catch(e){}
-  S = defaults(''); teamKey=''; activePart=1;
+  S = defaults(''); teamKey=''; activePart=0;
   syncInputs(); closeDoc(); $('setModal').classList.remove('open');
   $('startTeam').value=''; $('startScreen').classList.add('open');
   toast('기록을 초기화했습니다.');
@@ -2387,37 +3117,46 @@ function startWithTeam(rawName){
     S = defaults(nm);
   }
   if(!S.parts[1].team) S.parts[1].team = nm;
-  // 팀 이름이 15팀 프리셋과 같으면 비어 있는 대학·분야·미션을 프리셋으로 채운다
   const pt = presetByTeam(nm);
   if(pt){
     if(!S.parts[1].univ) S.parts[1].univ = pt.univ;
     if(!S.parts[1].track) S.parts[1].track = pt.track;
-    if(!S.parts[1].mission) S.parts[1].mission = pt.mission;
+    if(!S.parts[1].mission && pt.mission) S.parts[1].mission = pt.mission;
   }
   teamKey = key;
   $('startScreen').classList.remove('open');
   syncInputs(); refresh();
   document.body.classList.toggle('preview', !!S.preview);
-  // 이어서 할 부: 완료 안 된 첫 부
-  let start=1;
-  for(let n=1;n<=5;n++){ if(!S.done[n]){ start=n; break; } }
-  if(S.done[1]&&S.done[2]&&S.done[3]&&S.done[4]&&S.done[5]) start=5;
+  let start=0;
+  for(const n of STAGES){ if(!S.done[n]){ start=n; break; } }
+  if(STAGES.every(n=>S.done[n])) start=5;
   goTo(start);
   renderDoc();
   save();
-  tickTimer();
+  tick();
 }
 
 /* ---------------- 초기화 ---------------- */
 function init(){
-  // 글자수 카운터 삽입
+  // 글자수 카운터
   document.querySelectorAll('[data-min]').forEach(el=>{
     const box=document.createElement('div');
     box.className='cnt'; box.dataset.for=el.dataset.f;
     el.insertAdjacentElement('afterend', box);
   });
 
-  // 팀 프리셋 드롭다운 (1부 · 시작 화면)
+  // 0부 미션 목록
+  const mb=$('asideMissions');
+  if(mb){
+    mb.innerHTML = ASIDE_MISSIONS.map(m=>
+      '<div class="minirow" data-mid="'+m.id+'">'
+      + '<div class="mx"></div>'
+      + '<div><div class="mt">'+esc(m.t)+'</div><div class="ms">'+esc(m.s)+'</div>'
+      + '<label class="chk" style="margin-top:8px;padding:6px 9px;min-height:0"><input type="checkbox" data-f="p0.m.'+m.id+'"><span>해봤어요</span></label></div>'
+      + '</div>').join('');
+  }
+
+  // 팀 프리셋 드롭다운
   buildPresetSelect($('teamPreset'), '— 직접 입력 —');
   buildPresetSelect($('startPreset'), '— 직접 입력 —');
   const tps=$('teamPreset');
@@ -2426,7 +3165,8 @@ function init(){
   if(sps){
     sps.addEventListener('change', ()=>{
       const t = TEAMS.find(x=>String(x.no)===sps.value);
-      if(t) $('startTeam').value = t.team;
+      if(t){ $('startTeam').value = t.team; }
+      renderRefCards();
     });
   }
 
@@ -2448,21 +3188,19 @@ function init(){
     });
   }
 
-  // 입력 이벤트 (위임)
   document.addEventListener('input', e=>{ if(e.target && e.target.dataset && e.target.dataset.f) handleField(e.target); });
   document.addEventListener('change', e=>{ if(e.target && e.target.dataset && e.target.dataset.f) handleField(e.target); });
 
-  // 레일
-  // 완료 버튼
-  for(let n=1;n<=5;n++){
+  // 라운드 바 + 제출 버튼
+  buildRoundBars();
+  for(const n of STAGES){
     const b=$('done'+n);
-    if(b) b.addEventListener('click', ()=>completePart(n));
+    if(b) b.addEventListener('click', ()=>submitPart(n));
   }
   // 복사 버튼
   document.querySelectorAll('.copybtn').forEach(b=>{
     b.addEventListener('click', ()=>copyPrompt(+b.dataset.copy, b));
   });
-  // 프롬프트 펼쳐 보기
   document.querySelectorAll('[data-expand]').forEach(b=>{
     b.addEventListener('click', ()=>{
       const box=b.closest('.pbox');
@@ -2472,18 +3210,23 @@ function init(){
     });
   });
   // 타이머
-  $('timerToggle').addEventListener('click', toggleTimer);
-  $('timerReset').addEventListener('click', resetTimer);
-  tickTimer();
-  setInterval(tickTimer, 1000);
+  $('timerToggle').addEventListener('click', startRound);
+  $('timerReset').addEventListener('click', clearRound);
+  tick();
+  setInterval(tick, 1000);
 
   // 모달
   $('openRes').addEventListener('click', ()=>$('resModal').classList.add('open'));
+  $('openBoard').addEventListener('click', (e)=>{ e.preventDefault(); openBoard(); });
+  $('boardRefresh').addEventListener('click', loadBoard);
+  $('boardOpenSheet').href = SHEET_URL;
   $('openSet').addEventListener('click', ()=>{
     $('setTeamName').textContent = S ? (S.parts[1].team||S.team||'—') : '—';
+    $('setSheetState').textContent = SUBMIT_ENDPOINT ? '연결됨' : '제출 주소 미설정';
     $('previewToggle').checked = S ? !!S.preview : false;
     $('setModal').classList.add('open');
   });
+  $('btnBoard').addEventListener('click', ()=>{ $('setModal').classList.remove('open'); openBoard(); });
   document.querySelectorAll('[data-close]').forEach(b=>{
     b.addEventListener('click', ()=>$(b.dataset.close).classList.remove('open'));
   });
@@ -2501,7 +3244,7 @@ function init(){
   $('previewToggle').addEventListener('change', e=>{
     if(!S) return;
     S.preview = e.target.checked; save(); refresh();
-    toast(e.target.checked ? '강사 미리보기: 5부가 모두 열렸습니다. (학생 배포 시에는 끄세요)' : '잠금을 다시 켰습니다. 진행 순서대로만 열립니다.', e.target.checked?'':'good');
+    toast(e.target.checked ? '강사 미리보기: 모든 부가 열렸습니다. (학생 배포 시에는 끄세요)' : '잠금을 다시 켰습니다. 진행 순서대로만 열립니다.', e.target.checked?'':'good');
   });
   $('btnExport').addEventListener('click', exportJSON);
   $('importFile').addEventListener('change', e=>{ const f=e.target.files[0]; if(f) importJSON(f); e.target.value=''; });
@@ -2546,11 +3289,11 @@ function init(){
 
   // 기록지
   $('openDoc').addEventListener('click', openDoc);
+  $('openDoc2').addEventListener('click', openDoc);
   $('closeDoc').addEventListener('click', closeDoc);
   $('doPrint').addEventListener('click', ()=>{ renderDoc(); setTimeout(()=>window.print(), 120); });
   window.addEventListener('beforeprint', renderDoc);
 
-  // 저장 전 경고(입력이 있는데 저장 전이면)
   window.addEventListener('beforeunload', ()=>{ if(S && teamKey){ save(); } });
 
   // 이전 팀 자동 복원
@@ -2566,9 +3309,9 @@ function init(){
         if(obj.template && obj.template!=='v2.0'){ const w=$('verWarn'); if(w) w.style.display='block'; }
         teamKey = last;
         syncInputs(); refresh();
-        let start=1; for(let n=1;n<=5;n++){ if(!S.done[n]){ start=n; break; } }
-        if(S.done[1]&&S.done[2]&&S.done[3]&&S.done[4]&&S.done[5]) start=5;
-        goTo(start); renderDoc(); tickTimer();
+        let start=0; for(const n of STAGES){ if(!S.done[n]){ start=n; break; } }
+        if(STAGES.every(n=>S.done[n])) start=5;
+        goTo(start); renderDoc(); tick();
         return;
       }
     }catch(e){}
@@ -2587,7 +3330,7 @@ function copyPrompt(n, btn){
   };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(()=>{
-      toast('프롬프트 '+n+'을 복사했습니다. Claude에 붙여넣으세요.','good'); done();
+      toast('프롬프트 '+n+'을 복사했습니다. Aside에 붙여넣으세요.','good'); done();
     }).catch(()=>fallback());
   } else fallback();
   function fallback(){
@@ -2602,7 +3345,7 @@ function copyPrompt(n, btn){
   }
 }
 
-/* 콘솔·현장 지원용 읽기 핸들 (강사가 F12에서 상태를 확인할 때 사용) */
+/* 콘솔·현장 지원용 읽기 핸들 */
 window.HQ = {
   get S(){ return S; },
   get part(){ return activePart; },
@@ -2610,10 +3353,12 @@ window.HQ = {
   prompt: n=>lastPrompt[n]||'',
   get: p=>getPath(p),
   goTo: n=>goTo(n),
-  completePart: n=>completePart(n)
+  submit: n=>submitPart(n),
+  payload: n=>payloadFor(n),
+  endpoint: ()=>SUBMIT_ENDPOINT,
+  sheet: ()=>SHEET_URL
 };
 
-/* ---------------- 시작 ---------------- */
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
 else init();
 
